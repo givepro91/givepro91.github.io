@@ -1,0 +1,179 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, CASES, AWARDS, VALUES, VISION } from "../../data/cv";
+
+const toc = [
+  { id: "overview", label: "Overview" },
+  { id: "career", label: "Career" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "education", label: "Education" },
+  { id: "cases", label: "Cases" },
+  { id: "lectures", label: "Lectures" },
+  { id: "vision", label: "Vision" },
+];
+---
+
+<BaseLayout title="이력 — 장근식" description="장근식(@givepro91) 상세 이력 위키 — 경력·프로젝트·문제 해결 사례·기술 스택.">
+  <aside class="toc" aria-label="목차">
+    {toc.map((t) => <a href={`#${t.id}`} data-spy={t.id}><span class="bar"></span>{t.label}</a>)}
+  </aside>
+
+  <section class="cv">
+    <div class="wrap" style="max-width:900px">
+      <!-- HEAD -->
+      <div class="cv-head reveal">
+        <div>
+          <p class="cv-kicker">log.cv — 상세 이력 / detailed résumé</p>
+          <h1 class="cv-title">장근식 <span class="cv-en">Jang Keunsik</span></h1>
+          <p class="cv-sub">{PROFILE.title} · {PROFILE.domain}</p>
+        </div>
+        <a class="pdf-btn" href="/cv/print/" >이력서 PDF ↓</a>
+      </div>
+
+      <!-- INFO CARD -->
+      <div class="cv-info reveal">
+        <dl>
+          <div><dt>이름</dt><dd>{PROFILE.name} ({PROFILE.nameEn})</dd></div>
+          <div><dt>생년월일</dt><dd>{PROFILE.birth}</dd></div>
+          <div><dt>연락처</dt><dd>{PROFILE.phone}</dd></div>
+          <div><dt>이메일</dt><dd><a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></dd></div>
+          <div><dt>거주</dt><dd>{PROFILE.location}</dd></div>
+        </dl>
+        <div class="cv-links">
+          {PROFILE.links.map((l) => <a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)}
+        </div>
+      </div>
+
+      <!-- OVERVIEW -->
+      <section id="overview" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">01</span> Overview</h2>
+        <p class="cv-lead">{PROFILE.summary}</p>
+        <p class="cv-now"><span class="now-tag">NOW</span> {PROFILE.current}</p>
+      </section>
+
+      <!-- CAREER -->
+      <section id="career" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">02</span> Career <span class="cv-h2-note">— 10년차 · 2016–현재</span></h2>
+        {CAREER.map((c) => (
+          <article class="cv-entry">
+            <div class="cv-entry-head">
+              <div>
+                <h3 class="cv-entry-title">{c.company}</h3>
+                <p class="cv-entry-role">{c.role}</p>
+              </div>
+              <div class="cv-entry-period">{c.period}{c.duration && <span class="dur">{c.duration}</span>}</div>
+            </div>
+            {c.summary && <p class="cv-entry-summary">{c.summary}</p>}
+            <ul class="cv-list">{c.highlights.map((h) => <li>{h}</li>)}</ul>
+            {c.stack && <div class="tags">{c.stack.map((s) => <span class="tag">{s}</span>)}</div>}
+          </article>
+        ))}
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">03</span> Projects <span class="cv-h2-note">— 대표 프로젝트</span></h2>
+        {PROJECTS.map((p) => (
+          <article class="cv-entry">
+            <div class="cv-entry-head">
+              <div>
+                <h3 class="cv-entry-title">{p.name}</h3>
+                <p class="cv-entry-role">{p.tagline}</p>
+              </div>
+              <div class="cv-entry-period">{p.period}</div>
+            </div>
+            <p class="cv-entry-summary">{p.overview}</p>
+            <ul class="cv-list">{p.achievements.map((a) => <li>{a}</li>)}</ul>
+            <div class="tags">{p.stack.map((s) => <span class="tag">{s}</span>)}</div>
+            <div class="cv-proj-links">
+              {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
+              {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">04</span> Skills</h2>
+        <div class="cv-skills">
+          {SKILLS.map((g) => (
+            <div class="cv-skill-group">
+              <h3 class="cv-skill-h">{g.group}</h3>
+              <ul>{g.items.map((i) => <li>{i}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section id="education" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">05</span> Education</h2>
+        {EDUCATION.map((e) => (
+          <article class="cv-entry">
+            <div class="cv-entry-head">
+              <div><h3 class="cv-entry-title">{e.school}</h3><p class="cv-entry-role">{e.degree}</p></div>
+              <div class="cv-entry-period">{e.period}</div>
+            </div>
+            <ul class="cv-list">{e.notes.map((n) => <li>{n}</li>)}</ul>
+          </article>
+        ))}
+      </section>
+
+      <!-- CASES -->
+      <section id="cases" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">06</span> Problem-Solving Cases</h2>
+        <p class="sec-note">상황 → 접근 → 성과로 정리한 문제 해결 기록입니다.</p>
+        {CASES.map((c) => (
+          <article class="cv-case">
+            <h3 class="cv-case-title">{c.title}</h3>
+            <div class="cv-case-grid">
+              <div><span class="cv-case-lbl">상황</span><ul>{c.situation.map((x) => <li>{x}</li>)}</ul></div>
+              <div><span class="cv-case-lbl">접근</span><ul>{c.approach.map((x) => <li>{x}</li>)}</ul></div>
+              <div><span class="cv-case-lbl">성과</span><ul>{c.result.map((x) => <li>{x}</li>)}</ul></div>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <!-- LECTURES -->
+      <section id="lectures" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">07</span> Lectures & Etc.</h2>
+        <ul class="cv-list">{AWARDS.map((a) => <li>{a}</li>)}</ul>
+      </section>
+
+      <!-- VISION -->
+      <section id="vision" class="cv-section reveal">
+        <h2 class="cv-h2"><span class="n">08</span> Value & Vision</h2>
+        <ul class="cv-values">{VALUES.map((v) => <li>{v}</li>)}</ul>
+        <blockquote class="cv-vision-q">{VISION.headline}</blockquote>
+        {VISION.body.map((b) => <p class="cv-vision-p">{b}</p>)}
+      </section>
+
+      <div class="cv-foot reveal">
+        <a class="pdf-btn" href="/cv/print/">이력서 PDF 다운로드 ↓</a>
+        <a class="cv-backlink" href="/">← Grant Works (작업·판단 기록)</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll(".toc a[data-spy]"));
+      if (!links.length) return;
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute("data-spy")] = a; });
+      var sections = Object.keys(map).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            links.forEach(function (a) { a.classList.remove("active"); });
+            if (map[e.target.id]) map[e.target.id].classList.add("active");
+          }
+        });
+      }, { rootMargin: "-30% 0px -60% 0px", threshold: 0 });
+      sections.forEach(function (s) { spy.observe(s); });
+    })();
+  </script>
+</BaseLayout>

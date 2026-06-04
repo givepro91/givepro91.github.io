@@ -1,0 +1,168 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, HIGHLIGHTS, AWARDS } from "../../data/cv";
+
+// 충분한 경력 서술이 있는 곳은 상세, 단기/인턴은 한 줄로.
+const detailed = CAREER.filter((c) => c.highlights.length >= 2);
+const mini = CAREER.filter((c) => c.highlights.length < 2);
+const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
+---
+
+<BaseLayout title="이력서 (PDF)" description="장근식 이력서">
+  <div class="print-actions">
+    <a href="/cv/" class="pa-back">← 상세 위키</a>
+    <button id="printBtn" class="pa-print">PDF로 저장 / 인쇄 ⌘P</button>
+  </div>
+
+  <section class="resume">
+    <header class="r-head">
+      <div class="r-id">
+        <h1>{PROFILE.name} <span class="r-en">{PROFILE.nameEn}</span></h1>
+        <p class="r-title">{PROFILE.title} · {PROFILE.domain}</p>
+      </div>
+      <div class="r-contact">
+        <span>{PROFILE.email}</span>
+        <span>{PROFILE.phone}</span>
+        <span>github.com/givepro91</span>
+        <span>givepro91.github.io</span>
+      </div>
+    </header>
+
+    <p class="r-summary">{PROFILE.summary}</p>
+
+    <section class="r-block">
+      <h2>핵심 역량 · Highlights</h2>
+      <ul class="r-highlights">{HIGHLIGHTS.map((h) => <li>{h}</li>)}</ul>
+    </section>
+
+    <section class="r-block">
+      <h2>Experience</h2>
+      {detailed.map((c) => (
+        <div class="r-job">
+          <div class="r-job-head">
+            <span class="r-co">{c.company}</span>
+            <span class="r-role">{c.role}</span>
+            <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
+          </div>
+          {c.summary && <p class="r-job-sum">{c.summary}</p>}
+          <ul>{c.highlights.slice(0, 3).map((h) => <li>{h}</li>)}</ul>
+          {c.stack && <p class="r-pstack">{c.stack.join(" · ")}</p>}
+        </div>
+      ))}
+      {mini.map((c) => (
+        <div class="r-job-mini">
+          <span class="r-co">{c.company}</span>
+          <span class="r-role">{c.role}</span>
+          <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
+        </div>
+      ))}
+    </section>
+
+    <section class="r-block">
+      <h2>Key Projects</h2>
+      {PROJECTS.map((p) => (
+        <div class="r-proj">
+          <div class="r-proj-head">
+            <span class="r-pname">{p.name}</span>
+            <span class="r-ptag">{p.tagline}</span>
+            <span class="r-period">{p.period}</span>
+          </div>
+          <p class="r-job-sum">{p.overview}</p>
+          <ul>{p.achievements.slice(0, 3).map((a) => <li>{a}</li>)}</ul>
+          <p class="r-pstack">{p.stack.join(" · ")}</p>
+        </div>
+      ))}
+    </section>
+
+    <div class="r-cols">
+      <section class="r-block">
+        <h2>Core Skills</h2>
+        <p class="r-skills">{skillLine}</p>
+      </section>
+      <section class="r-block">
+        <h2>Education</h2>
+        {EDUCATION.map((e) => (
+          <div class="r-edu">
+            <div class="r-job-head">
+              <span class="r-co">{e.school}</span>
+              <span class="r-period">{e.period}</span>
+            </div>
+            <p class="r-role">{e.degree}</p>
+          </div>
+        ))}
+      </section>
+    </div>
+
+    <section class="r-block">
+      <h2>Lectures · 강의</h2>
+      <ul class="r-lectures">{AWARDS.map((a) => <li>{a}</li>)}</ul>
+    </section>
+
+    <p class="r-note">상세 이력 · 문제 해결 사례 · 결정 로그는 위키에서 — givepro91.github.io/cv</p>
+  </section>
+
+  <script is:inline>
+    var b = document.getElementById("printBtn");
+    if (b) b.addEventListener("click", function () { window.print(); });
+  </script>
+</BaseLayout>
+
+<style>
+  .print-actions {
+    max-width: 820px; margin: 24px auto 0; padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 13px;
+  }
+  .pa-back { color: var(--muted); text-decoration: none; }
+  .pa-back:hover { color: var(--accent); }
+  .pa-print {
+    font-family: var(--mono); font-size: 13px; cursor: pointer;
+    background: var(--accent); color: #fff; border: none;
+    padding: 9px 18px; border-radius: 999px;
+  }
+  .pa-print:hover { opacity: 0.9; }
+
+  .resume {
+    max-width: 820px; margin: 28px auto 80px; padding: 52px 56px;
+    background: var(--paper-2); border: 1px solid var(--hair);
+    font-size: 13px; line-height: 1.6;
+  }
+  .r-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; border-bottom: 2px solid var(--accent); padding-bottom: 16px; }
+  .r-head h1 { font-family: var(--display); font-weight: 500; font-size: 30px; letter-spacing: -0.01em; }
+  .r-head .r-en { font-size: 18px; color: var(--muted); font-style: italic; margin-left: 6px; }
+  .r-title { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 5px; }
+  .r-contact { display: flex; flex-direction: column; gap: 2px; font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+
+  .r-summary { margin: 18px 0 4px; color: var(--ink-soft); font-size: 13.5px; }
+  .r-block { margin-top: 22px; }
+  .r-block h2 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--hair); padding-bottom: 5px; margin-bottom: 12px; }
+  .r-skills { font-size: 12px; color: var(--ink-soft); line-height: 1.75; }
+  .r-lectures { columns: 2; column-gap: 32px; margin-left: 16px; }
+  .r-lectures li { font-size: 12px; color: var(--ink-soft); margin-bottom: 5px; break-inside: avoid; }
+
+  .r-highlights { margin-left: 17px; display: flex; flex-direction: column; gap: 7px; }
+  .r-highlights li { font-size: 13px; line-height: 1.55; color: var(--ink-soft); }
+  .r-highlights li::marker { color: var(--accent); }
+
+  .r-job { margin-bottom: 16px; }
+  .r-job-head, .r-proj-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .r-co, .r-pname { font-weight: 700; color: var(--ink); font-size: 14px; }
+  .r-role, .r-ptag { color: var(--ink-soft); font-size: 12.5px; }
+  .r-period { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .r-job-sum { font-size: 12.5px; color: var(--muted); margin: 5px 0 2px; }
+  .r-job ul, .r-proj ul { margin: 5px 0 0 17px; display: flex; flex-direction: column; gap: 4px; }
+  .r-job li, .r-proj li { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+  .r-job-mini { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 5px 0; border-bottom: 1px dotted var(--hair); }
+  .r-proj { margin-bottom: 15px; }
+  .r-pstack { font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 5px; }
+  .r-cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+  .r-edu .r-role { margin-top: 3px; }
+  .r-note { margin-top: 26px; font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: center; border-top: 1px solid var(--hair); padding-top: 14px; }
+
+  @media (max-width: 640px) {
+    .resume { padding: 28px 20px; }
+    .r-head { flex-direction: column; align-items: flex-start; }
+    .r-contact { text-align: left; }
+    .r-cols { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
