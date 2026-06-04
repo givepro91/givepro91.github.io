@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { THEMES } from "../config";
+
+interface Props {
+  entry: CollectionEntry<"projects">;
+  seq: number;
+}
+const { entry, seq } = Astro.props;
+const d = entry.data;
+const slug = entry.id.replace(/^ko\//, "");
+const seqStr = "log." + String(seq).padStart(3, "0");
+const linkHost = d.link ? d.link.replace(/^https?:\/\//, "").replace(/\/$/, "") : "";
+
+const noLinkText =
+  d.visibility === "secret-locked"
+    ? "시크릿 이력 — 링크 비공개"
+    : d.kind === "side"
+      ? "사이드 외주 — 기능 설명만"
+      : "비공개 — 문제·판단·배움 중심";
+
+const badgeText =
+  d.kind === "side"
+    ? "사이드 외주"
+    : d.visibility === "public"
+      ? "공개"
+      : d.visibility === "secret-locked"
+        ? "시크릿·링크금지"
+        : "비공개·서사";
+---
+
+<article class="ledger-entry reveal">
+  <div class="entry-main">
+    <span class="seq-num">{seqStr}{d.period ? ` / ${d.period}` : ""}</span>
+    <h3><a href={`/work/${slug}/`}>{d.title}</a></h3>
+    <p class="positioning"><span class="lead" set:html={d.positioning} /></p>
+    <div class="decision">
+      <span class="lbl">왜 이렇게 결정했나</span>
+      <p set:html={d.decision} />
+    </div>
+    {
+      d.visibility === "public" && d.link ? (
+        <a class="entry-link" href={d.link} target="_blank" rel="noopener">
+          <span>{linkHost}</span>
+          <span class="arr">→</span>
+        </a>
+      ) : (
+        <span class="no-link">
+          <span class="lock">●</span>
+          {noLinkText}
+        </span>
+      )
+    }
+  </div>
+  <aside class="entry-rail">
+    <span class="rail-row"><span class="k">역할</span> · <span class="v">{d.role}</span></span>
+    <span class="rail-row"><span class="k">증명</span> · <span class="v">{d.shows.join(" · ")}</span></span>
+    {d.metrics && (
+      <span class="rail-row"><span class="k">규모</span> · <span class="v">{d.metrics}</span></span>
+    )}
+    <span class={`badge ${d.visibility !== "public" ? "anon" : ""}`}>{badgeText}</span>
+    <span class="badge">{THEMES[d.theme]}</span>
+    {d.stack && (
+      <div class="tags">
+        {d.stack.map((t) => <span class="tag">{t}</span>)}
+      </div>
+    )}
+  </aside>
+</article>

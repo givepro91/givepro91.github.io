@@ -1,0 +1,79 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { THEMES } from "../../config";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", (e) => e.id.startsWith("ko/"));
+  return projects.map((entry) => ({
+    params: { slug: entry.id.replace(/^ko\//, "") },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"projects">;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const plainPos = d.positioning.replace(/<[^>]+>/g, "");
+const linkHost = d.link ? d.link.replace(/^https?:\/\//, "").replace(/\/$/, "") : "";
+---
+
+<BaseLayout title={d.title} description={plainPos}>
+  <section class="detail">
+    <div class="wrap" style="max-width:860px">
+      <a class="back" href="/#work">← Work</a>
+      <h1>{d.title}</h1>
+      <p class="lede" set:html={d.positioning} />
+
+      <div class="narrative">
+        <div class="blk"><span class="lbl">문제</span><p set:html={d.problem} /></div>
+        <div class="blk"><span class="lbl">역할</span><p set:html={d.role} /></div>
+        <div class="blk"><span class="lbl">선택 · 결정</span><p set:html={d.decision} /></div>
+        <div class="blk"><span class="lbl">결과</span><p set:html={d.result} /></div>
+        <div class="blk"><span class="lbl">배운 점</span><p set:html={d.learning} /></div>
+        <div class="blk">
+          <span class="lbl">결정 로그</span>
+          <div class="dlog">
+            {
+              d.decisionLog.map((x) => (
+                <div class="item">
+                  <p class="why" set:html={x.why} />
+                  {x.tradeoff && <p class="tradeoff" set:html={x.tradeoff} />}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <Content />
+
+      <div class="detail-meta">
+        <div class="row"><span class="k">테마</span> · {THEMES[d.theme]}</div>
+        {d.stack && <div class="row"><span class="k">기술</span> · {d.stack.join(", ")}</div>}
+        {d.metrics && <div class="row"><span class="k">규모</span> · {d.metrics}</div>}
+        {
+          d.visibility === "public" && d.link ? (
+            <div class="row">
+              <span class="k">링크</span> ·{" "}
+              <a href={d.link} target="_blank" rel="noopener">{linkHost} →</a>
+            </div>
+          ) : (
+            <div class="row">
+              <span class="k">공개</span> ·{" "}
+              {d.visibility === "secret-locked"
+                ? "시크릿 이력 — 링크 비공개"
+                : "비공개 — 서사만"}
+            </div>
+          )
+        }
+        <div class="row">
+          <span class="k">Risk Check</span> · {d.riskCheckedBy} ({d.riskCheckedDate})
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

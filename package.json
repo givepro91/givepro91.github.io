@@ -1,0 +1,19 @@
+{
+  "name": "grant-works",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/check-disclosure.mjs --source && astro build && node scripts/check-disclosure.mjs --dist",
+    "build:nogate": "astro build",
+    "preview": "astro preview",
+    "check:disclosure": "node scripts/check-disclosure.mjs --source",
+    "check:disclosure:dist": "node scripts/check-disclosure.mjs --dist"
+  },
+  "dependencies": {
+    "astro": "^5.7.0",
+    "@astrojs/mdx": "^4.2.0",
+    "@astrojs/sitemap": "^3.3.0"
+  }
+}

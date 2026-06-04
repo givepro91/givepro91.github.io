@@ -1,0 +1,210 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { SITE, CHANNELS, FEATURED_WRITING } from "../config";
+
+const all = (await getCollection("projects", (e) => e.id.startsWith("ko/"))).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const work = all.filter((e) => e.data.kind !== "side");
+const side = all.filter((e) => e.data.kind === "side");
+
+const lab = (await getCollection("lab", (e) => e.id.startsWith("ko/"))).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const now = [
+  {
+    when: "2026.Q2",
+    what: "<b>AI 에이전트가 안전하게 일하는 운영 구조</b> — 생성과 검증을 분리하고 커밋 전 적대적 게이트를 세우는 방식을 실제 제품에 녹이는 중입니다.",
+  },
+  {
+    when: "진행중",
+    what: "<b>데이터·상태의 신뢰 경계</b> — \"workflow 성공 ≠ 데이터 성공\"을 빌드·테스트 레벨에서 강제하는 방법을 정리하고 있습니다.",
+  },
+];
+---
+
+<BaseLayout>
+  <!-- SIDE TOC (scroll-spy) -->
+  <aside class="toc" aria-label="목차">
+    <a href="#now" data-spy="now"><span class="bar"></span>Now</a>
+    <a href="#work" data-spy="work"><span class="bar"></span>Work</a>
+    {side.length > 0 && <a href="#side" data-spy="side"><span class="bar" />Side</a>}
+    <a href="#lab" data-spy="lab"><span class="bar"></span>Lab</a>
+    <a href="#about" data-spy="about"><span class="bar"></span>About</a>
+  </aside>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-main">
+        <p class="kicker reveal">
+          <span class="seq">log.000 —</span> <b style="color:var(--accent)">@givepro91</b>
+          <span style="color:var(--muted)">(근식·Geun-sik)</span> · give → <b style="color:var(--accent)">grant</b> · 내어주는 작업들
+        </p>
+        <h1 class="reveal">Grant<br /><em>Works</em></h1>
+        <p class="sub-kr reveal">
+          AI를 붙이는 개발자가 아니라, <b>AI가 안전하게 일할 수 있는 운영 구조</b>를 설계하는
+          사람입니다. 무엇을 만들었나보다, <b>왜 그렇게 판단했나</b>를 기록합니다.
+        </p>
+      </div>
+      <aside class="hero-colophon reveal">
+        <div class="colo-block">
+          <div class="colo-handle">@givepro91</div>
+          <div class="colo-name">{SITE.name} · Geun-sik Jang</div>
+          <div class="colo-role">Technical Product Lead</div>
+          <div class="colo-dim">PropTech × AI</div>
+        </div>
+        <div class="colo-block">
+          <div class="colo-row">9년차 · 백엔드 → 운영·제품</div>
+          <div class="colo-row">givepro91.github.io</div>
+        </div>
+        <div class="colo-block">
+          <div class="colo-h">Themes</div>
+          <ul class="colo-themes">
+            <li>백엔드 · 플랫폼</li>
+            <li>AI 에이전트 운영</li>
+            <li>신뢰성 · 안전</li>
+            <li>프롭테크</li>
+            <li>개발자 도구</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- NOW -->
+  <section id="now">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dot"></span> Now <span class="sec-title">— 지금 집중하는 문제</span>
+      </div>
+      <div class="rule" style="margin-top:14px"></div>
+      <div class="now-grid">
+        {
+          now.map((n) => (
+            <div class="now-item reveal">
+              <div class="when">{n.when}</div>
+              <div class="what" set:html={n.what} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dot"></span> Work <span class="sec-title">— 결정 로그 (대표작)</span>
+      </div>
+      <p class="sec-note reveal">
+        만든 것의 목록이 아니라, 어떤 문제를 어떤 기준으로 판단했는지의 기록입니다.
+      </p>
+      {work.map((entry, i) => <ProjectCard entry={entry} seq={i + 1} />)}
+    </div>
+  </section>
+
+  <!-- SIDE -->
+  {
+    side.length > 0 && (
+      <section id="side">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="dot" />  Side <span class="sec-title">— 외주 / 의뢰 작업</span>
+          </div>
+          {side.map((entry, i) => <ProjectCard entry={entry} seq={work.length + i + 1} />)}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- LAB -->
+  <section id="lab">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dot"></span> Lab <span class="sec-title">— 실험실 (진행중 · 실험 · 도구)</span>
+      </div>
+      <p class="sec-note reveal">완성보다 가설을 시험하는 자리입니다. 정직하게 상태를 표기합니다.</p>
+      <div class="lab-list reveal">
+        {
+          lab.map((e, i) => (
+            <div class="lab-row">
+              <span class="n">{String(i + 1).padStart(2, "0")}</span>
+              <span class="nm">
+                <b>{e.data.title}</b>
+                {e.data.oneLiner}
+              </span>
+              <span class="st">{e.data.status}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dot"></span> About <span class="sec-title">— 연결</span>
+      </div>
+      <p class="lead-q reveal">
+        자동화는 조용해져야 제품이 되고, <span class="ko"
+          >AI는 결정을 대체하는 게 아니라 근거를 좁힙니다.</span
+        >
+      </p>
+      <div class="writing-list reveal">
+        {
+          FEATURED_WRITING.map((w) => (
+            <a href={w.href} target="_blank" rel="noopener">
+              <span class="arr">↳</span>
+              <span>{w.label}</span>
+            </a>
+          ))
+        }
+      </div>
+      <div class="channels reveal">
+        {
+          CHANNELS.map((c) => (
+            <a href={c.href} target="_blank" rel="noopener">
+              {c.label}
+            </a>
+          ))
+        }
+      </div>
+      <p class="policy reveal">
+        <b>공개 범위.</b> 회사(Spacewalk) 작업물은 역할·문제·판단 기준을 그대로 적되,
+        <b>고객 정보 · 비공개 수치 · 시크릿(키·인프라 비밀)</b>은 제외합니다. 링크는 공개된
+        repo·서비스만 연결하며, 시크릿이 포함된 저장소는 링크하지 않습니다.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll(".toc a[data-spy]"));
+      if (!links.length) return;
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute("data-spy")] = a; });
+      var sections = Object.keys(map)
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+      var spy = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              links.forEach(function (a) { a.classList.remove("active"); });
+              if (map[e.target.id]) map[e.target.id].classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+      );
+      sections.forEach(function (s) { spy.observe(s); });
+    })();
+  </script>
+</BaseLayout>

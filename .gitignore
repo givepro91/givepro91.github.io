@@ -1,0 +1,19 @@
+# deps / build
+node_modules/
+dist/
+.astro/
+
+# planning & prototype artifacts — not part of the published portfolio
+.omc/
+.playwright-mcp/
+.nova/
+NOVA-STATE.md
+design-prototype.html
+gw-*.png
+
+# os / logs
+.DS_Store
+*.log
+
+# verification screenshots (repo root only)
+/*.png

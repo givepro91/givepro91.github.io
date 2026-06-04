@@ -1,0 +1,10 @@
+#!/bin/sh
+# Grant Works — commit 입구 disclosure 게이트 (시크릿 패턴 전용, rev.7)
+# 활성화: git config core.hooksPath .githooks  (부트스트랩에서 설정됨)
+node scripts/check-disclosure.mjs --source
+status=$?
+if [ "$status" -ne 0 ]; then
+  echo "✖ commit 차단: 시크릿 패턴이 발견됐습니다. 위 항목을 제거 후 다시 커밋하세요."
+  exit 1
+fi
+exit 0

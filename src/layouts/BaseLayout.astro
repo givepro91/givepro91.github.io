@@ -1,0 +1,130 @@
+---
+import "../styles/global.css";
+import { SITE, SITE_URL } from "../config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} — ${SITE.brand}` : `${SITE.brand} — ${SITE.title}`;
+const pageDesc = description ?? SITE.description;
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE.name,
+  alternateName: SITE.nameEn,
+  jobTitle: SITE.title,
+  url: SITE_URL,
+  description: SITE.description,
+};
+---
+
+<!doctype html>
+<html lang={SITE.locale} data-theme="ink">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Gowun+Batang:wght@400;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+    <script set:html={JSON.stringify(jsonLd)} type="application/ld+json" />
+    <script is:inline>
+      // FOUC 방지: 페인트 전에 테마 적용
+      (function () {
+        try {
+          var t = localStorage.getItem("gw-theme");
+          if (t) document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="top">
+      <div class="top-inner">
+        <a class="wordmark" href="/">Grant <span class="amp">·</span> Works <span class="handle">@givepro91</span></a>
+        <nav class="links">
+          <a href="/#work">Work</a>
+          <a href="/#lab">Lab</a>
+          <a href="/#about">About</a>
+        </nav>
+        <button class="theme-btn" id="themeBtn" aria-label="테마 전환">[ paper / ink ]</button>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="foot">
+      <div class="foot-inner">
+        <span>© 2026 {SITE.name} · {SITE.brand}</span>
+        <span class="give">@givepro91 · give → grant · 내어주는 작업들</span>
+        <span>built static · deployed to github.io</span>
+      </div>
+    </footer>
+
+    <script is:inline>
+      // theme toggle
+      (function () {
+        var btn = document.getElementById("themeBtn");
+        var root = document.documentElement;
+        function label() {
+          var dark = root.getAttribute("data-theme") === "ink";
+          if (btn) btn.textContent = dark ? "[ ink / paper ]" : "[ paper / ink ]";
+        }
+        label();
+        if (btn)
+          btn.addEventListener("click", function () {
+            var next = root.getAttribute("data-theme") === "ink" ? "paper" : "ink";
+            root.setAttribute("data-theme", next);
+            try { localStorage.setItem("gw-theme", next); } catch (e) {}
+            label();
+          });
+        // staggered reveal
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                var sibs = Array.prototype.slice.call(
+                  e.target.parentElement.querySelectorAll(".reveal")
+                );
+                e.target.style.transitionDelay = Math.min(sibs.indexOf(e.target) * 55, 240) + "ms";
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        );
+        document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+        // hero reveals fire on load
+        window.addEventListener("load", function () {
+          document.querySelectorAll(".hero .reveal").forEach(function (el, i) {
+            setTimeout(function () { el.classList.add("in"); }, 100 + i * 100);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
