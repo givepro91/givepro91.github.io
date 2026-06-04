@@ -165,4 +165,9 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
     .r-contact { text-align: left; }
     .r-cols { grid-template-columns: 1fr; gap: 0; }
   }
+
+  /* 인쇄: 카드 테두리·배경·여백 제거 (scoped 우선순위로 global @media print를 보강) */
+  @media print {
+    .resume { border: none !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
+  }
 </style>
