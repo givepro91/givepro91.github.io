@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { THEMES } from "../config";
 
 interface Props {
   entry: CollectionEntry<"projects">;
@@ -27,43 +26,49 @@ const badgeText =
       : d.visibility === "secret-locked"
         ? "시크릿·링크금지"
         : "비공개·서사";
+
+const badgeCls =
+  d.visibility === "public"
+    ? "public"
+    : d.visibility === "secret-locked"
+      ? "locked"
+      : "anon";
 ---
 
-<article class="ledger-entry reveal">
-  <div class="entry-main">
-    <span class="seq-num">{seqStr}{d.period ? ` / ${d.period}` : ""}</span>
-    <h3><a href={`/work/${slug}/`}>{d.title}</a></h3>
-    <p class="positioning"><span class="lead" set:html={d.positioning} /></p>
-    <div class="decision">
-      <span class="lbl">왜 이렇게 결정했나</span>
-      <p set:html={d.decision} />
+<article class="work-card reveal">
+  <div class="wc-top">
+    <span class="wc-seq">{seqStr}</span>
+    {d.period && <span class="wc-period">/ {d.period}</span>}
+    <span class={`badge ${badgeCls}`}>{badgeText}</span>
+  </div>
+
+  <h3 class="wc-title"><a href={`/work/${slug}/`}>{d.title}</a></h3>
+  <p class="wc-pos"><span class="lead" set:html={d.positioning} /></p>
+
+  <div class="decision">
+    <span class="lbl">왜 이렇게 결정했나</span>
+    <p set:html={d.decision} />
+  </div>
+
+  <div class="wc-foot">
+    <div class="wc-meta">
+      <span><b>역할</b> · {d.role}</span>
+      <span><b>증명</b> · {d.shows.join(" · ")}</span>
+      {d.metrics && <span><b>규모</b> · {d.metrics}</span>}
     </div>
+    {d.stack && (
+      <div class="wc-tags">
+        {d.stack.slice(0, 5).map((t) => <span class="tag">{t}</span>)}
+      </div>
+    )}
     {
       d.visibility === "public" && d.link ? (
-        <a class="entry-link" href={d.link} target="_blank" rel="noopener">
-          <span>{linkHost}</span>
-          <span class="arr">→</span>
+        <a class="wc-link" href={`/work/${slug}/`}>
+          자세히 <span class="arr">→</span>
         </a>
       ) : (
-        <span class="no-link">
-          <span class="lock">●</span>
-          {noLinkText}
-        </span>
+        <span class="wc-nolink"><span class="lock">●</span> {noLinkText}</span>
       )
     }
   </div>
-  <aside class="entry-rail">
-    <span class="rail-row"><span class="k">역할</span> · <span class="v">{d.role}</span></span>
-    <span class="rail-row"><span class="k">증명</span> · <span class="v">{d.shows.join(" · ")}</span></span>
-    {d.metrics && (
-      <span class="rail-row"><span class="k">규모</span> · <span class="v">{d.metrics}</span></span>
-    )}
-    <span class={`badge ${d.visibility !== "public" ? "anon" : ""}`}>{badgeText}</span>
-    <span class="badge">{THEMES[d.theme]}</span>
-    {d.stack && (
-      <div class="tags">
-        {d.stack.map((t) => <span class="tag">{t}</span>)}
-      </div>
-    )}
-  </aside>
 </article>

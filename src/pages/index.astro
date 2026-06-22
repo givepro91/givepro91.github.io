@@ -2,7 +2,8 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import { SITE, CHANNELS, FEATURED_WRITING } from "../config";
+import { SITE, CHANNELS, FEATURED_WRITING, THEMES } from "../config";
+import { PROFILE } from "../data/cv";
 
 const all = (await getCollection("projects", (e) => e.id.startsWith("ko/"))).sort(
   (a, b) => a.data.order - b.data.order
@@ -14,6 +15,15 @@ const lab = (await getCollection("lab", (e) => e.id.startsWith("ko/"))).sort(
   (a, b) => a.data.order - b.data.order
 );
 
+// lab status → 한글 라벨 + 색상 클래스
+const LAB_STATUS: Record<string, { label: string; cls: string }> = {
+  active: { label: "진행중", cls: "run" },
+  prototype: { label: "프로토타입", cls: "tool" },
+  experiment: { label: "실험", cls: "exp" },
+  paused: { label: "중단", cls: "pause" },
+  side: { label: "사이드", cls: "pause" },
+};
+
 const now = [
   {
     when: "2026.Q2",
@@ -23,6 +33,17 @@ const now = [
     when: "진행중",
     what: "<b>데이터·상태의 신뢰 경계</b> — \"workflow 성공 ≠ 데이터 성공\"을 빌드·테스트 레벨에서 강제하는 방법을 정리하고 있습니다.",
   },
+];
+
+const photo = PROFILE.photo;
+const initial = SITE.name.charAt(0);
+
+// hero 빠른 링크 (CHANNELS에서 큐레이션 — 라벨 충돌 방지)
+const byLabel = (m: string) => CHANNELS.find((c) => c.label.includes(m))?.href ?? "#";
+const heroLinks = [
+  { label: "GitHub @givepro91", href: byLabel("givepro91") },
+  { label: "LinkedIn", href: byLabel("LinkedIn") },
+  { label: "Brunch", href: byLabel("Brunch") },
 ];
 ---
 
@@ -39,37 +60,59 @@ const now = [
   <!-- HERO -->
   <section class="hero">
     <div class="wrap hero-grid">
-      <div class="hero-main">
-        <p class="kicker reveal">
-          <span class="seq">log.000 —</span> <b style="color:var(--accent)">@givepro91</b>
-          <span style="color:var(--muted)">(근식·Geun-sik)</span> · give → <b style="color:var(--accent)">grant</b> · 내어주는 작업들
-        </p>
-        <h1 class="reveal">Grant<br /><em>Works</em></h1>
-        <p class="sub-kr reveal">
+      <!-- profile card -->
+      <div class="card profile reveal">
+        <div class="profile-top">
+          <div class="avatar">
+            <span class="avatar-fallback">{initial}</span>
+            {photo && (
+              <img src={photo} alt={`${SITE.name} 프로필 사진`} loading="eager" onerror="this.remove()" />
+            )}
+          </div>
+          <div>
+            <div class="p-name-row">
+              <span class="p-name">{SITE.name}</span>
+              <span class="p-name-en">{SITE.nameEn}</span>
+            </div>
+            <div class="p-title">{SITE.title}</div>
+            <span class="p-status"><span class="live"></span>스페이스워크 재직 중 · 10년차</span>
+          </div>
+        </div>
+        <p class="p-tagline">
           AI를 붙이는 개발자가 아니라, <b>AI가 안전하게 일할 수 있는 운영 구조</b>를 설계하는
-          사람입니다. 무엇을 만들었나보다, <b>왜 그렇게 판단했나</b>를 기록합니다.
+          사람입니다.
         </p>
+        <p class="p-sub">무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.</p>
+        <div class="p-actions">
+          <a class="pill primary" href="/cv/">이력서 CV 보기 →</a>
+          {heroLinks.map((l) => (
+            <a class="pill" href={l.href} target="_blank" rel="noopener">{l.label}</a>
+          ))}
+        </div>
       </div>
-      <aside class="hero-colophon reveal">
-        <div class="colo-block">
-          <div class="colo-handle">@givepro91</div>
-          <div class="colo-name">{SITE.name} · Geun-sik Jang</div>
-          <div class="colo-role">Technical Product Lead</div>
-          <div class="colo-dim">PropTech × AI</div>
-        </div>
-        <div class="colo-block">
-          <div class="colo-row">10년차 · 백엔드 → 운영·제품</div>
-          <div class="colo-row">givepro91.github.io</div>
-        </div>
-        <div class="colo-block">
-          <div class="colo-h">Themes</div>
-          <ul class="colo-themes">
-            <li>백엔드 · 플랫폼</li>
-            <li>AI 에이전트 운영</li>
-            <li>신뢰성 · 안전</li>
-            <li>프롭테크</li>
-            <li>개발자 도구</li>
-          </ul>
+
+      <!-- infobox (wiki) -->
+      <aside class="card infobox reveal">
+        <div class="infobox-h"><span>Profile</span><span>갱신 2026.06</span></div>
+        <dl>
+          <dt>경력</dt>
+          <dd><b>10년차</b> · 백엔드 → 운영·제품</dd>
+          <dt>현재</dt>
+          <dd>스페이스워크 (주) 재직 중</dd>
+          <dt>도메인</dt>
+          <dd>PropTech × AI</dd>
+          <dt>위치</dt>
+          <dd>{PROFILE.location}</dd>
+          <dt>핸들</dt>
+          <dd><b>@givepro91</b></dd>
+        </dl>
+        <div class="ib-themes">
+          <div class="lbl">관통 테마</div>
+          <div class="chips">
+            {Object.values(THEMES).map((t, i) => (
+              <span class={`chip ${i === 0 ? "blue" : ""}`}>{t}</span>
+            ))}
+          </div>
         </div>
       </aside>
     </div>
@@ -79,15 +122,16 @@ const now = [
   <section id="now">
     <div class="wrap">
       <div class="sec-head reveal">
-        <span class="dot"></span> Now <span class="sec-title">— 지금 집중하는 문제</span>
+        <span class="sec-label">Now</span>
+        <span class="sec-title">지금 집중하는 문제</span>
       </div>
-      <div class="rule" style="margin-top:14px"></div>
+      <p class="sec-note reveal">진행중인 관심사를 분기별로 기록합니다.</p>
       <div class="now-grid">
         {
           now.map((n) => (
-            <div class="now-item reveal">
-              <div class="when">{n.when}</div>
-              <div class="what" set:html={n.what} />
+            <div class="now-card reveal">
+              <span class="now-when">{n.when}</span>
+              <p set:html={n.what} />
             </div>
           ))
         }
@@ -99,12 +143,15 @@ const now = [
   <section id="work">
     <div class="wrap">
       <div class="sec-head reveal">
-        <span class="dot"></span> Work <span class="sec-title">— 결정 로그 (대표작)</span>
+        <span class="sec-label">Work</span>
+        <span class="sec-title">결정 로그 · 대표작</span>
       </div>
       <p class="sec-note reveal">
         만든 것의 목록이 아니라, 어떤 문제를 어떤 기준으로 판단했는지의 기록입니다.
       </p>
-      {work.map((entry, i) => <ProjectCard entry={entry} seq={i + 1} />)}
+      <div class="work-list">
+        {work.map((entry, i) => <ProjectCard entry={entry} seq={i + 1} />)}
+      </div>
     </div>
   </section>
 
@@ -114,9 +161,12 @@ const now = [
       <section id="side">
         <div class="wrap">
           <div class="sec-head reveal">
-            <span class="dot" />  Side <span class="sec-title">— 외주 / 의뢰 작업</span>
+            <span class="sec-label">Side</span>
+            <span class="sec-title">외주 / 의뢰 작업</span>
           </div>
-          {side.map((entry, i) => <ProjectCard entry={entry} seq={work.length + i + 1} />)}
+          <div class="work-list">
+            {side.map((entry, i) => <ProjectCard entry={entry} seq={work.length + i + 1} />)}
+          </div>
         </div>
       </section>
     )
@@ -126,61 +176,66 @@ const now = [
   <section id="lab">
     <div class="wrap">
       <div class="sec-head reveal">
-        <span class="dot"></span> Lab <span class="sec-title">— 실험실 (진행중 · 실험 · 도구)</span>
+        <span class="sec-label">Lab</span>
+        <span class="sec-title">실험실 · 진행중 · 도구</span>
       </div>
       <p class="sec-note reveal">완성보다 가설을 시험하는 자리입니다. 정직하게 상태를 표기합니다.</p>
-      <div class="lab-list reveal">
+      <div class="lab reveal">
         {
-          lab.map((e, i) => (
-            <div class="lab-row">
-              <span class="n">{String(i + 1).padStart(2, "0")}</span>
-              <span class="nm">
-                <b>{e.data.title}</b>
-                {e.data.oneLiner}
-              </span>
-              <span class="st">{e.data.status}</span>
-            </div>
-          ))
+          lab.map((e, i) => {
+            const st = LAB_STATUS[e.data.status] ?? { label: e.data.status, cls: "pause" };
+            return (
+              <div class="lab-row">
+                <span class="lab-n">{String(i + 1).padStart(2, "0")}</span>
+                <span class="lab-nm">
+                  <b>{e.data.title}</b>
+                  <span>{e.data.oneLiner}</span>
+                </span>
+                <span class={`status ${st.cls}`}>{st.label}</span>
+              </div>
+            );
+          })
         }
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about" class="about">
+  <section id="about">
     <div class="wrap">
       <div class="sec-head reveal">
-        <span class="dot"></span> About <span class="sec-title">— 연결</span>
+        <span class="sec-label">About</span>
+        <span class="sec-title">연결</span>
       </div>
-      <p class="lead-q reveal">
-        자동화는 조용해져야 제품이 되고, <span class="ko"
-          >AI는 결정을 대체하는 게 아니라 근거를 좁힙니다.</span
-        >
-      </p>
-      <div class="writing-list reveal">
-        {
-          FEATURED_WRITING.map((w) => (
-            <a href={w.href} target="_blank" rel="noopener">
-              <span class="arr">↳</span>
-              <span>{w.label}</span>
-            </a>
-          ))
-        }
+      <div class="about-card reveal">
+        <p class="about-lead">
+          자동화는 조용해져야 제품이 되고, <span class="hl">AI는 결정을 대체하는 게 아니라 근거를 좁힙니다.</span>
+        </p>
+        <div class="writing">
+          {
+            FEATURED_WRITING.map((w) => (
+              <a href={w.href} target="_blank" rel="noopener">
+                <span class="arr">↳</span>
+                <span>{w.label}</span>
+              </a>
+            ))
+          }
+        </div>
+        <div class="channels">
+          {
+            CHANNELS.map((c) => (
+              <a class="pill" href={c.href} target="_blank" rel="noopener">
+                {c.label}
+              </a>
+            ))
+          }
+        </div>
+        <p class="policy">
+          <b>공개 범위.</b> 회사(Spacewalk) 작업물은 역할·문제·판단 기준을 그대로 적되,
+          고객 정보 · 비공개 수치 · 시크릿(키·인프라 비밀)은 제외합니다. 링크는 공개된
+          repo·서비스만 연결하며, 시크릿이 포함된 저장소는 링크하지 않습니다.
+        </p>
       </div>
-      <div class="channels reveal">
-        {
-          CHANNELS.map((c) => (
-            <a href={c.href} target="_blank" rel="noopener">
-              {c.label}
-            </a>
-          ))
-        }
-      </div>
-      <p class="policy reveal">
-        <b>공개 범위.</b> 회사(Spacewalk) 작업물은 역할·문제·판단 기준을 그대로 적되,
-        <b>고객 정보 · 비공개 수치 · 시크릿(키·인프라 비밀)</b>은 제외합니다. 링크는 공개된
-        repo·서비스만 연결하며, 시크릿이 포함된 저장소는 링크하지 않습니다.
-      </p>
     </div>
   </section>
 

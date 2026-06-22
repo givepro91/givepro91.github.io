@@ -2,6 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, CASES, AWARDS, VALUES, VISION } from "../../data/cv";
 
+const photo = PROFILE.photo;
+const initial = PROFILE.name.charAt(0);
+
 const toc = [
   { id: "overview", label: "Overview" },
   { id: "career", label: "Career" },
@@ -23,12 +26,20 @@ const toc = [
     <div class="wrap" style="max-width:900px">
       <!-- HEAD -->
       <div class="cv-head reveal">
-        <div>
-          <p class="cv-kicker">log.cv — 상세 이력 / detailed résumé</p>
-          <h1 class="cv-title">장근식 <span class="cv-en">Jang Keunsik</span></h1>
-          <p class="cv-sub">{PROFILE.title} · {PROFILE.domain}</p>
+        <div class="cv-id">
+          <div class="cv-avatar">
+            <span class="avatar-fallback">{initial}</span>
+            {photo && (
+              <img src={photo} alt={`${PROFILE.name} 프로필 사진`} loading="eager" onerror="this.remove()" />
+            )}
+          </div>
+          <div>
+            <p class="cv-kicker">log.cv — 상세 이력 / detailed résumé</p>
+            <h1 class="cv-title">{PROFILE.name} <span class="cv-en">{PROFILE.nameEn}</span></h1>
+            <p class="cv-sub">{PROFILE.title} · {PROFILE.domain}</p>
+          </div>
         </div>
-        <a class="pdf-btn" href="/cv/print/" >이력서 PDF ↓</a>
+        <a class="pdf-btn" href="/cv/print/">이력서 PDF ↓</a>
       </div>
 
       <!-- INFO CARD -->

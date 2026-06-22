@@ -10,8 +10,8 @@ export const PROFILE = {
   phone: "010-3175-9809",
   email: "givepro91@gmail.com",
   location: "대한민국",
-  // 사진을 쓰려면 public/cv/profile.jpg 를 두고 photo 경로 지정
-  photo: null as string | null,
+  // 프로필 사진 — public/cv/profile.jpg. 파일이 없으면 아바타는 이니셜로 폴백(onerror).
+  photo: "/cv/profile.jpg" as string | null,
   // 한 줄 요약
   summary:
     "10년차 백엔드 개발자이자 Technical Product Lead. WebFlux 기반 MSA·Kafka·Redis·EKS로 대규모 프롭테크 서비스를 설계·운영해왔고, LLM 기반 API 상품화와 AI 에이전트 운영 구조 설계로 역할을 넓혀왔습니다. 결과만큼 과정과 판단의 기록을 중시합니다.",
