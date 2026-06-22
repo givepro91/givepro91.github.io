@@ -47,6 +47,7 @@ const projects = defineCollection({
       decisionLog,
       // 메타
       stack: z.array(z.string()).optional(), // 보조 (태그/접이식)
+      image: z.string().optional(), // 공개 제품 썸네일 (public/og/*) — 공개 제품만
       period: z.string().optional(),
       metrics: z.string().optional(), // 커밋·규모 등 활동 신호 (자랑 아님)
       visibility,
@@ -67,23 +68,5 @@ const projects = defineCollection({
     }),
 });
 
-const lab = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/lab" }),
-  schema: z
-    .object({
-      title: z.string(),
-      status: z.enum(["prototype", "experiment", "paused", "active", "side"]),
-      oneLiner: z.string().min(1),
-      theme: theme.optional(),
-      order: z.number().default(99),
-      stack: z.array(z.string()).optional(),
-      visibility,
-      link: z.string().url().optional(),
-    })
-    .refine((d) => d.visibility === "public" || d.link === undefined, {
-      message: "비공개 Lab 항목은 link를 둘 수 없습니다.",
-      path: ["link"],
-    }),
-});
-
-export const collections = { projects, lab };
+// Lab은 src/data/lab.ts(단일 파일)로 이전 — 컬렉션 아님.
+export const collections = { projects };

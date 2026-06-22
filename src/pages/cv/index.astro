@@ -86,21 +86,24 @@ const toc = [
       <section id="projects" class="cv-section reveal">
         <h2 class="cv-h2"><span class="n">03</span> Projects <span class="cv-h2-note">— 대표 프로젝트</span></h2>
         {PROJECTS.map((p) => (
-          <article class="cv-entry">
-            <div class="cv-entry-head">
-              <div>
-                <h3 class="cv-entry-title">{p.name}</h3>
-                <p class="cv-entry-role">{p.tagline}</p>
+          <article class={`cv-entry${p.image ? " has-thumb" : ""}`}>
+            <div class="cv-entry-text">
+              <div class="cv-entry-head">
+                <div>
+                  <h3 class="cv-entry-title">{p.name}</h3>
+                  <p class="cv-entry-role">{p.tagline}</p>
+                </div>
+                <div class="cv-entry-period">{p.period}</div>
               </div>
-              <div class="cv-entry-period">{p.period}</div>
+              <p class="cv-entry-summary">{p.overview}</p>
+              <ul class="cv-list">{p.achievements.map((a) => <li>{a}</li>)}</ul>
+              <div class="tags">{p.stack.map((s) => <span class="tag">{s}</span>)}</div>
+              <div class="cv-proj-links">
+                {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
+                {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
+              </div>
             </div>
-            <p class="cv-entry-summary">{p.overview}</p>
-            <ul class="cv-list">{p.achievements.map((a) => <li>{a}</li>)}</ul>
-            <div class="tags">{p.stack.map((s) => <span class="tag">{s}</span>)}</div>
-            <div class="cv-proj-links">
-              {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
-              {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
-            </div>
+            {p.image && <img class="cv-thumb" src={p.image} alt={`${p.name} 미리보기`} loading="lazy" />}
           </article>
         ))}
       </section>
@@ -164,7 +167,7 @@ const toc = [
 
       <div class="cv-foot reveal">
         <a class="pdf-btn" href="/cv/print/">이력서 PDF 다운로드 ↓</a>
-        <a class="cv-backlink" href="/">← Grant Works (작업·판단 기록)</a>
+        <a class="cv-backlink" href="/">← Keunsik Works (작업·판단 기록)</a>
       </div>
     </div>
   </section>

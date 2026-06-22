@@ -4,11 +4,11 @@
 export const SITE_URL = "https://givepro91.github.io";
 
 export const SITE = {
-  brand: "Grant Works",
+  brand: "Keunsik Works",
   // Hero / identity
   name: "장근식",
-  nameEn: "Geun-sik (Grant) Jang",
-  title: "Technical Product Lead · PropTech × AI",
+  nameEn: "Keun-sik Jang",
+  title: "AX Product · Engineering Lead",
   // 한 문장 정체성
   tagline:
     "AI를 붙이는 개발자가 아니라, AI가 안전하게 일할 수 있는 운영 구조를 설계하는 사람.",
@@ -19,11 +19,12 @@ export const SITE = {
 } as const;
 
 // About 채널 링크 (실값)
+// 순서 = About 노출 우선순위 (GitHub 먼저, 컨텐츠 적은 Brunch는 후순위)
 export const CHANNELS = [
-  { label: "Brunch — 장근식 Jay", href: "https://brunch.co.kr/@eb877c69f69b451" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/근식-장-8620b0199/" },
   { label: "GitHub — givepro91", href: "https://github.com/givepro91" },
   { label: "GitHub — jay-swk", href: "https://github.com/jay-swk" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/근식-장-8620b0199/" },
+  { label: "Brunch — 장근식 Jay", href: "https://brunch.co.kr/@eb877c69f69b451" },
 ] as const;
 
 // 브런치 대표글

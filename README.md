@@ -1,13 +1,13 @@
-# Grant Works
+# Keunsik Works
 
-장근식(Jay)의 공개 포트폴리오 겸 작업 기록. **무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.**
+장근식(Keunsik)의 공개 포트폴리오 겸 작업 기록. **무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.**
 
-> `grant-works`는 사이트 브랜드명입니다. 배포 repo는 **`givepro91.github.io`**(givepro91 계정의 USER 루트 페이지)이며, `grant`는 계정 아이디 `givepro` → *give* → **grant**(내어주다)에서 왔습니다.
+> `Keunsik Works`는 사이트 브랜드명입니다. 배포 repo는 **`givepro91.github.io`**(givepro91 계정의 USER 루트 페이지)이며, 도메인은 `https://givepro91.github.io` 입니다.
 
 ## 스택
 
 - [Astro](https://astro.build) (정적, Content Collections)
-- 디자인 "The Ledger": Fraunces · Gowun Batang · Spline Sans Mono, 따뜻한 종이 ↔ 잉크 토글
+- 디자인 "Clean Wiki": 원티드형 클린 블루(`#2563EB`) · Pretendard(제목·본문) + JetBrains Mono(메타·코드) · 화이트/연그레이 카드 · 라이트 단일
 - GitHub Pages 배포 (`.github/workflows/deploy.yml`)
 
 ## 개발
@@ -21,14 +21,13 @@ pnpm preview
 
 ## 콘텐츠 편집 (라인업 조정)
 
-대표작·실험은 모두 마크다운 파일입니다. 쉽게 조정할 수 있습니다.
-
-- **대표작 추가/수정**: `src/content/projects/ko/<slug>.md` (스키마는 `src/content.config.ts`)
+- **대표작(Work) 추가/수정**: `src/content/projects/ko/<slug>.md` (스키마는 `src/content.config.ts`)
   - 정렬: frontmatter `order` 숫자
   - `kind: work | side`, `theme: backend|agentops|reliability|proptech|devtools`
   - 5필드: `positioning · shows[] · angle · decisionLog[]` + 서사 `problem/role/decision/result/learning`
-- **실험 추가/수정**: `src/content/lab/ko/<slug>.md`
-- **Work ↔ Lab 이동**: 파일을 해당 디렉토리로 옮기면 됩니다.
+  - `image`(선택): 공개 제품 썸네일 경로(`public/og/<name>`)
+- **실험(Lab) 추가/수정**: `src/data/lab.ts` 배열 한 곳에서 (제목·status·oneLiner·order·link)
+- **이력(CV)**: `src/data/cv.ts` 단일 소스 — `/cv` 위키 + `/cv/print` 이력서 공용
 
 ## 공개 범위 정책
 

@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { SITE, CHANNELS, FEATURED_WRITING, THEMES } from "../config";
 import { PROFILE } from "../data/cv";
+import { LAB } from "../data/lab";
 
 const all = (await getCollection("projects", (e) => e.id.startsWith("ko/"))).sort(
   (a, b) => a.data.order - b.data.order
@@ -11,9 +12,7 @@ const all = (await getCollection("projects", (e) => e.id.startsWith("ko/"))).sor
 const work = all.filter((e) => e.data.kind !== "side");
 const side = all.filter((e) => e.data.kind === "side");
 
-const lab = (await getCollection("lab", (e) => e.id.startsWith("ko/"))).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const lab = [...LAB].sort((a, b) => a.order - b.order);
 
 // lab status → 한글 라벨 + 색상 클래스
 const LAB_STATUS: Record<string, { label: string; cls: string }> = {
@@ -51,7 +50,23 @@ const heroLinks = [
   <!-- SIDE TOC (scroll-spy) -->
   <aside class="toc" aria-label="목차">
     <a href="#now" data-spy="now"><span class="bar"></span>Now</a>
-    <a href="#work" data-spy="work"><span class="bar"></span>Work</a>
+    <div class="toc-group">
+      <a href="#work" data-spy="work"><span class="bar"></span>Work</a>
+      <div class="toc-sub">
+        {
+          work.map((entry) => {
+            const s = entry.id.replace(/^ko\//, "");
+            let short = entry.data.title.split(/\s*[—–]\s*/)[0].trim();
+            if (short.length > 13) {
+              const cut = short.slice(0, 13);
+              const sp = cut.lastIndexOf(" ");
+              short = (sp > 6 ? cut.slice(0, sp) : cut).trim() + "…";
+            }
+            return <a href={`#w-${s}`} data-spy-sub={`w-${s}`} title={entry.data.title}>{short}</a>;
+          })
+        }
+      </div>
+    </div>
     {side.length > 0 && <a href="#side" data-spy="side"><span class="bar" />Side</a>}
     <a href="#lab" data-spy="lab"><span class="bar"></span>Lab</a>
     <a href="#about" data-spy="about"><span class="bar"></span>About</a>
@@ -96,7 +111,7 @@ const heroLinks = [
         <div class="infobox-h"><span>Profile</span><span>갱신 2026.06</span></div>
         <dl>
           <dt>경력</dt>
-          <dd><b>10년차</b> · 백엔드 → 운영·제품</dd>
+          <dd><b>10년차</b> · 백엔드·제품 → AX 리드</dd>
           <dt>현재</dt>
           <dd>스페이스워크 (주) 재직 중</dd>
           <dt>도메인</dt>
@@ -183,13 +198,13 @@ const heroLinks = [
       <div class="lab reveal">
         {
           lab.map((e, i) => {
-            const st = LAB_STATUS[e.data.status] ?? { label: e.data.status, cls: "pause" };
+            const st = LAB_STATUS[e.status] ?? { label: e.status, cls: "pause" };
             return (
               <div class="lab-row">
                 <span class="lab-n">{String(i + 1).padStart(2, "0")}</span>
                 <span class="lab-nm">
-                  <b>{e.data.title}</b>
-                  <span>{e.data.oneLiner}</span>
+                  <b>{e.title}</b>
+                  <span>{e.oneLiner}</span>
                 </span>
                 <span class={`status ${st.cls}`}>{st.label}</span>
               </div>
@@ -260,6 +275,29 @@ const heroLinks = [
         { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
       );
       sections.forEach(function (s) { spy.observe(s); });
+    })();
+
+    // WORK 하위 항목 스크롤스파이 (현재 보이는 프로젝트 카드 강조)
+    (function () {
+      var subs = Array.prototype.slice.call(document.querySelectorAll(".toc-sub a[data-spy-sub]"));
+      if (!subs.length) return;
+      var map = {};
+      subs.forEach(function (a) { map[a.getAttribute("data-spy-sub")] = a; });
+      var cards = Object.keys(map)
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+      var spy = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              subs.forEach(function (a) { a.classList.remove("active"); });
+              if (map[e.target.id]) map[e.target.id].classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+      );
+      cards.forEach(function (c) { spy.observe(c); });
     })();
   </script>
 </BaseLayout>

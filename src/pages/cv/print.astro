@@ -32,7 +32,7 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
 
     <section class="r-block">
       <h2>핵심 역량 · Highlights</h2>
-      <ul class="r-highlights">{HIGHLIGHTS.map((h) => <li>{h}</li>)}</ul>
+      <ul class="r-highlights">{HIGHLIGHTS.slice(0, 6).map((h) => <li>{h}</li>)}</ul>
     </section>
 
     <section class="r-block">

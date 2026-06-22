@@ -1,10 +1,10 @@
 // 단일 소스 CV 데이터 — 상세 위키(/cv)와 압축 이력서(/cv/print)가 모두 여기서 렌더.
-// 업데이트는 이 파일 한 곳에서. (Grant Works Work 카드와는 workSlug로 상호링크)
+// 업데이트는 이 파일 한 곳에서. (Keunsik Works Work 카드와는 workSlug로 상호링크)
 
 export const PROFILE = {
   name: "장근식",
   nameEn: "Jang Keunsik",
-  title: "Technical Product Lead · Backend",
+  title: "AX Product · Engineering Lead",
   domain: "PropTech × AI",
   birth: "1991.02.18",
   phone: "010-3175-9809",
@@ -14,28 +14,29 @@ export const PROFILE = {
   photo: "/cv/profile.jpg" as string | null,
   // 한 줄 요약
   summary:
-    "10년차 백엔드 개발자이자 Technical Product Lead. WebFlux 기반 MSA·Kafka·Redis·EKS로 대규모 프롭테크 서비스를 설계·운영해왔고, LLM 기반 API 상품화와 AI 에이전트 운영 구조 설계로 역할을 넓혀왔습니다. 결과만큼 과정과 판단의 기록을 중시합니다.",
+    "10년차 백엔드·프로덕트 리드. WebFlux 기반 MSA·Kafka·Redis·EKS로 대규모 프롭테크 서비스를 설계·운영해온 엔지니어링 기반 위에, 현업의 반복 판단과 운영 흐름을 AI 에이전트·자동화·데이터 신뢰성·human-in-the-loop 구조로 바꾸는 AX(AI Transformation) 리드로 역할을 넓혀왔습니다. ‘AI를 붙였다’가 아니라 문제 정의 → 현업 흐름 → AI·자동화 설계 → 운영 안전장치 → 성과 측정 → 재사용 패턴화를 한 사이클로 만드는 일을 지향합니다.",
   // 현재 상태 — 본업(재직 중)과 개인 프로젝트를 구분
   current:
-    "스페이스워크에서 프롭테크 백엔드·LLM 기반 API를 운영하면서, 개인적으로는 ‘운영을 내부 제품으로 만드는 일’에 관심이 많습니다. 운영 누락 방지(MIRIVA), AI 에이전트 품질 게이트(Nova) 같은 운영 자동화·관제 도구를 개인 프로젝트로 직접 설계·빌딩하고 있습니다.",
+    "스페이스워크에서 프롭테크 백엔드·LLM 기반 API를 운영하며 데이터 신뢰성과 운영 관측성을 챙기고, 개인적으로는 ‘운영 자체를 내부 제품으로 만드는 일’에 집중합니다. 팀의 반복 판단을 줄이는 운영 자동화(MIRIVA), AI 에이전트를 승인·취소·롤백·감사 로그로 통제하는 품질 게이트(Nova)를 개인 프로젝트로 직접 설계·빌딩하며, ‘AI가 어디서 멈추고 사람이 판단해야 하는가’를 구조로 만드는 데 관심이 많습니다.",
   links: [
     { label: "GitHub (개인)", href: "https://github.com/givepro91" },
     { label: "GitHub (업무)", href: "https://github.com/jay-swk" },
     { label: "Brunch", href: "https://brunch.co.kr/@eb877c69f69b451" },
     { label: "Tistory", href: "https://givepro.tistory.com" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/근식-장-8620b0199/" },
-    { label: "Portfolio (Grant Works)", href: "https://givepro91.github.io" },
+    { label: "Portfolio (Keunsik Works)", href: "https://givepro91.github.io" },
   ],
 } as const;
 
-// 핵심 역량 — 정량 임팩트 중심 (토스형: 문제→해결→결과)
+// 핵심 역량 — AX(문제정의→AI·자동화 설계→운영 안전장치→성과→패턴화) 먼저, 정량 엔지니어링 근거로 뒷받침
 export const HIGHLIGHTS = [
+  "운영을 내부 제품으로 — 반복되는 운영 판단을 줄이도록 GitHub·Notion·Slack·대시보드를 잇는 자동화 흐름을 설계해, 사람이 꼭 개입해야 할 지점만 남겼습니다.",
+  "AI 에이전트를 ‘실행’이 아니라 ‘통제’ — 승인·취소·롤백·감사 로그(human-in-the-loop)로 에이전트가 어디서 멈추고 사람이 결정할지를 설계했습니다.",
+  "‘workflow 성공 ≠ 데이터 성공’을 전제로 silent fail을 막고, 데이터 신뢰성과 대시보드 관측성을 빌드·테스트 레벨에서 강제했습니다.",
   "대규모 알림 처리를 순차 → 병렬 비동기 구조로 전환해 처리 시간을 수 분 → 수 초로 단축하고, 이벤트 루프 블로킹을 제거해 처리량·CPU 효율을 끌어올렸습니다.",
-  "WebFlux 기반 MSA에서 잘못 구현된 블로킹 로직을 찾아 개선 — 병목을 해소하고 응답 속도·서비스 간 연동 안정성을 높였습니다.",
-  "사업성 설계 분석에 ‘라이트’ 경로를 도입해 결과 확인을 3분 이내로 단축, 유입률과 설계 성공률을 개선했습니다.",
   "LLM 기반 설계 API(PlanNext.AI)를 기획·개발·배포까지 단독 주도 — Coroutine·Kafka·Redis로 고효율·확장 구조를 확보했습니다.",
-  "구독 결제·갱신·만료를 자동화(RevenueCat·PG 웹훅)해 운영 부담을 줄이고 전환율·유지율을 개선했습니다.",
-  "전시 오디오 가이드 앱을 백엔드부터 구축·운영해 누적 다운로드 10만+ 달성, 하리보 아시아 전시 계약을 성사시켰습니다.",
+  "사업성 분석에 ‘라이트’ 경로를 도입해 결과 확인을 3분 이내로 단축, 유입률과 설계 성공률을 개선했습니다.",
+  "결정과 트레이드오프를 기록으로 남겨 팀이 재사용하는 패턴(플레이북)으로 만드는 — 기록 기반 개발·운영에 강점이 있습니다.",
 ];
 
 export interface CareerEntry {
@@ -193,7 +194,8 @@ export interface ProjectEntry {
   achievements: string[];
   link?: string;
   linkLabel?: string;
-  workSlug?: string; // Grant Works /work/{slug} 상호링크
+  workSlug?: string; // Keunsik Works /work/{slug} 상호링크
+  image?: string; // 공개 제품 썸네일 (public/og/*)
 }
 
 export const PROJECTS: ProjectEntry[] = [
@@ -229,6 +231,7 @@ export const PROJECTS: ProjectEntry[] = [
     link: "https://lbdeveloper.landbook.net",
     linkLabel: "lbdeveloper.landbook.net",
     workSlug: "garo-landbook",
+    image: "/og/lbdeveloper.jpg",
   },
   {
     name: "PlanNext.AI",
@@ -245,6 +248,7 @@ export const PROJECTS: ProjectEntry[] = [
     ],
     link: "https://plannext.ai",
     linkLabel: "plannext.ai",
+    image: "/og/plannext.jpg",
   },
   {
     name: "큐피커 (Qpicker)",
@@ -261,6 +265,7 @@ export const PROJECTS: ProjectEntry[] = [
     ],
     link: "https://www.qpicker.com",
     linkLabel: "qpicker.com",
+    image: "/og/qpicker.png",
   },
 ];
 
@@ -329,10 +334,10 @@ export const VALUES = [
 ];
 
 export const VISION = {
-  headline: "문제의 본질에서 해답까지, 설계와 실행으로 이어가는 개발자가 되겠습니다.",
+  headline: "문제를 정의하고, AI·자동화를 실제 업무 성과로 바꾸는 AX 리드로 성장하겠습니다.",
   body: [
-    "단순히 기능을 구현하는 데 그치지 않고, 문제를 정의하고 구조를 설계해 실행까지 이끄는 개발자를 지향합니다.",
+    "단순히 ‘AI를 붙이는’ 데 그치지 않고, 현업의 흐름을 이해해 어디에 AI·자동화를 넣고 어디서 사람이 판단해야 하는지를 설계합니다.",
     "서비스는 결국 사람과 사람을 연결하는 일이라 믿습니다. 그래서 기술보다 사용자·팀·서비스의 연결을 우선 고민해 왔습니다.",
-    "앞으로도 복잡한 문제의 본질을 파악하고, 더 나은 사용자 경험과 팀의 흐름을 만들기 위해 직접 설계하고 실행하는 리더형 개발자로 성장하겠습니다.",
+    "앞으로도 운영 안전장치와 데이터 신뢰성을 갖춘 AI 도입을 재사용 가능한 패턴으로 자산화하며, 팀이 일하는 방식을 바꾸는 AX 리드로 성장하겠습니다.",
   ],
 };
