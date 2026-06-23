@@ -1,8 +1,9 @@
 ---
 branch: main
 status: active
-updated: 2026-06-23T05:47:08Z
+updated: 2026-06-23T13:00:28Z
 ---
+> ✅ **`1e749cb` 배포 완료**(라이트박스·갤러리·admin 격리). 이어서 **사용자가 admin으로 실제 이미지 다수 등록 + stockAssist 제거 요청** → 검수(사용자가 "이미지 OK" 보증)·빌드 후 배포 진행. 사용자가 admin 저장으로 재포맷된 `landbook-msa.md`·`realty-data-pipeline.md`는 내용 동일이라 원복. 미등록 `landbook-image-1.jpg`는 커밋 제외.
 # Handoff — Keunsik Works · 제품 이미지 갤러리 + 로컬 콘텐츠 관리 도구(3분할 admin) · main
 
 ## Restore in 30s — 무엇을/어디까지/방금 끝낸 것
@@ -17,7 +18,8 @@ updated: 2026-06-23T05:47:08Z
 - 사용자 진단(자기비판 채택): "이건 CMS가 아니라 DB 폼이었다 — 결과를 보며 못 고치고, 데이터 모델을 그대로 노출". → 미리보기·DnD·위계로 해결.
 
 ## Next steps
-- [ ] **(사용자 결정 대기) 커밋·배포** — 명시 경로만 `git add`(`git add -A` 금지). 수정: `package.json` `pnpm-lock.yaml` `src/components/ProjectCard.astro` `src/pages/cv/index.astro` `src/pages/work/[slug].astro` `src/layouts/BaseLayout.astro` `src/styles/global.css` `src/content.config.ts` `src/data/cv.ts` `src/content/projects/ko/zippit.md`. 신규: `src/data/cv.json` `src/data/galleries.json` `scripts/admin-server.mjs` `scripts/admin.html` + 이미지 9개(`public/og/*` nova/landbook/landbook-landing/plannext-landing/qpicker-landing/qpicker-app/zippit-landing/zippit-features/markwand) + `docs/handoff/main.md`. 커밋 예 `feat: 제품 이미지 갤러리·라이트박스 + 로컬 콘텐츠 관리 도구(admin)`.
+- [x] **커밋·배포 완료** — `1e749cb`(25 files). 명시 경로만 add(`git add -A` 금지) 준수. Actions success, 라이브 검증됨. **이후 admin으로 콘텐츠 바꾸면 동일하게 명시 경로만 add → commit → push.**
+- [참고] **admin 테스트 흔적 처리** — 사용자가 admin으로 저장하면 해당 `.md`가 yaml.dump 포맷(따옴표 제거·블록리스트)으로 재작성됨. 내용 변경 없는 순수 재포맷이면 `git checkout <file>`로 원복 가능(이번에 landbook-msa.md 그렇게 처리). 내용 바꿨으면 그대로 커밋.
 - [ ] **사용자 사용법** — `npm run admin` → http://127.0.0.1:4400. 좌측에서 프로젝트/섹션 선택 → 중앙에서 편집(이미지·배열 ⠿ 드래그 정렬, 핵심 위·고급 접기) → 우측 미리보기 즉시 확인 → [저장] → `git add public/og src/data src/content && commit && push`.
 - [ ] **Markwand 실제 앱 스크린샷** — 데스크톱 앱이라 자동 캡처 불가, admin에서 직접 업로드.
 - [ ] (옵션) disclosure allowlist에 `landbook.net`(비차단 REVIEW). (옵션) package.json `name`=`grant-works`.

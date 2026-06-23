@@ -1,13 +1,53 @@
 {
   "work": {
-    "zippit": ["/og/zippit.png", "/og/zippit-landing.jpg", "/og/zippit-features.jpg"],
-    "nova": ["/og/nova.png"],
-    "markwand": ["/og/markwand.jpg"]
+    "landbook-msa": [
+      "/og/landbook-image.jpg",
+      "/og/5b3bf2e2b2e92.png"
+    ],
+    "ground-control": [
+      "/og/scr-20260623-stua.png"
+    ],
+    "zippit": [
+      "/og/zippit-landing.jpg",
+      "/og/scr-20260623-susm.png",
+      "/og/scr-20260623-suzt.png"
+    ],
+    "garo-landbook": [
+      "/og/990507fa9bbb7.png"
+    ],
+    "planreview": [
+      "/og/scr-20260623-svjw.jpeg",
+      "/og/scr-20260623-svme.png",
+      "/og/scr-20260623-svpi.png"
+    ],
+    "nova": [
+      "/og/scr-20260623-svyq.png"
+    ],
+    "realty-data-pipeline": [
+      "/og/scr-20260623-swej.png"
+    ],
+    "markwand": [
+      "/og/scr-20260623-swod.png"
+    ],
+    "miriva": [
+      "/og/scr-20260623-swwz.png"
+    ]
   },
   "cv": {
-    "Landbook": ["/og/landbook.jpg", "/og/landbook-landing.jpg"],
-    "LBDeveloper": ["/og/lbdeveloper.jpg"],
-    "PlanNext.AI": ["/og/plannext.jpg", "/og/plannext-landing.jpg"],
-    "큐피커 (Qpicker)": ["/og/qpicker.png", "/og/qpicker-landing.jpg", "/og/qpicker-app.jpg"]
+    "Landbook": [
+      "/og/landbook.jpg",
+      "/og/5b3bf2e2b2e92-1.png"
+    ],
+    "LBDeveloper": [
+      "/og/lbdeveloper.jpg",
+      "/og/990507fa9bbb7-1.png"
+    ],
+    "PlanNext.AI": [
+      "/og/scr-20260623-sybp.png",
+      "/og/scr-20260623-sxyw.png"
+    ],
+    "큐피커 (Qpicker)": [
+      "/og/scr-20260623-sysm.jpeg"
+    ]
   }
 }
