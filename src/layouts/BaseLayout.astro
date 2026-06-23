@@ -105,5 +105,93 @@ const jsonLd = {
         });
       })();
     </script>
+
+    <!-- 제품 화면 라이트박스 — [data-zoom] 요소 클릭 시 확대 (단일 전역 인스턴스) -->
+    <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="제품 화면 크게 보기">
+      <button class="lb-close" type="button" aria-label="닫기 (Esc)">✕</button>
+      <button class="lb-nav lb-prev" type="button" aria-label="이전 화면 (←)" hidden>‹</button>
+      <button class="lb-nav lb-next" type="button" aria-label="다음 화면 (→)" hidden>›</button>
+      <figure class="lb-figure">
+        <img class="lb-img" alt="" />
+        <figcaption class="lb-cap mono"></figcaption>
+      </figure>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var lb = document.getElementById("lightbox");
+        if (!lb) return;
+        var img = lb.querySelector(".lb-img");
+        var cap = lb.querySelector(".lb-cap");
+        var closeBtn = lb.querySelector(".lb-close");
+        var prevBtn = lb.querySelector(".lb-prev");
+        var nextBtn = lb.querySelector(".lb-next");
+        var lastFocus = null;
+        var items = [], idx = 0, capBase = "";
+        var motionOk = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+        function itemsOf(t) {
+          var g = t.getAttribute("data-gallery");
+          if (g) { try { var a = JSON.parse(g); if (a && a.length) return a; } catch (e) {} }
+          var s = t.getAttribute("data-zoom-src");
+          if (!s) { var i = t.querySelector && t.querySelector("img"); s = i && i.getAttribute("src"); }
+          return s ? [s] : [];
+        }
+        function render() {
+          if (!items.length) return;
+          if (idx < 0) idx = items.length - 1;
+          if (idx >= items.length) idx = 0;
+          img.setAttribute("src", items[idx]);
+          img.setAttribute("alt", capBase || "");
+          var multi = items.length > 1;
+          cap.textContent = capBase + (multi ? "   ·   " + (idx + 1) + " / " + items.length : "");
+          cap.style.display = cap.textContent ? "" : "none";
+          prevBtn.hidden = nextBtn.hidden = !multi;
+        }
+        function step(d) { if (items.length > 1) { idx += d; render(); } }
+        function open(t) {
+          items = itemsOf(t);
+          if (!items.length) return;
+          idx = parseInt(t.getAttribute("data-zoom-index") || "0", 10) || 0;
+          capBase = t.getAttribute("data-zoom-cap") || "";
+          lastFocus = document.activeElement;
+          lb.hidden = false;
+          lb.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          render();
+          requestAnimationFrame(function () { lb.classList.add("open"); });
+          closeBtn.focus();
+        }
+        function close() {
+          lb.classList.remove("open");
+          lb.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          var done = function () { lb.hidden = true; img.removeAttribute("src"); };
+          if (motionOk) setTimeout(done, 200); else done();
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+
+        document.addEventListener("click", function (e) {
+          var t = e.target.closest && e.target.closest("[data-zoom]");
+          if (t) { e.preventDefault(); open(t); }
+        });
+        document.addEventListener("keydown", function (e) {
+          if (!lb.hidden) {
+            if (e.key === "Escape") { close(); return; }
+            if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); return; }
+            if (e.key === "ArrowRight") { e.preventDefault(); step(1); return; }
+            return;
+          }
+          if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+            var t = e.target.closest && e.target.closest("[data-zoom]");
+            if (t) { e.preventDefault(); open(t); }
+          }
+        });
+        lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+        closeBtn.addEventListener("click", close);
+        prevBtn.addEventListener("click", function (e) { e.stopPropagation(); step(-1); });
+        nextBtn.addEventListener("click", function (e) { e.stopPropagation(); step(1); });
+      })();
+    </script>
   </body>
 </html>

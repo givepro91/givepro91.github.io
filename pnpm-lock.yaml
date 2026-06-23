@@ -17,6 +17,10 @@ importers:
       astro:
         specifier: ^5.7.0
         version: 5.18.2(@types/node@24.13.0)(rollup@4.61.1)(typescript@5.9.3)
+    devDependencies:
+      js-yaml:
+        specifier: ^5.1.0
+        version: 5.1.0
 
 packages:
 
@@ -1128,6 +1132,10 @@ packages:
 
   js-yaml@4.2.0:
     resolution: {integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==}
+    hasBin: true
+
+  js-yaml@5.1.0:
+    resolution: {integrity: sha512-s8VA5jkR8f22S3NAXmhKPFqGUduqZGlsufabVOgN14iTdw/RXcym7bKkbwjxLK9Yw2lEvvmJjFp119+KPeo8Kg==}
     hasBin: true
 
   kleur@3.0.3:
@@ -2955,6 +2963,10 @@ snapshots:
       is-inside-container: 1.0.0
 
   js-yaml@4.2.0:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@5.1.0:
     dependencies:
       argparse: 2.0.1
 

@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { THEMES } from "../../config";
+import galleries from "../../data/galleries.json";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects", (e) => e.id.startsWith("ko/"));
@@ -19,6 +20,10 @@ const d = entry.data;
 const { Content } = await render(entry);
 const plainPos = d.positioning.replace(/<[^>]+>/g, "");
 const linkHost = d.link ? d.link.replace(/^https?:\/\//, "").replace(/\/$/, "") : "";
+// 공개 제품 화면 — SoT = src/data/galleries.json. 메인 히어로 + 썸네일 스트립으로 노출.
+const slug = entry.id.replace(/^ko\//, "");
+const shots = (galleries.work as Record<string, string[]>)[slug] ?? [];
+const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
 ---
 
 <BaseLayout title={d.title} description={plainPos}>
@@ -27,6 +32,41 @@ const linkHost = d.link ? d.link.replace(/^https?:\/\//, "").replace(/\/$/, "") 
       <a class="back" href="/#work">← Work</a>
       <h1>{d.title}</h1>
       <p class="lede" set:html={d.positioning} />
+
+      {shots.length > 0 && (
+        <figure
+          class="shot detail-shot"
+          data-zoom
+          data-zoom-src={shots[0]}
+          data-zoom-index="0"
+          data-gallery={JSON.stringify(shots)}
+          data-zoom-cap={zoomCap}
+          tabindex="0"
+          role="button"
+          aria-label={`${d.title} 제품 화면 크게 보기${shots.length > 1 ? ` (${shots.length}장)` : ""}`}
+        >
+          <img src={shots[0]} alt={`${d.title} 제품 화면`} loading="eager" />
+          <figcaption class="shot-cap">제품 화면{linkHost ? ` · ${linkHost}` : ""}{shots.length > 1 ? ` · ${shots.length}컷 — 클릭하면 갤러리` : ""}</figcaption>
+        </figure>
+      )}
+      {shots.length > 1 && (
+        <div class="detail-strip">
+          {shots.slice(1).map((src, i) => (
+            <button
+              class="strip-thumb"
+              type="button"
+              data-zoom
+              data-zoom-src={src}
+              data-zoom-index={String(i + 1)}
+              data-gallery={JSON.stringify(shots)}
+              data-zoom-cap={zoomCap}
+              aria-label={`${d.title} 화면 ${i + 2} 크게 보기`}
+            >
+              <img src={src} alt={`${d.title} 화면 ${i + 2}`} loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
 
       <div class="narrative">
         <div class="blk"><span class="lbl">문제</span><p set:html={d.problem} /></div>

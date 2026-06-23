@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, CASES, AWARDS, VALUES, VISION } from "../../data/cv";
+import galleries from "../../data/galleries.json";
+const cvShots = galleries.cv as Record<string, string[]>;
 
 const photo = PROFILE.photo;
 const initial = PROFILE.name.charAt(0);
@@ -85,8 +87,11 @@ const toc = [
       <!-- PROJECTS -->
       <section id="projects" class="cv-section reveal">
         <h2 class="cv-h2"><span class="n">03</span> Projects <span class="cv-h2-note">— 대표 프로젝트</span></h2>
-        {PROJECTS.map((p) => (
-          <article class={`cv-entry${p.image ? " has-thumb" : ""}`}>
+        {PROJECTS.map((p) => {
+          const shots = cvShots[p.name] ?? [];
+          const zoomCap = `${p.name} — ${p.tagline}${p.linkLabel ? ` · ${p.linkLabel}` : ""}`;
+          return (
+          <article class={`cv-entry${shots.length > 0 ? " has-thumb" : ""}`}>
             <div class="cv-entry-text">
               <div class="cv-entry-head">
                 <div>
@@ -103,9 +108,26 @@ const toc = [
                 {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
               </div>
             </div>
-            {p.image && <img class="cv-thumb" src={p.image} alt={`${p.name} 미리보기`} loading="lazy" />}
+            {shots.length > 0 && (
+              <figure
+                class="shot cv-shot"
+                data-zoom
+                data-zoom-src={shots[0]}
+                data-zoom-index="0"
+                data-gallery={JSON.stringify(shots)}
+                data-zoom-cap={zoomCap}
+                tabindex="0"
+                role="button"
+                aria-label={`${p.name} 제품 화면 크게 보기${shots.length > 1 ? ` (${shots.length}장)` : ""}`}
+              >
+                <img class="cv-thumb" src={shots[0]} alt={`${p.name} 제품 화면`} loading="lazy" />
+                {shots.length > 1 && <span class="shot-count">＋{shots.length - 1}</span>}
+                <figcaption class="shot-cap">제품 화면{p.linkLabel ? ` · ${p.linkLabel}` : ""}{shots.length > 1 ? ` · ${shots.length}컷` : ""}</figcaption>
+              </figure>
+            )}
           </article>
-        ))}
+          );
+        })}
       </section>
 
       <!-- SKILLS -->

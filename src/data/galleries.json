@@ -1,0 +1,13 @@
+{
+  "work": {
+    "zippit": ["/og/zippit.png", "/og/zippit-landing.jpg", "/og/zippit-features.jpg"],
+    "nova": ["/og/nova.png"],
+    "markwand": ["/og/markwand.jpg"]
+  },
+  "cv": {
+    "Landbook": ["/og/landbook.jpg", "/og/landbook-landing.jpg"],
+    "LBDeveloper": ["/og/lbdeveloper.jpg"],
+    "PlanNext.AI": ["/og/plannext.jpg", "/og/plannext-landing.jpg"],
+    "큐피커 (Qpicker)": ["/og/qpicker.png", "/og/qpicker-landing.jpg", "/og/qpicker-app.jpg"]
+  }
+}

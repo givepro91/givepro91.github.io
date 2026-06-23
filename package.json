@@ -8,12 +8,16 @@
     "build": "node scripts/check-disclosure.mjs --source && astro build && node scripts/check-disclosure.mjs --dist",
     "build:nogate": "astro build",
     "preview": "astro preview",
+    "admin": "node scripts/admin-server.mjs",
     "check:disclosure": "node scripts/check-disclosure.mjs --source",
     "check:disclosure:dist": "node scripts/check-disclosure.mjs --dist"
   },
   "dependencies": {
-    "astro": "^5.7.0",
     "@astrojs/mdx": "^4.2.0",
-    "@astrojs/sitemap": "^3.3.0"
+    "@astrojs/sitemap": "^3.3.0",
+    "astro": "^5.7.0"
+  },
+  "devDependencies": {
+    "js-yaml": "^5.1.0"
   }
 }

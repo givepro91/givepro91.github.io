@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import galleries from "../data/galleries.json";
 
 interface Props {
   entry: CollectionEntry<"projects">;
@@ -33,6 +34,10 @@ const badgeCls =
     : d.visibility === "secret-locked"
       ? "locked"
       : "anon";
+
+// 공개 제품 화면 — SoT = src/data/galleries.json (admin이 R/W). 라이트박스로 묶어 탐색.
+const shots = (galleries.work as Record<string, string[]>)[slug] ?? [];
+const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
 ---
 
 <article class={`work-card reveal${d.image ? " has-thumb" : ""}`} id={`w-${slug}`}>
@@ -45,7 +50,23 @@ const badgeCls =
     <h3 class="wc-title"><a href={`/work/${slug}/`}>{d.title}</a></h3>
     <p class="wc-pos"><span class="lead" set:html={d.positioning} /></p>
   </div>
-  {d.image && <img class="wc-thumb" src={d.image} alt={`${d.title} 미리보기`} loading="lazy" />}
+  {shots.length > 0 && (
+    <figure
+      class="shot wc-shot"
+      data-zoom
+      data-zoom-src={shots[0]}
+      data-zoom-index="0"
+      data-gallery={JSON.stringify(shots)}
+      data-zoom-cap={zoomCap}
+      tabindex="0"
+      role="button"
+      aria-label={`${d.title} 제품 화면 크게 보기${shots.length > 1 ? ` (${shots.length}장)` : ""}`}
+    >
+      <img class="wc-thumb" src={shots[0]} alt={`${d.title} 제품 화면`} loading="lazy" />
+      {shots.length > 1 && <span class="shot-count">＋{shots.length - 1}</span>}
+      <figcaption class="shot-cap">제품 화면{linkHost ? ` · ${linkHost}` : ""}{shots.length > 1 ? ` · ${shots.length}컷` : ""}</figcaption>
+    </figure>
+  )}
 
   <div class="decision">
     <span class="lbl">왜 이렇게 결정했나</span>

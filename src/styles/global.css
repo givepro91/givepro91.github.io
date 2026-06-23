@@ -405,24 +405,79 @@ section { padding: 30px 0; }
 /* work card 썸네일 (공개 제품만 — 있을 때만 grid로 전환) */
 .work-card.has-thumb {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px;
+  grid-template-columns: minmax(0, 1fr) 220px;
   grid-template-areas: "main thumb" "decision decision" "foot foot";
   column-gap: 24px;
 }
 .work-card.has-thumb .wc-main { grid-area: main; min-width: 0; }
-.work-card.has-thumb .wc-thumb { grid-area: thumb; align-self: start; }
+.work-card.has-thumb .wc-shot { grid-area: thumb; align-self: start; }
 .work-card.has-thumb .decision { grid-area: decision; }
 .work-card.has-thumb .wc-foot { grid-area: foot; }
-.wc-thumb {
+.wc-thumb { aspect-ratio: 16 / 9; object-fit: cover; }
+@media (max-width: 600px) {
+  .work-card.has-thumb { grid-template-columns: 1fr; grid-template-areas: "thumb" "main" "decision" "foot"; row-gap: 14px; }
+}
+
+/* ---------- product shots (zoomable evidence figures) ---------- */
+/* 공개 제품 화면을 "작업 증거"로 보여주는 공통 피겨 — 클릭 시 라이트박스로 확대.
+   .wc-shot / .cv-shot / .detail-shot 가 레이아웃(크기)을, .shot 가 공통 인터랙션을 담당. */
+.shot { position: relative; display: block; margin: 0; min-width: 0; cursor: zoom-in; }
+.shot img {
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: var(--surface);
+  transition: box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
 }
-@media (max-width: 600px) {
-  .work-card.has-thumb { grid-template-columns: 1fr; grid-template-areas: "thumb" "main" "decision" "foot"; row-gap: 14px; }
+.shot:hover img { border-color: var(--accent-border); box-shadow: var(--sh-hover); transform: translateY(-2px); }
+.shot:focus-visible { outline: none; }
+.shot:focus-visible img { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
+/* 확대(⤢) 어포던스 — hover/focus 시 우상단에 표시 */
+.shot::after {
+  content: "⤢";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  line-height: 1;
+  color: #fff;
+  background: color-mix(in srgb, var(--ink) 62%, transparent);
+  border-radius: 7px;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.shot:hover::after, .shot:focus-visible::after { opacity: 1; transform: none; }
+.shot-cap {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-mute);
+  letter-spacing: 0.01em;
+}
+.shot-cap::before { content: "▸ "; color: var(--accent); }
+/* 갤러리 장수 배지 (대표 + N) — 항상 표시 */
+.shot-count {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: color-mix(in srgb, var(--ink) 68%, transparent);
+  padding: 3px 8px;
+  border-radius: 7px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
 }
 
 /* ---------- lab ---------- */
@@ -518,7 +573,26 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
 .detail .back { font-family: var(--mono); font-size: 12.5px; color: var(--ink-mute); }
 .detail .back:hover { color: var(--accent); }
 .detail h1 { font-size: clamp(28px, 4.5vw, 38px); font-weight: 800; line-height: 1.18; letter-spacing: -0.03em; margin: 18px 0 10px; }
-.detail .lede { font-size: 18px; color: var(--ink-sub); max-width: 64ch; margin-bottom: 28px; line-height: 1.6; }
+.detail .lede { font-size: 18px; color: var(--ink-sub); max-width: 64ch; margin-bottom: 24px; line-height: 1.6; }
+/* 상세 페이지 제품 화면 (공개 제품만) — narrative 폭에 맞춘 히어로 + 썸네일 스트립 */
+.detail-shot { max-width: 760px; margin: 0 0 16px; }
+.detail-shot img { aspect-ratio: 1200 / 630; object-fit: cover; }
+.detail-strip { display: flex; flex-wrap: wrap; gap: 10px; max-width: 760px; margin: 0 0 28px; }
+.strip-thumb {
+  position: relative;
+  width: 132px;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: var(--surface);
+  transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.strip-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.strip-thumb:hover, .strip-thumb:focus-visible { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--sh); outline: none; }
+@media (max-width: 600px) { .strip-thumb { width: calc(50% - 5px); } }
 .narrative {
   display: flex;
   flex-direction: column;
@@ -698,18 +772,11 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
 /* cv 프로젝트 썸네일 (공개 제품만) */
 .cv-entry.has-thumb { display: flex; gap: 22px; align-items: flex-start; }
 .cv-entry.has-thumb .cv-entry-text { flex: 1; min-width: 0; }
-.cv-thumb {
-  flex: none;
-  width: 212px;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-}
+.cv-shot { flex: none; width: 212px; }
+.cv-thumb { aspect-ratio: 16 / 10; object-fit: cover; }
 @media (max-width: 760px) {
   .cv-entry.has-thumb { flex-direction: column-reverse; }
-  .cv-thumb { width: 100%; }
+  .cv-shot { width: 100%; }
 }
 .cv-list { margin: 10px 0 0 18px; display: flex; flex-direction: column; gap: 6px; }
 .cv-list li { font-size: 14px; line-height: 1.62; color: var(--ink-sub); }
@@ -761,9 +828,105 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
   .cv-head { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
+/* ---------- lightbox (제품 화면 확대) ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: color-mix(in srgb, #0b1220 74%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.lightbox[hidden] { display: none; }
+.lightbox.open { opacity: 1; }
+.lb-figure {
+  margin: 0;
+  max-width: min(1100px, 92vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.lb-img {
+  max-width: 92vw;
+  max-height: 82vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  background: #fff;
+  transform: scale(0.985);
+  transition: transform 0.2s ease;
+}
+.lightbox.open .lb-img { transform: none; }
+.lb-cap {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  max-width: 64ch;
+}
+.lb-close {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+}
+.lb-close:hover { background: rgba(255, 255, 255, 0.24); transform: translateY(-1px); }
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0 0 4px;
+  transition: background 0.18s;
+}
+.lb-nav[hidden] { display: none; }
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+.lb-nav:hover { background: rgba(255, 255, 255, 0.24); }
+@media (max-width: 600px) {
+  .lb-nav { width: 42px; height: 42px; font-size: 26px; }
+  .lb-prev { left: 8px; }
+  .lb-next { right: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox, .lb-img { transition: none; }
+  .lb-img { transform: none; }
+  .shot:hover img { transform: none; }
+}
+
 /* ---------- print (PDF résumé) ---------- */
 @media print {
-  .top, .foot, .toc, .print-actions, .pdf-btn { display: none !important; }
+  .top, .foot, .toc, .print-actions, .pdf-btn, .lightbox { display: none !important; }
   :root {
     --bg: #fff; --card: #fff; --surface: #fff;
     --ink: #111; --ink-sub: #333; --ink-mute: #666;

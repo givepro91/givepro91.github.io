@@ -47,7 +47,7 @@ const projects = defineCollection({
       decisionLog,
       // 메타
       stack: z.array(z.string()).optional(), // 보조 (태그/접이식)
-      image: z.string().optional(), // 공개 제품 썸네일 (public/og/*) — 공개 제품만
+      // 공개 제품 화면(이미지/갤러리)은 src/data/galleries.json 으로 분리 (로컬 admin이 R/W)
       period: z.string().optional(),
       metrics: z.string().optional(), // 커밋·규모 등 활동 신호 (자랑 아님)
       visibility,

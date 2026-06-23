@@ -21,7 +21,6 @@ decisionLog:
   - why: "부동산 데이터는 읽기 전용으로 분리하고, 앱 데이터와 DB를 나눴습니다."
     tradeoff: "조인 편의 대신 데이터 경계의 안전을 택했습니다."
 stack: ["Next.js", "React", "TypeScript", "Prisma", "PostGIS"]
-image: "/og/zippit.png"
 period: "2025–2026"
 metrics: "단독 · 550 커밋"
 visibility: public
