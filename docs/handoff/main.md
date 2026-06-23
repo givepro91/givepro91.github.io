@@ -1,8 +1,9 @@
 ---
 branch: main
 status: active
-updated: 2026-06-23T13:00:28Z
+updated: 2026-06-23T13:10:41Z
 ---
+> 🐞 **회귀 수정**: 홈 Work 카드 `has-thumb` 클래스가 제거된 `d.image` 기준이라(항상 false) 이미지가 grid 썸네일이 아니라 **전체폭**으로 커지던 버그 → `ProjectCard.astro`를 `shots.length > 0` 기준으로 수정(CV처럼 우측 220px 썸네일 복귀). **교훈: galleries.json 이전 시 `image` 참조 잔재 점검.**
 > ✅ **`1e749cb` 배포 완료**(라이트박스·갤러리·admin 격리). 이어서 **사용자가 admin으로 실제 이미지 다수 등록 + stockAssist 제거 요청** → 검수(사용자가 "이미지 OK" 보증)·빌드 후 배포 진행. 사용자가 admin 저장으로 재포맷된 `landbook-msa.md`·`realty-data-pipeline.md`는 내용 동일이라 원복. 미등록 `landbook-image-1.jpg`는 커밋 제외.
 # Handoff — Keunsik Works · 제품 이미지 갤러리 + 로컬 콘텐츠 관리 도구(3분할 admin) · main
 

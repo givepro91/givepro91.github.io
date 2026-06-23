@@ -40,7 +40,7 @@ const shots = (galleries.work as Record<string, string[]>)[slug] ?? [];
 const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
 ---
 
-<article class={`work-card reveal${d.image ? " has-thumb" : ""}`} id={`w-${slug}`}>
+<article class={`work-card reveal${shots.length > 0 ? " has-thumb" : ""}`} id={`w-${slug}`}>
   <div class="wc-main">
     <div class="wc-top">
       <span class="wc-seq">{seqStr}</span>
