@@ -66,6 +66,7 @@ body {
   letter-spacing: -0.011em;
   word-break: keep-all; /* 한글 어절 단위 줄바꿈 */
   overflow-wrap: break-word; /* 어절 단위 유지, 넘칠 때만 분해 — "설계·운영" 등 중간점(·)이 줄머리에 떨어지지 않게 */
+  text-wrap: pretty; /* 본문 기본값 — 마지막 줄 한 단어만 떨어지는 고아(orphan) 방지. 짧은 제목/태그라인은 개별적으로 balance 로 덮어씀 */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -75,6 +76,12 @@ a { color: inherit; text-decoration: none; }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 .mono { font-family: var(--mono); }
+
+/* 짧은 표시 텍스트(섹션 제목·부제·카드 제목/설명/문제 카드)는 줄을 균등 분배해
+   마지막 줄에 한 단어만 떨어지는 고아(orphan)나 "…설계 / ·운영했습니다." 류 어색한
+   줄바꿈을 막는다. 긴 본문은 body 의 text-wrap:pretty 를 그대로 둔다. */
+.sec-title, .sec-note, .p-sub,
+.wc-title, .wc-pos, .now-card p { text-wrap: balance; }
 
 /* shared card */
 .card {
@@ -203,7 +210,7 @@ nav.links a.btn-cv:hover { background: var(--accent-ink); color: #fff; transform
   color: var(--ink);
   font-weight: 500;
   max-width: 52ch;
-  text-wrap: pretty;
+  text-wrap: balance; /* 짧은 태그라인 — "…사람입니다." 한 단어가 외톨이 줄로 떨어지지 않게 줄을 균등 분배 */
 }
 .p-tagline b {
   color: var(--accent-ink);
