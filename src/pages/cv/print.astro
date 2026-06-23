@@ -169,5 +169,9 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
   /* 인쇄: 카드 테두리·배경·여백 제거 (scoped 우선순위로 global @media print를 보강) */
   @media print {
     .resume { border: none !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
+    /* Skills 그룹 추가로 Core Skills 라인이 길어져 footer가 4p로 밀리던 것 — 인쇄 간격만 압축해 3p 유지 */
+    .r-skills { line-height: 1.5; }
+    .r-lectures li { margin-bottom: 3px; }
+    .r-note { margin-top: 12px; padding-top: 10px; }
   }
 </style>

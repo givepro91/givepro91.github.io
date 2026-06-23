@@ -3,7 +3,7 @@
 
 export const PROFILE = {
   name: "장근식",
-  nameEn: "Jang Keunsik",
+  nameEn: "Keun-sik Jang",
   title: "AX Product · Engineering Lead",
   domain: "PropTech × AI",
   birth: "1991.02.18",
@@ -157,6 +157,24 @@ export const EDUCATION = [
 
 export const SKILLS = [
   {
+    group: "AI · 에이전트 · AX",
+    items: [
+      "LLM 기반 API 서비스 설계·운영 (PlanNext.AI)",
+      "AI 에이전트 워크플로우 · 품질 게이트 (Claude Code 기반)",
+      "Human-in-the-loop — 승인 · 취소 · 롤백 · 감사 로그",
+      "생성과 검증 분리 · 커밋 전 적대적 게이트",
+    ],
+  },
+  {
+    group: "운영 자동화 · 데이터 신뢰성",
+    items: [
+      "운영을 내부 제품으로 — GitHub · Notion · Slack 연동 자동화",
+      "비용 · 리소스 관측 (사용처 추적 · orphan 정리)",
+      "데이터 파이프라인 신뢰성 — silent fail 방지 · 상태 ≠ 결과",
+      "대시보드 관측성 — loading / fallback / failure 분리",
+    ],
+  },
+  {
     group: "Backend & Architecture",
     items: [
       "Kotlin · Java · Ruby · PHP",
@@ -277,6 +295,21 @@ export interface CaseEntry {
 }
 
 export const CASES: CaseEntry[] = [
+  {
+    title: "AI 에이전트를 ‘실행’이 아니라 ‘통제’로 — 안전 운영 게이트",
+    situation: [
+      "AI 에이전트가 코드를 생성·실행할 때 잘못된 변경이 그대로 커밋·배포될 위험",
+      "‘workflow 성공’이 곧 ‘결과(데이터) 성공’이 아니어서 silent fail이 묻히는 구조",
+    ],
+    approach: [
+      "생성과 검증을 분리하고, 커밋 전 적대적 게이트로 잘못된 변경을 차단",
+      "승인·취소·롤백·감사 로그(human-in-the-loop)로 사람이 결정할 지점을 명시적으로 설계",
+    ],
+    result: [
+      "에이전트가 어디서 멈추고 사람이 판단할지를 구조로 고정 — 회귀·오배포 위험 감소",
+      "개인 프로젝트(Nova)로 직접 설계·검증하며 재사용 가능한 운영 패턴(플레이북)으로 정리",
+    ],
+  },
   {
     title: "핵심 인력 이탈 속 백엔드 리더로 성장",
     situation: ["핵심 개발자 이탈로 서비스 전반을 책임질 백엔드 리더가 필요"],
