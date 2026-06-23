@@ -55,10 +55,10 @@ export const CAREER: CareerEntry[] = [
     company: "스페이스워크 (주)",
     period: "2023.01 – 재직 중",
     duration: "3년 5개월",
-    role: "백엔드 리더 / 제품팀",
+    role: "Technical Product Lead / 백엔드·제품팀",
     current: true,
     summary:
-      "프롭테크 플랫폼 Landbook·LBDeveloper·PlanNext.AI의 백엔드를 설계·운영하고, 백엔드 팀을 리딩하고 있습니다.",
+      "프롭테크 플랫폼 Landbook·LBDeveloper·PlanNext.AI의 백엔드를 설계·운영하며 팀을 리딩해온 기반 위에, LLM 기반 API·운영 자동화·데이터 신뢰성으로 제품과 기술의 접점을 넓혀가고 있습니다.",
     highlights: [
       "Landbook 고도화 — 동기 처리를 비동기 구조로 전환해 병목 해소·응답 단축, MSA 최적화 및 서비스 간 연동 안정성 강화",
       "설계 엔진 유형(라이트/프로)별 데이터베이스·처리 로직 설계·개발, 설계 엔진 API 연동 고도화",
