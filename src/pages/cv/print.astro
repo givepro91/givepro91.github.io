@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, HIGHLIGHTS, AWARDS } from "../../data/cv";
+import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
 
-// 충분한 경력 서술이 있는 곳은 상세, 단기/인턴은 한 줄로.
-const detailed = CAREER.filter((c) => c.highlights.length >= 2);
-const mini = CAREER.filter((c) => c.highlights.length < 2);
+// 제출 PDF는 대표 경력(featured)만 풀 디테일, 나머지는 한 줄(mini)로 — 밀도 관리.
+const detailed = CAREER.filter((c) => c.featured);
+const mini = CAREER.filter((c) => !c.featured);
 const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
 ---
 
@@ -28,11 +28,17 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
       </div>
     </header>
 
-    <p class="r-summary">{PROFILE.summary}</p>
+    {PROFILE.summary.split("\n\n").map((p) => <p class="r-summary">{p}</p>)}
+
+    <div class="r-callout">
+      <span class="r-callout-lead">이 이력서는 두 라이브 자산과 함께 보도록 만들어졌습니다 →</span>
+      <span class="r-callout-item"><b>인터랙티브 포트폴리오</b> · 문제→판단→증명 결정 로그 10선 — <span class="r-callout-u">givepro91.github.io</span></span>
+      <span class="r-callout-item"><b>AX Field Guide</b> · AI 도입을 판단 구조 재설계로(개념·기법·플레이북) — <span class="r-callout-u">ax-field-guide.vercel.app</span></span>
+    </div>
 
     <section class="r-block">
       <h2>핵심 역량 · Highlights</h2>
-      <ul class="r-highlights">{HIGHLIGHTS.slice(0, 6).map((h) => <li>{h}</li>)}</ul>
+      <ul class="r-highlights">{HIGHLIGHTS.slice(0, 7).map((h) => <li>{h}</li>)}</ul>
     </section>
 
     <section class="r-block">
@@ -59,7 +65,24 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
     </section>
 
     <section class="r-block">
-      <h2>Key Projects</h2>
+      <h2>AX · AI Agent Ops — 직접 빌딩</h2>
+      <p class="r-blocknote">AI 코딩 도구(Claude Code 등)로 직접 만든 개인 프로젝트 — 에이전트 통제·검증·운영 안전장치</p>
+      {AX_PROJECTS.map((p) => (
+        <div class="r-proj">
+          <div class="r-proj-head">
+            <span class="r-pname">{p.name}</span>
+            <span class="r-ptag">{p.tagline}</span>
+            <span class="r-period">{p.metrics ? `${p.metrics} · ` : ""}{p.period}</span>
+          </div>
+          <p class="r-job-sum">{p.overview}</p>
+          <ul>{p.achievements.slice(0, 2).map((a) => <li>{a}</li>)}</ul>
+          <p class="r-pstack">{p.stack.join(" · ")}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="r-block">
+      <h2>Key Projects — 회사 (PropTech · LLM API)</h2>
       {PROJECTS.map((p) => (
         <div class="r-proj">
           <div class="r-proj-head">
@@ -68,7 +91,7 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
             <span class="r-period">{p.period}</span>
           </div>
           <p class="r-job-sum">{p.overview}</p>
-          <ul>{p.achievements.slice(0, 3).map((a) => <li>{a}</li>)}</ul>
+          <ul>{p.achievements.slice(0, 2).map((a) => <li>{a}</li>)}</ul>
           <p class="r-pstack">{p.stack.join(" · ")}</p>
         </div>
       ))}
@@ -94,8 +117,15 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
     </div>
 
     <section class="r-block">
-      <h2>Lectures · 강의</h2>
+      <h2>Learning · 학습과 공유</h2>
+      <p class="r-blocknote">온라인 강의로 익히고, 기술 블로그·AX Field Guide로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
       <ul class="r-lectures">{AWARDS.map((a) => <li>{a}</li>)}</ul>
+    </section>
+
+    <section class="r-block r-vision">
+      <h2>지향 · Vision</h2>
+      <blockquote class="r-vision-q">{VISION.headline}</blockquote>
+      {VISION.body.map((b) => <p class="r-vision-p">{b}</p>)}
     </section>
 
     <p class="r-note">상세 이력 · 문제 해결 사례 · 결정 로그는 위키에서 — givepro91.github.io/cv</p>
@@ -134,6 +164,20 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
   .r-contact { display: flex; flex-direction: column; gap: 2px; font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
 
   .r-summary { margin: 18px 0 4px; color: var(--ink-soft); font-size: 13.5px; }
+  .r-summary + .r-summary { margin-top: 7px; }
+
+  /* 지향 · Vision — 동기/포부로 마지막 장을 채움 */
+  .r-vision-q { font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.5; padding-left: 12px; border-left: 3px solid var(--accent); margin-bottom: 10px; }
+  .r-vision-p { font-size: 12.5px; color: var(--ink-soft); line-height: 1.62; margin-top: 6px; }
+
+  /* LIVE CALLOUT — PDF 에서도 포트폴리오·Field Guide 진입점이 또렷하게 (회색 한 줄로 묻히지 않게) */
+  .r-callout { margin: 14px 0 4px; padding: 11px 14px; border: 1px solid var(--accent); border-left-width: 3px; border-radius: 6px; background: var(--accent-weak); display: flex; flex-direction: column; gap: 3px; }
+  .r-callout-lead { font-family: var(--mono); font-size: 10.5px; color: var(--accent); letter-spacing: 0.02em; }
+  .r-callout-item { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .r-callout-item b { color: var(--ink); }
+  .r-callout-u { font-family: var(--mono); font-size: 11.5px; color: var(--accent); font-weight: 700; }
+  .r-blocknote { font-size: 11.5px; color: var(--muted); margin: -6px 0 10px; }
+
   .r-block { margin-top: 22px; }
   .r-block h2 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--hair); padding-bottom: 5px; margin-bottom: 12px; }
   .r-skills { font-size: 12px; color: var(--ink-soft); line-height: 1.75; }

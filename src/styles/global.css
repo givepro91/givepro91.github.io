@@ -287,6 +287,8 @@ section { padding: 30px 0; }
 }
 .sec-title { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
 .sec-note { color: var(--ink-mute); font-size: 13.5px; margin: 2px 0 18px; }
+.sec-note-link { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.sec-note-link:hover { text-decoration: underline; }
 
 /* ---------- now ---------- */
 .now-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
@@ -748,12 +750,36 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
 .cv-links { display: flex; flex-direction: column; gap: 7px; font-family: var(--mono); font-size: 12px; }
 .cv-links a { color: var(--ink-mute); }
 .cv-links a:hover { color: var(--accent); }
+
+/* LIVE CALLOUT — 포트폴리오 + AX Field Guide 로 가는 큰 진입점 (PDF 에서도 살아남게 print.astro 에 별도 존재) */
+.cv-callout { margin-top: 22px; padding: 20px 22px; background: var(--accent-weak); border: 1px solid var(--accent-border); border-radius: var(--r); }
+.cv-callout-lead { font-size: 14.5px; color: var(--ink-sub); margin-bottom: 14px; }
+.cv-callout-lead b { color: var(--accent-ink); }
+.cv-callout-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cv-callout-card { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; background: var(--card); border: 1px solid var(--accent-border); border-radius: 10px; transition: transform .12s ease, box-shadow .12s ease; }
+.cv-callout-card:hover { transform: translateY(-2px); box-shadow: var(--sh); }
+.ccc-k { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-ink); }
+.ccc-t { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+.ccc-d { font-size: 13px; line-height: 1.55; color: var(--ink-sub); margin: 2px 0 6px; }
+.ccc-d b { color: var(--accent-ink); font-weight: 700; }
+.ccc-u { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: auto; }
+@media (max-width: 640px) { .cv-callout-cards { grid-template-columns: 1fr; } }
+
+/* Projects 그룹 (AX 직접 빌딩 / 회사 대표) 서브헤드 */
+.cv-proj-group { margin-bottom: 8px; }
+.cv-proj-group + .cv-proj-group { margin-top: 26px; }
+.cv-subhead { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 13px; padding-bottom: 7px; border-bottom: 1px dashed var(--line-2); letter-spacing: -0.01em; }
+.cv-subnote { font-family: var(--mono); font-size: 11.5px; font-weight: 400; color: var(--ink-mute); letter-spacing: 0; }
+@media (max-width: 640px) { .cv-subnote { display: block; margin-top: 4px; } }
+
 .cv-section { padding: 34px 0 8px; border-top: 1px solid var(--line); margin-top: 28px; }
 .cv-h2 { font-size: 23px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 18px; display: flex; align-items: baseline; gap: 11px; }
 .cv-h2 .n { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
 .cv-h2-note { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); font-weight: 400; }
 .cv-lead { font-size: 16.5px; line-height: 1.74; color: var(--ink-sub); max-width: 66ch; }
+.cv-lead + .cv-lead { margin-top: 11px; }
 .cv-now { margin-top: 16px; font-size: 14.5px; color: var(--ink-sub); line-height: 1.7; }
+.cv-now + .cv-now { margin-top: 8px; }
 .now-tag { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--accent-ink); background: var(--accent-weak); border: 1px solid var(--accent-border); border-radius: 6px; padding: 2px 8px; margin-right: 8px; letter-spacing: 0.04em; }
 .cv-entry {
   padding: 22px 24px;
@@ -937,9 +963,9 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
   body { background: #fff !important; color: #111 !important; }
   .resume { margin: 0; padding: 0; border: none; background: #fff; max-width: 100%; font-size: 10.5pt; box-shadow: none; }
   @page { margin: 11mm; }
-  /* 블록·프로젝트는 자연 흐름(페이지 꽉 채움), 짧은 항목만 분할 방지 */
-  .r-job, .r-job-mini, .r-edu { break-inside: avoid; }
+  /* 블록·프로젝트는 자연 흐름(페이지 꽉 채움), 카드/짧은 항목은 분할 방지 */
+  .r-job, .r-job-mini, .r-edu, .r-proj, .r-callout { break-inside: avoid; }
   .r-highlights li, .r-proj li { break-inside: avoid; }
-  .r-block h2, .r-proj-head, .r-job-head { break-after: avoid; }
+  .r-block h2, .r-proj-head, .r-job-head, .r-blocknote { break-after: avoid; }
   .r-block { margin-top: 13px; }
 }

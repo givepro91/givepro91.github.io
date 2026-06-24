@@ -9,6 +9,7 @@ export interface CareerEntry {
   duration?: string;
   role: string;
   current?: boolean;
+  featured?: boolean; // PDF(print)에서 풀 디테일로 보일 대표 경력 (나머지는 1줄 mini)
   summary?: string;
   highlights: string[];
   stack?: string[];
@@ -21,6 +22,7 @@ export interface ProjectEntry {
   overview: string;
   stack: string[];
   achievements: string[];
+  metrics?: string; // 규모/역할 한 줄 (예: "단독 · 441 커밋 · 공개 OSS")
   link?: string;
   linkLabel?: string;
   workSlug?: string; // Keunsik Works /work/{slug} 상호링크
@@ -40,6 +42,7 @@ export const CAREER = cv.CAREER as CareerEntry[];
 export const EDUCATION = cv.EDUCATION;
 export const SKILLS = cv.SKILLS;
 export const PROJECTS = cv.PROJECTS as ProjectEntry[];
+export const AX_PROJECTS = cv.AX_PROJECTS as ProjectEntry[];
 export const CASES = cv.CASES as CaseEntry[];
 export const AWARDS = cv.AWARDS;
 export const VALUES = cv.VALUES;

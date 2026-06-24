@@ -1,11 +1,17 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, CASES, AWARDS, VALUES, VISION } from "../../data/cv";
+import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, AX_PROJECTS, CASES, AWARDS, VALUES, VISION } from "../../data/cv";
 import galleries from "../../data/galleries.json";
 const cvShots = galleries.cv as Record<string, string[]>;
 
 const photo = PROFILE.photo;
 const initial = PROFILE.name.charAt(0);
+
+// Projects 섹션은 'AX 직접 빌딩'을 맨 위, '회사 대표 프로젝트'를 그 아래로 그룹핑한다.
+const projectGroups = [
+  { label: "AI Agent Ops · 직접 빌딩", note: "AI 코딩 도구로 만든 개인 프로젝트 — 에이전트 통제·검증·운영 안전장치", items: AX_PROJECTS },
+  { label: "대표 프로젝트 · 회사", note: "PropTech 플랫폼 백엔드 · LLM API 서비스", items: PROJECTS },
+];
 
 const toc = [
   { id: "overview", label: "Overview" },
@@ -14,7 +20,7 @@ const toc = [
   { id: "skills", label: "Skills" },
   { id: "education", label: "Education" },
   { id: "cases", label: "Cases" },
-  { id: "lectures", label: "Lectures" },
+  { id: "lectures", label: "Learning" },
   { id: "vision", label: "Vision" },
 ];
 ---
@@ -58,11 +64,32 @@ const toc = [
         </div>
       </div>
 
+      <!-- LIVE CALLOUT — 이 이력서는 두 개의 라이브 자산과 함께 봐야 합니다 -->
+      <div class="cv-callout reveal">
+        <p class="cv-callout-lead">이 이력서는 <b>두 개의 라이브 자산</b>과 함께 보도록 만들어졌습니다 ↓</p>
+        <div class="cv-callout-cards">
+          <a class="cv-callout-card" href="https://givepro91.github.io" target="_blank" rel="noopener">
+            <span class="ccc-k">인터랙티브 포트폴리오</span>
+            <span class="ccc-t">Keunsik Works</span>
+            <span class="ccc-d">10개 프로젝트를 <b>문제 → 판단 → 증명</b>의 결정 로그로 기록</span>
+            <span class="ccc-u">givepro91.github.io ↗</span>
+          </a>
+          <a class="cv-callout-card" href="https://ax-field-guide.vercel.app" target="_blank" rel="noopener">
+            <span class="ccc-k">AX 현장 노트</span>
+            <span class="ccc-t">AX Field Guide</span>
+            <span class="ccc-d">AI 도입을 <b>판단 구조 재설계</b>로 — 개념·기법·플레이북 공개 작업 노트</span>
+            <span class="ccc-u">ax-field-guide.vercel.app ↗</span>
+          </a>
+        </div>
+      </div>
+
       <!-- OVERVIEW -->
       <section id="overview" class="cv-section reveal">
         <h2 class="cv-h2"><span class="n">01</span> Overview</h2>
-        <p class="cv-lead">{PROFILE.summary}</p>
-        <p class="cv-now"><span class="now-tag">NOW</span> {PROFILE.current}</p>
+        {PROFILE.summary.split("\n\n").map((p) => <p class="cv-lead">{p}</p>)}
+        {PROFILE.current.split("\n\n").map((p, i) => (
+          <p class="cv-now">{i === 0 ? <Fragment><span class="now-tag">NOW</span>{p}</Fragment> : p}</p>
+        ))}
       </section>
 
       <!-- CAREER -->
@@ -86,48 +113,53 @@ const toc = [
 
       <!-- PROJECTS -->
       <section id="projects" class="cv-section reveal">
-        <h2 class="cv-h2"><span class="n">03</span> Projects <span class="cv-h2-note">— 대표 프로젝트</span></h2>
-        {PROJECTS.map((p) => {
-          const shots = cvShots[p.name] ?? [];
-          const zoomCap = `${p.name} — ${p.tagline}${p.linkLabel ? ` · ${p.linkLabel}` : ""}`;
-          return (
-          <article class={`cv-entry${shots.length > 0 ? " has-thumb" : ""}`}>
-            <div class="cv-entry-text">
-              <div class="cv-entry-head">
-                <div>
-                  <h3 class="cv-entry-title">{p.name}</h3>
-                  <p class="cv-entry-role">{p.tagline}</p>
+        <h2 class="cv-h2"><span class="n">03</span> Projects</h2>
+        {projectGroups.map((g) => (
+          <div class="cv-proj-group">
+            <h3 class="cv-subhead">{g.label} <span class="cv-subnote">— {g.note}</span></h3>
+            {g.items.map((p) => {
+              const shots = cvShots[p.name] ?? [];
+              const zoomCap = `${p.name} — ${p.tagline}${p.linkLabel ? ` · ${p.linkLabel}` : ""}`;
+              return (
+              <article class={`cv-entry${shots.length > 0 ? " has-thumb" : ""}`}>
+                <div class="cv-entry-text">
+                  <div class="cv-entry-head">
+                    <div>
+                      <h3 class="cv-entry-title">{p.name}</h3>
+                      <p class="cv-entry-role">{p.tagline}</p>
+                    </div>
+                    <div class="cv-entry-period">{p.period}{p.metrics && <span class="dur">{p.metrics}</span>}</div>
+                  </div>
+                  <p class="cv-entry-summary">{p.overview}</p>
+                  <ul class="cv-list">{p.achievements.map((a) => <li>{a}</li>)}</ul>
+                  <div class="tags">{p.stack.map((s) => <span class="tag">{s}</span>)}</div>
+                  <div class="cv-proj-links">
+                    {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
+                    {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
+                  </div>
                 </div>
-                <div class="cv-entry-period">{p.period}</div>
-              </div>
-              <p class="cv-entry-summary">{p.overview}</p>
-              <ul class="cv-list">{p.achievements.map((a) => <li>{a}</li>)}</ul>
-              <div class="tags">{p.stack.map((s) => <span class="tag">{s}</span>)}</div>
-              <div class="cv-proj-links">
-                {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
-                {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
-              </div>
-            </div>
-            {shots.length > 0 && (
-              <figure
-                class="shot cv-shot"
-                data-zoom
-                data-zoom-src={shots[0]}
-                data-zoom-index="0"
-                data-gallery={JSON.stringify(shots)}
-                data-zoom-cap={zoomCap}
-                tabindex="0"
-                role="button"
-                aria-label={`${p.name} 제품 화면 크게 보기${shots.length > 1 ? ` (${shots.length}장)` : ""}`}
-              >
-                <img class="cv-thumb" src={shots[0]} alt={`${p.name} 제품 화면`} loading="lazy" />
-                {shots.length > 1 && <span class="shot-count">＋{shots.length - 1}</span>}
-                <figcaption class="shot-cap">제품 화면{p.linkLabel ? ` · ${p.linkLabel}` : ""}{shots.length > 1 ? ` · ${shots.length}컷` : ""}</figcaption>
-              </figure>
-            )}
-          </article>
-          );
-        })}
+                {shots.length > 0 && (
+                  <figure
+                    class="shot cv-shot"
+                    data-zoom
+                    data-zoom-src={shots[0]}
+                    data-zoom-index="0"
+                    data-gallery={JSON.stringify(shots)}
+                    data-zoom-cap={zoomCap}
+                    tabindex="0"
+                    role="button"
+                    aria-label={`${p.name} 제품 화면 크게 보기${shots.length > 1 ? ` (${shots.length}장)` : ""}`}
+                  >
+                    <img class="cv-thumb" src={shots[0]} alt={`${p.name} 제품 화면`} loading="lazy" />
+                    {shots.length > 1 && <span class="shot-count">＋{shots.length - 1}</span>}
+                    <figcaption class="shot-cap">제품 화면{p.linkLabel ? ` · ${p.linkLabel}` : ""}{shots.length > 1 ? ` · ${shots.length}컷` : ""}</figcaption>
+                  </figure>
+                )}
+              </article>
+              );
+            })}
+          </div>
+        ))}
       </section>
 
       <!-- SKILLS -->
@@ -173,9 +205,10 @@ const toc = [
         ))}
       </section>
 
-      <!-- LECTURES -->
+      <!-- LEARNING -->
       <section id="lectures" class="cv-section reveal">
-        <h2 class="cv-h2"><span class="n">07</span> Lectures & Etc.</h2>
+        <h2 class="cv-h2"><span class="n">07</span> Learning <span class="cv-h2-note">— 학습과 공유</span></h2>
+        <p class="sec-note">온라인 강의로 익히고, 기술 블로그·AX Field Guide로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
         <ul class="cv-list">{AWARDS.map((a) => <li>{a}</li>)}</ul>
       </section>
 
