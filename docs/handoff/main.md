@@ -1,9 +1,10 @@
 ---
 branch: main
 status: active
-updated: 2026-06-24T05:20:00Z
+updated: 2026-06-24T05:35:00Z
 ---
-> 🔧 **도식 디테일 2개 수정(미커밋).** ① before/after 구분 `▼`(`.ba-sep`)가 far-left라 어색 → `align-self:center`로 가운데. ② flow 마지막 노드만 줄넘김+화살표 댕글링 → **화살표+노드를 `.dgm-step`(inline-flex)로 한 단위로 묶고** 노드 크기 축소(font 10.5·padding 5/9) → 4노드가 한 줄에 깔끔, 줄바꿈 시 "→ 노드"가 함께 이동. realty·landbook 렌더 육안 OK. 10쪽 유지. **미결 질문: 마지막 Contact/CTA 페이지(감사 인사 아님, 이미 CTA형) 유지 여부 — A 유지(권장)/B 철학문장 빼기/C 제거. 정하면 배포.**
+> ✅ **배포 완료 — 포트폴리오 PDF `/portfolio/print/` 라이브(`c616382`, Actions success, 200 검증).** 제출용 가로 A4 덱 10쪽: 표지→Why me→Profile→Case5(GC·Nova·Landbook·Realty·Zippit)→Other Works(Proof Table)→Contact/CTA. 라이트+브랜드블루, 데이터 도식+실제 화면(브라우저 프레임+콜아웃 2), 클릭 링크. /cv/·홈에 진입 버튼. **사용자 PDF 받는 법**: givepro91.github.io/portfolio/print/ → ⌘P(가로·배경그래픽 ON). 마지막 페이지=Contact/CTA 유지(A 권장 채택). 직전 도식 수정(▼ 가운데·flow 한 줄)도 포함.
+> 🔧 **(직전) 도식 디테일 2개 수정 — 배포에 포함.** ① before/after 구분 `▼`(`.ba-sep`)가 far-left라 어색 → `align-self:center`로 가운데. ② flow 마지막 노드만 줄넘김+화살표 댕글링 → **화살표+노드를 `.dgm-step`(inline-flex)로 한 단위로 묶고** 노드 크기 축소(font 10.5·padding 5/9) → 4노드가 한 줄에 깔끔, 줄바꿈 시 "→ 노드"가 함께 이동. realty·landbook 렌더 육안 OK. 10쪽 유지. **미결 질문: 마지막 Contact/CTA 페이지(감사 인사 아님, 이미 CTA형) 유지 여부 — A 유지(권장)/B 철학문장 빼기/C 제거. 정하면 배포.**
 > ✅ **포트폴리오 PDF 완성형(미커밋, 배포 대기). GC 다듬은 풀 treatment를 5개 케이스 전부에 롤아웃 완료.** 각 케이스 = 도식(loop/gate/ba) + 핵심 증거 3(설계원칙 톤) + `PRINCIPLE` quote(보더형) + 짧은 `ROLE` + **실제 스크린샷(`SHOT` 맵: url·label·pins 2개 콜아웃, `.proof` 브라우저 프레임, cover-top)** + 경량 본문(`decisionLog.slice(0, shots?0:2)`로 이미지 페이지는 결정로그 bullet 제거). GC만 `PROBLEM`/`INSIGHT` override(날카로운 OVERVIEW·짧은 insight). 데이터 맵: `FLOW·EVID·ROLE·PRINCIPLE·SHOT`(+GC전용 `PROBLEM·INSIGHT`). proof 블록은 `shots.length>0 && sh` 일반조건. **검증**: build OK, preview(4399) 10쪽, 클릭 링크 16, pdftoppm로 GC·Zippit·Landbook·Realty 케이스 육안 OK(랜딩도 cover-top 깔끔). GPT 평가 80점대 후반. **다음 = 배포 승인 대기.**
 > 🎯 **(이전) GC 케이스 = GPT 3차 피드백 5개 반영.** ① 우측 본문 경량화로 스크린샷 위 여백 확보 ② `PRINCIPLE` 맵 추가 → 좌패널 증거 아래 "DESIGN PRINCIPLE: 기본값은 공개 알림이 아니라 조용한 확인으로 설계" ③ `decisionLog.slice(0, shots?0:2)` — 이미지 페이지는 좌측 증거와 중복되는 결정로그 bullet 제거 ④ `.proof-pins` 패딩 `22px 12px 15px`(콜아웃 위로)+배경 진하게 ⑤ 역할 한 줄 유지. GPT 평가 "80점대 후반". 10쪽 유지. **다음: 이 풀 treatment(실제스샷+콜아웃+principle+증거 설계원칙화+본문경량화)를 nova·landbook·realty·zippit에 롤아웃? 그 뒤 배포.**
 > ✨ **GC 케이스 = 증거 '읽히게' 다듬음 완료(GPT 2차 피드백 5개 반영, 미커밋).** ① 스크린샷 `max-height:210px`로 키움 + `.proof-pins` 콜아웃 2개(실시간 관측 16/16 · 신뢰도 언어 3단계·담당자 DM) → 지표 읽힘 ② `EVID[ground-control]`를 "0" KPI풍 → **설계 원칙 문구**(퍼센트 신뢰도 제거·공개채널 기본 차단·피드백 루프 내장) ③ `decisionLog.slice(0, shots.length?1:2)`(이미지 페이지는 본문↓) + `INSIGHT` 오버라이드 맵으로 GC insight 축약 ④ figcaption "EVIDENCE · {title} 운영 대시보드 / 민감 정보 마스킹" ⑤ `ROLE` 맵으로 역할 한 줄(플로우 중복 제거). 10쪽 유지. **다음 결정: 이 treatment(실제 스크린샷+콜아웃+ROLE/EVID 다듬기)를 나머지 4개 케이스(nova·landbook·realty·zippit)에 롤아웃할지 → 그 뒤 배포.** ROLE은 5개 다 정의됨, 스크린샷·콜아웃·EVID문구는 GC만 다듬음(나머지는 기존).
@@ -33,7 +34,11 @@ updated: 2026-06-24T05:20:00Z
 - **검증됨**: `pnpm run build` PASS, PDF **4쪽 유지**(Career 다이어트가 +highlight/learning note/AX 추가분 상쇄, 페이지당 밀도↓ = "빼곡함" 완화), 새 summary 첫 문장 PDF 1p 상단 확인, 콜아웃 1p·AX 2~3p, 인쇄 break로 카드 미분할. Career mini 6개사 1줄 렌더 스크린샷 확인.
 
 ## Next steps
-- [ ] **포트폴리오 PDF 배포 승인 대기** — 사용자가 로컬(http://localhost:4321/portfolio/print/) 확인 후 OK 하면 커밋·푸시. **명시 경로만**: `git add src/pages/portfolio/print.astro src/pages/cv/index.astro src/pages/index.astro src/styles/global.css docs/handoff/main.md` → commit(예: `feat(portfolio): 제출용 포트폴리오 PDF — 가로 슬라이드 덱`) → push(=라이브) → `/portfolio/print/` 200 확인. (조정 여지: 색감·여백·문구·프로젝트 선정/순서.)
+- [x] **포트폴리오 PDF 배포 완료** — `c616382` push→main, Actions 28077161140 success, 라이브 `/portfolio/print/`·`/cv/`·`/` 200 검증. (이 핸드오프는 별도 docs 커밋.)
+- [ ] **사용자: 제출용 PDF 받기** — 라이브 `givepro91.github.io/portfolio/print/`(포트폴리오, 가로) + `/cv/print/`(이력서, 세로) → ⌘P 저장.
+- [ ] (옵션) 케이스별 콜아웃/EVID 문구가 어색하면 `SHOT`/`EVID`/`PRINCIPLE` 맵에서 수정. Other Works 표·Why me 카피도 조정 가능.
+- [구 항목 ↓ 참고용]
+- [ ] ~~포트폴리오 PDF 배포 승인 대기~~ — 사용자가 로컬(http://localhost:4321/portfolio/print/) 확인 후 OK 하면 커밋·푸시. **명시 경로만**: `git add src/pages/portfolio/print.astro src/pages/cv/index.astro src/pages/index.astro src/styles/global.css docs/handoff/main.md` → commit(예: `feat(portfolio): 제출용 포트폴리오 PDF — 가로 슬라이드 덱`) → push(=라이브) → `/portfolio/print/` 200 확인. (조정 여지: 색감·여백·문구·프로젝트 선정/순서.)
 - [참고] **PDF 저장 시 가로** — `@page{size:A4 landscape}` 적용돼 인쇄 대화상자가 가로 자동선택. 세로면 사용자가 가로로.
 - [x] **배포 완료(이전)** — `b059aa9` push→main, Actions 28069281814 success, 라이브 4페이지(/, /cv/, /cv/print/, /roadmap/) 200 검증.
 - [ ] **사용자: 새 PDF 다운로드** — 라이브 `givepro91.github.io/cv/print/`(이력서) + (배포 후) `/portfolio/print/`(포트폴리오, 가로) → ⌘P 저장.
