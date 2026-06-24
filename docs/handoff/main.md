@@ -1,42 +1,51 @@
 ---
 branch: main
 status: active
-updated: 2026-06-23T13:10:41Z
+updated: 2026-06-24T01:42:36Z
 ---
-> 🐞 **회귀 수정**: 홈 Work 카드 `has-thumb` 클래스가 제거된 `d.image` 기준이라(항상 false) 이미지가 grid 썸네일이 아니라 **전체폭**으로 커지던 버그 → `ProjectCard.astro`를 `shots.length > 0` 기준으로 수정(CV처럼 우측 220px 썸네일 복귀). **교훈: galleries.json 이전 시 `image` 참조 잔재 점검.**
-> ✅ **`1e749cb` 배포 완료**(라이트박스·갤러리·admin 격리). 이어서 **사용자가 admin으로 실제 이미지 다수 등록 + stockAssist 제거 요청** → 검수(사용자가 "이미지 OK" 보증)·빌드 후 배포 진행. 사용자가 admin 저장으로 재포맷된 `landbook-msa.md`·`realty-data-pipeline.md`는 내용 동일이라 원복. 미등록 `landbook-image-1.jpg`는 커밋 제외.
-# Handoff — Keunsik Works · 제품 이미지 갤러리 + 로컬 콘텐츠 관리 도구(3분할 admin) · main
+> ✅ **배포 완료 — `b059aa9` (`feat(cv,roadmap)`), Actions success, 라이브 4페이지(/, /cv/, /cv/print/, /roadmap/) 200 검증.** 이번 세션 = **AX 포지션 지원용 CV/Work 적대적 평가 + 전면 개선 + 공개 로드맵 페이지**, 모두 라이브.
+> **무엇을 했나:** ① 평가 — "소재(Work)는 강한데 제출 PDF가 백엔드 이력서로 읽히고 라이브 자산 링크가 묻힘"이 핵심 갭. ② **P0** AX 시그니처(Nova·GC·MIRIVA) CV 편입 + 라이브 자산 콜아웃(PDF 1p 밴드). ③ **P1** Career 다이어트(PDF, featured만 풀) + Lectures→Learning + 이해관계자 커뮤니케이션(사실 기반, 경영진 보고는 미주장). ④ **P2** summary 첫 문장 AX화(백엔드=토대 유지). ⑤ **피드백** Overview·NOW 단락 분리(`\n\n` split, 가독성) + PDF에 Vision(동기·포부) 추가로 4장 채움 + 한국어 래핑은 body 상속이라 누락 없음 확인. ⑥ **Roadmap** 공개 `/roadmap/` 신설(시장 좌표→현재 위치[Work 링크]→깊게 파는 중→다음 분기, 전진 서사). ⑦ 국내 AX 시장 리서치 2건(출처 포함, 요약은 채팅).
+> **미해결/참고:** 로컬 dev 서버 `astro dev :4321` 아직 기동 중(사용자 열람용) — 세션 끝나면 `pkill -f "astro dev"`. PDF 4쪽. work 상세 decision 블록(128~150자)은 라벨이 끊어줘 벽 아님 → 유지(원하면 분리 가능).
+
+# Handoff — Keunsik Works · AX 포지션용 CV P0 개선(AX 프로젝트 편입 + 라이브 자산 콜아웃) · main
 
 ## Restore in 30s — 무엇을/어디까지/방금 끝낸 것
-**Keunsik Works** = 장근식(@givepro91) 공개 포트폴리오 + CV. Astro 정적 → 라이브 https://givepro91.github.io. 정체성=`AX Product · Engineering Lead`(백엔드로 단정 금지 — `AGENTS.md` 필독).
-- **데이터 SoT**: 포폴 텍스트=`src/content/projects/ko/*.md` frontmatter(본문 전부 빈값) · 이력서 텍스트=`src/data/cv.json`(`cv.ts`는 타입 re-export) · 제품 이미지=`src/data/galleries.json`.
-- **이번 세션 누적(전부 검증 완료, 아직 커밋 안 함 — main 푸시=라이브 배포라 사용자 승인 대기):**
-  1~3. 제품 이미지: 썸네일+라이트박스 → 본인 제품 OG → 다중 갤러리 + 실제 랜딩 화면 직접 캡처.
-  4~5. 로컬 admin(이미지 → 포폴/이력서 전체 텍스트까지).
-  6. admin UX 전면 재설계. 피드백 "불편/DnD없음/초짜" → ① **3분할**(좌 목록·중 폼·우 실시간 미리보기) ② **드래그앤드롭** 순서변경(이미지+모든 배열, ⠿ 그립) ③ **실시간 미리보기 iframe**(실제 work-card/cv 마크업 + `/global.css` → 사이트 동일 즉시 렌더) ④ 핵심/고급 분리·필드 설명·토글.
-  7. **방금 끝낸 것 = 미리보기 폭 조절.** 피드백 "미리보기 고정이라 작아서 실제 가늠 안 됨" → ① **리사이저**(폼/미리보기 경계 `#rz` 드래그 → CSS var `--pv`) ② **⤢ 넓게 토글**(`.shell.pv-max` = 미리보기 전체폭) ③ **🖥/📱 데스크탑·모바일**(`.preview.mobile` iframe 402px → 모바일 미디어쿼리 발동). URL `?pv=max`·`?pvw=mobile`로 초기상태 지정(캡처용).
-- **admin = 로컬 전용 Node 서버**(`npm run admin` → 127.0.0.1:4400, Astro/라이브와 분리, dist 미포함). 현재 기동 중(bg). 코드 바꾸면 서버 재시작 필요(admin.html은 새로고침이면 반영).
-- 사용자 진단(자기비판 채택): "이건 CMS가 아니라 DB 폼이었다 — 결과를 보며 못 고치고, 데이터 모델을 그대로 노출". → 미리보기·DnD·위계로 해결.
+**Keunsik Works** = 장근식(@givepro91) 공개 포트폴리오 + CV. Astro 정적 → 라이브 https://givepro91.github.io. 정체성=`AX Product · Engineering Lead`. **제출 산출물 = `/cv/print/` 페이지를 ⌘P로 PDF 저장.**
+- **데이터 SoT**: 이력서 텍스트=`src/data/cv.json`(`cv.ts`는 타입 re-export) · 제품 이미지=`src/data/galleries.json`(key=cv는 project name).
+- **이번 세션 P0 2건 완료(빌드·PDF·스크린샷 검증, 미커밋):**
+  1. **AX 시그니처 3개를 CV에 정식 편입** — `cv.json`에 신규 `AX_PROJECTS` 배열(Nova·Ground Control·MIRIVA)을 AX 채용 관점으로 재서술. web `/cv/` Projects를 2그룹("AI Agent Ops · 직접 빌딩" 위 → "대표 프로젝트 · 회사" 아래), PDF `/cv/print/`도 "AX · AI Agent Ops" 블록을 회사 Key Projects **앞**에 배치. AX 프로젝트 썸네일도 연결(work 스크린샷 재사용).
+  2. **라이브 자산 콜아웃 신설** — givepro91.github.io + ax-field-guide.vercel.app로 가는 진입점. web=info 카드 아래 2장 카드, **PDF=요약 직후 1페이지 상단 녹색 보더 밴드**(회색 링크로 묻히던 문제 해결). `ax-field-guide`는 이전엔 사이트·CV·repo 연결 0건이었음 → PROFILE.links에도 추가.
+- **P1 3건 완료(빌드·PDF·스크린샷 검증, 미커밋):**
+  3. **Career 다이어트(PDF 전용)** — `cv.json`에서 스페이스워크·피플리에 `featured:true`. `print.astro` 분기를 `highlights.length>=2` → `c.featured`로 변경 → 대표 2개만 풀 디테일, 나머지 6개사(태전약품~청주교차로)는 1줄 mini. **web `/cv/`는 의도적으로 손 안 댐(상세 위키 성격).**
+  4. **Lectures → "Learning · 학습과 공유" 재프레이밍** — web·print 양쪽 heading 변경 + lead note("온라인 강의로 익히고 블로그·AX Field Guide로 정리·공유 — 학습을 자산으로"). web TOC 라벨도 Lectures→Learning. (display는 원래 "Lectures"였고 "Awards" 노출은 없었음 — 강의를 학습의지+커뮤니케이션 자격으로 reframe.)
+  5. **이해관계자 커뮤니케이션 보강(자격 갭)** — PDF: HIGHLIGHTS 마지막 항목을 "기술 배경 다른 현업·공공기관 이해관계자와 같은 언어로…"로 수정 + print slice(0,6)→(0,7)로 노출. web: CASES에 "복잡한 기술을 이해관계자 언어로 — 현업·공공기관 협업" 추가. **모두 문서화된 사실 기반(LH 공공기관·도메인 언어 모델링·팀 리딩) — 경영진 보고는 근거 부족이라 의도적으로 미주장.**
+- **P2 완료(빌드·PDF 검증, 미커밋):**
+  6. **summary 첫 문장 AX화** — `cv.json` PROFILE.summary 첫 문장을 "10년차 백엔드·프로덕트 리드…" → "**AI를 붙이는 게 아니라, AI가 안전하게 일할 수 있는 운영 구조를 설계하는 AX 리드입니다**"(홈 히어로 톤 echo). 백엔드는 "10년차 백엔드 엔지니어링을 토대로"로 유지(버린 게 아니라 토대 — 정체성 규칙 준수). summary는 web·PDF 공유라 한 곳 수정으로 양쪽 반영.
+- **검증됨**: `pnpm run build` PASS, PDF **4쪽 유지**(Career 다이어트가 +highlight/learning note/AX 추가분 상쇄, 페이지당 밀도↓ = "빼곡함" 완화), 새 summary 첫 문장 PDF 1p 상단 확인, 콜아웃 1p·AX 2~3p, 인쇄 break로 카드 미분할. Career mini 6개사 1줄 렌더 스크린샷 확인.
 
 ## Next steps
-- [x] **커밋·배포 완료** — `1e749cb`(25 files). 명시 경로만 add(`git add -A` 금지) 준수. Actions success, 라이브 검증됨. **이후 admin으로 콘텐츠 바꾸면 동일하게 명시 경로만 add → commit → push.**
-- [참고] **admin 테스트 흔적 처리** — 사용자가 admin으로 저장하면 해당 `.md`가 yaml.dump 포맷(따옴표 제거·블록리스트)으로 재작성됨. 내용 변경 없는 순수 재포맷이면 `git checkout <file>`로 원복 가능(이번에 landbook-msa.md 그렇게 처리). 내용 바꿨으면 그대로 커밋.
-- [ ] **사용자 사용법** — `npm run admin` → http://127.0.0.1:4400. 좌측에서 프로젝트/섹션 선택 → 중앙에서 편집(이미지·배열 ⠿ 드래그 정렬, 핵심 위·고급 접기) → 우측 미리보기 즉시 확인 → [저장] → `git add public/og src/data src/content && commit && push`.
-- [ ] **Markwand 실제 앱 스크린샷** — 데스크톱 앱이라 자동 캡처 불가, admin에서 직접 업로드.
-- [ ] (옵션) disclosure allowlist에 `landbook.net`(비차단 REVIEW). (옵션) package.json `name`=`grant-works`.
+- [x] **배포 완료** — `b059aa9` push→main, Actions 28069281814 success, 라이브 4페이지 200 검증. (이 핸드오프는 별도 `docs(handoff)` 커밋.)
+- [ ] **사용자: 새 PDF 다운로드** — 라이브 `givepro91.github.io/cv/print/` → "PDF로 저장/인쇄 ⌘P"(Chrome·A4·배경그래픽 ON) → 제출용으로 사용.
+- [ ] (옵션) work 상세 `선택·결정` 블록(128~150자) 단락 분리 — 사용자가 권장(유지) 택해 현재 보류.
+- [ ] (옵션) 채팅의 AX 시장 리서치 2건을 `docs/`나 wiki로 영구 보관(현재는 대화에만 존재).
+- [참고] **로컬 dev 서버** — `astro dev --port 4321` 아직 기동 중(bg, 로그 /tmp/claude-501/devserver.log). 세션 종료 시 `pkill -f "astro dev"`.
 
 ## Touch points
-- `src/data/galleries.json`(이미지 SoT, key=work slug/cv name) · `src/data/cv.json`(이력서 SoT, cv.ts는 타입 re-export). cv.json 재생성=Node26 type-strip(`node --input-type=module -e "import('./src/data/cv.ts')…"`).
-- `scripts/admin-server.mjs` — 로컬 Node http(127.0.0.1:4400). **js-yaml은 `createRequire`로 로드**. 라우트: GET /api/content·/global.css·/og/*, POST /api/work({slug,frontmatter}→md R/W 본문보존)·/api/cv(cv.json)·/api/upload(base64→public/og)·/api/save(galleries)·/api/delete-file. `npm run admin`.
-- `scripts/admin.html` — **3분할 SPA**. `enableDnD(container,arr,onDone)` = ⠿핸들 draggable+drop reorder(이미지/배열 공용). `field()` 범용 위젯(text/textarea/toggle/select/number/array/objarray/object). `workCardHtml`·`cvSectionHtml`·`cvEntryProj` = 실제 마크업 복제(미리보기). iframe `srcdoc`+`/global.css`, `#root` innerHTML 갱신. URL `?tab=work|cv&sel=<key>`. 핵심필드 CORE_WORK, 나머지 고급 `<details>`.
-- `src/components/ProjectCard.astro`·`cv/index.astro`·`work/[slug].astro` — galleries.json에서 shots. **.astro template `{}` 안 TS 제네릭 `as Record<…>` 금지(JSX 오인)** → cv/index frontmatter `cvShots` 헬퍼, work/[slug] 스트립 `shots.slice(1)`.
-- `src/layouts/BaseLayout.astro` 라이트박스(data-gallery JSON·‹›·←→·i/n) / `src/styles/global.css` `.shot/.shot-count/.detail-strip/.strip-thumb/.lb-nav`.
-- 의존성 `js-yaml`(devDep, admin 전용·빌드무관), `pnpm-lock.yaml` 변경.
-- **검증 → 기대**: `pnpm run build`→OK+disclosure PASS(landbook.net 비차단 REVIEW), 인쇄 `pdfinfo`→Pages:3. admin: `curl :4400/api/content`(work12+cv10섹션)·`/global.css` 200, UI 3분할+미리보기+DnD 그립 스크린샷 확인, work/cv POST round-trip 후 빌드 OK·복원, `ls -R dist|grep -i admin`→NONE. **캡처주의**: `--virtual-time-budget` 금지(행), macOS `timeout` 없음, `--force-prefers-reduced-motion`(reveal 가시화), 해시앵커 캡처 빈화면(top+큰window+magick crop). admin iframe 미리보기는 캡처 시 정상 렌더 확인됨.
+- `src/data/cv.json` — 신규 `AX_PROJECTS`(Nova·Ground Control·MIRIVA, 각 metrics/overview/achievements/stack/workSlug) + PROFILE.links에 `AX Field Guide` 추가. **[P1]** 스페이스워크·피플리에 `featured:true`, HIGHLIGHTS 마지막 항목을 이해관계자 커뮤니케이션으로 수정, CASES에 "복잡한 기술을 이해관계자 언어로" 케이스 추가.
+- `src/data/cv.ts` — `ProjectEntry`에 `metrics?` 추가, `export const AX_PROJECTS = cv.AX_PROJECTS as ProjectEntry[]`. **[P1]** `CareerEntry`에 `featured?: boolean` 추가.
+- `src/data/galleries.json` — cv.{Nova,Ground Control,MIRIVA} = work 스크린샷 재사용(/og/scr-...svyq·stua·swwz.png).
+- `src/pages/cv/index.astro` — frontmatter `projectGroups`(AX 먼저), `.cv-callout` 박스(info 카드 뒤), Projects 섹션 그룹 루프(`.cv-proj-group`/`.cv-subhead`), entry head에 `p.metrics` 표시. **[P1]** TOC·heading "07 Lectures"→"07 Learning · 학습과 공유" + sec-note. (web Career·CASES는 데이터 변경분이 자동 반영 — 템플릿 무변경.)
+- `src/pages/cv/print.astro` — `AX_PROJECTS` import, 요약 뒤 `.r-callout` 밴드, "AX · AI Agent Ops" `.r-block` + 회사 "Key Projects"(둘 다 achievements `.slice(0,2)`), scoped 스타일 `.r-callout*`·`.r-blocknote`. **[P1]** `detailed/mini` 분기를 `c.featured` 기준으로, HIGHLIGHTS `.slice(0,7)`, "Lectures · 강의"→"Learning · 학습과 공유" + `.r-blocknote` lead. **[피드백]** `PROFILE.summary.split("\n\n").map`(3단락) + `VISION` import해 "지향 · Vision" `.r-block`을 Learning 뒤·r-note 앞에 추가(scoped `.r-vision-q`/`.r-vision-p`, `.r-summary + .r-summary` 간격).
+- **summary 단락 규약**: `cv.json` PROFILE.summary는 **string 유지**, 단락 구분은 문자열 안 `\n\n`. web `.cv-lead`·print `.r-summary` 둘 다 `split("\n\n").map`. (배열로 안 바꾼 이유 = admin/타입 호환.) `.cv-lead + .cv-lead{margin-top:11px}`(global.css).
+- `src/styles/global.css` — `.cv-callout*`·`.cv-proj-group`·`.cv-subhead`·`.cv-subnote`(.cv-links 뒤) + 인쇄 break에 `.r-proj,.r-callout` break-inside·`.r-blocknote` break-after 추가(라인 ~963). **[Roadmap]** `.sec-note-link`(.sec-note 뒤).
+- **[Roadmap 페이지]** `src/pages/roadmap.astro`(신규) — `/roadmap/`. 프론트매터 데이터(marketThemes·stand[market→Work slug]·deep·roadmap[when/title/why/what/proof]) + scoped 스타일(.rm-*, .stand-row, .rm-timeline). 기존 클래스 재사용(sec-head·now-card·chip·pill·reveal). 전진 서사 톤(약점 노출 X). `src/layouts/BaseLayout.astro` 네비에 `<a href="/roadmap/">Roadmap</a>`(Lab 뒤). `src/pages/index.astro` Now sec-note에 `/roadmap/` 링크. **근거 = 채팅의 2개 리서치 브리핑(국내 AX 시장 + 역량/로드맵, 출처 포함).**
+- **검증 명령 → 기대**: `pnpm run build` → PASS+disclosure PASS. PDF = `astro preview --port 4488` 후 `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --print-to-pdf=/tmp/x.pdf http://localhost:4488/cv/print/` → `pdfinfo` **Pages: 4**. `git status --short` → 위 6개 파일만(레포 오염 없음, PDF/png는 /tmp).
 
 ## Decisions
-- admin UX = 3분할 + 실시간 미리보기(iframe+실제 마크업 복제+global.css) + DnD. "결과를 보며, 사이트 모양 그대로" 편집. 데이터모델 노출 대신 핵심/고급 위계.
-- 이력서 SoT=cv.json / 포폴=content collection 유지(zod 검증) + admin frontmatter R/W / 이미지=galleries.json.
-- 관리도구=로컬 전용(Astro·라이브 분리, dist 미포함). 정적 사이트라 라이브 GUI는 Decap+OAuth 필요해 제외.
-- 실제 화면=본인 제품 공식 사이트 직접 캡처만. anon 카드: 회사민감=텍스트만(admin 경고)/개인=공개화면 가능. Markwand 실화면은 사용자 업로드 대기.
-- 커밋·배포는 사용자 승인 후. `git add -A` 금지·명시경로만. 캡처/백업 throwaway는 scratchpad만(레포 오염 0).
+- AX 프로젝트를 회사 PROJECTS에 섞지 않고 **별도 `AX_PROJECTS` 그룹**으로 — "직접 빌딩한 AX" 신호를 분리해 강조(회사=PropTech 백엔드 vs 개인=Agent Ops 대비).
+- 콜아웃을 web·print **양쪽에 별도 구현** — PDF가 실제 제출물이라 회색 링크 한 줄로는 놓침. print는 1p 상단 밴드로 못박음.
+- PDF 3→4쪽 허용 — 회사 achievement 3→2 축소로 페이지당 밀도를 낮춰 "빼곡함" 우려와 정합. 4쪽은 정상분량(고아 아님)으로 확인.
+- "빼곡함"의 구조적 해소(Career 다이어트·Lectures 리네임)는 P1에서 처리 — 사용자가 P0 후 "계속 P1 진행" 요청.
+- **[P1]** Career 다이어트는 **PDF에만** 적용 — web `/cv/`는 "상세 위키"가 의도라 전체 디테일 유지. `featured` 플래그로 표면별 분기.
+- **[P1]** 커뮤니케이션 보강은 **사실 기반만** — LH 공공기관·도메인 언어 모델링·팀 리딩은 문서화돼 있어 주장, "경영진 보고"는 근거 없어 미주장(과장 금지).
+- **[P2]** summary 첫 문장 AX화 시 백엔드는 "토대"로 유지 — 정체성 규칙(백엔드 단정 금지, "버린 게 아니라 확장") 준수. PROFILE.title("AX Product · Engineering Lead")은 이미 적합해 무변경.
