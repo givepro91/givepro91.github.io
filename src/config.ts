@@ -3,6 +3,11 @@
 
 export const SITE_URL = "https://givepro91.github.io";
 
+// Google Analytics 4 측정 ID (예: "G-XXXXXXXXXX").
+// 발급 후 이 값만 채우면 production 빌드에 자동 삽입된다.
+// 빈 값이면 분석 스크립트를 넣지 않음(로컬 dev 빌드도 항상 미삽입 — BaseLayout 가드).
+export const GA_MEASUREMENT_ID = "G-GZR4EELM6P";
+
 export const SITE = {
   brand: "Keunsik Works",
   // Hero / identity

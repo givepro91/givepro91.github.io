@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { SITE, SITE_URL } from "../config";
+import { SITE, SITE_URL, GA_MEASUREMENT_ID } from "../config";
 
 interface Props {
   title?: string;
@@ -49,6 +49,21 @@ const jsonLd = {
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
     />
     <script set:html={JSON.stringify(jsonLd)} type="application/ld+json" />
+    {
+      import.meta.env.PROD && GA_MEASUREMENT_ID && (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+          <script is:inline define:vars={{ id: GA_MEASUREMENT_ID }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", id);
+          </script>
+        </>
+      )
+    }
   </head>
   <body>
     <header class="top">
