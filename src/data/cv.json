@@ -59,13 +59,13 @@
       "role": "Technical Product Lead / 백엔드·제품팀",
       "current": true,
       "featured": true,
-      "summary": "프롭테크 플랫폼 Landbook·LBDeveloper·PlanNext.AI의 백엔드를 설계·운영하며 팀을 리딩해온 기반 위에, LLM 기반 API·운영 자동화·데이터 신뢰성으로 제품과 기술의 접점을 넓혀가고 있습니다.",
+      "summary": "WebFlux 기반 MSA·Kafka·EKS로 프롭테크 플랫폼 백엔드를 설계·운영해온 기반 위에, 지금은 PlanReview·PlanNext.AI 등 LLM 기반 제품과 인프라 관제 에이전트(Ground Control)·AI 코드 품질 게이트(Nova) 같은 운영 자동화로 제품과 기술의 접점을 넓히는 Technical Product Lead로 일하고 있습니다.",
       "highlights": [
-        "Landbook 고도화 — 동기 처리를 비동기 구조로 전환해 병목 해소·응답 단축, MSA 최적화 및 서비스 간 연동 안정성 강화",
-        "설계 엔진 유형(라이트/프로)별 데이터베이스·처리 로직 설계·개발, 설계 엔진 API 연동 고도화",
-        "소셜 로그인(카카오·네이버), 인앱 구독 결제·관리 백엔드 API, 카카오 알림톡·Slack 통합 알림 인프라 구축",
-        "PlanNext.AI — LLM 기반 오피스 가구 배치 설계 API를 설계·개발·배포까지 주도(Coroutine·Kafka·Redis·EKS·Argo Workflow)",
-        "백엔드 팀 관리·코드 리뷰 체계 정립, 기술 문서화·배포/운영 프로세스 효율화, 신규 입사자 온보딩"
+        "PlanReview — 건축 도면(PDF) 규정 적합성을 업로드 한 번으로 자동 검토하는 SaaS. 인프라부터 개발 전반을 맡아 web→server→큐→worker(Docker 엔진) 비동기 검토 파이프라인을 구축하고, ‘엔진을 단일 진실원으로 두고 프론트의 보정·재분류를 금지’하는 경계와 배포 가드레일을 설계(현재 자문).",
+        "PlanNext.AI — LLM 기반 오피스 가구 배치 설계 API를 기획·개발·배포까지 주도. Coroutine 비동기·Kafka 요청 분리·Redis 인증/요금제/사용량으로 API를 상품화하고 EKS·Argo Workflow로 운영.",
+        "AI Agent Ops · 운영 자동화 — 사내 인프라 관제(Ground Control)·AI 코드 품질 게이트(Nova) 등 AI 에이전트를 통제·검증·운영하는 자동화를 직접 설계·구현 (상세는 아래 AI Agent Ops 섹션).",
+        "Landbook·가로주택정비(LBDeveloper) — 인증·결제·구독·필지·게이트웨이를 Kotlin/Spring MSA로 설계·운영한 백엔드 토대. Kafka 격리·Coroutine 비동기로 병목·장애를 끊고, LH 등 공공기관 설치형 보안(프록시·방화벽·접근제어)과 PostGIS 공간 연산을 대응.",
+        "백엔드 팀 리딩 — 코드 리뷰 체계·기술 문서화·배포/운영 프로세스 정립, 신규 입사자 온보딩으로 팀의 반복 업무를 줄임."
       ],
       "stack": [
         "Kotlin",
@@ -76,7 +76,10 @@
         "Redis",
         "PostgreSQL",
         "AWS EKS",
-        "ArgoCD"
+        "ArgoCD",
+        "Python",
+        "FastAPI",
+        "Claude Code"
       ]
     },
     {
@@ -239,51 +242,25 @@
   ],
   "PROJECTS": [
     {
-      "name": "Landbook",
-      "tagline": "AI 기반 토지·건축 설계 서비스",
-      "period": "2023.01 – 2025",
-      "overview": "대규모 부동산·건축 설계 데이터를 AI로 처리하는 MSA 기반 서비스. 복잡한 설계 도메인을 분석해 유형별 비즈니스 로직을 개발하고, 기존 WebFlux 구조에서 잘못 구현된 블로킹 로직을 개선해 성능·안정성을 강화했습니다.",
+      "name": "PlanReview",
+      "tagline": "건축 도면 규정 검토 자동화 SaaS",
+      "period": "2026 – 현재",
+      "overview": "건축 도면(PDF)을 올리면 규정 적합성을 자동 검토해주는 SaaS. 초기 분석 엔진을 제외한 인프라부터 개발 전반에 참여했고, 현재는 자문을 맡고 있습니다.",
       "stack": [
-        "Kotlin",
-        "Spring Boot",
-        "WebFlux",
-        "MSA",
-        "PostgreSQL",
-        "JPA",
-        "ArgoCD",
-        "Coroutine"
+        "TypeScript",
+        "Hono",
+        "Prisma",
+        "Redis",
+        "Next.js",
+        "Python",
+        "Docker"
       ],
       "achievements": [
-        "도메인별 설계 엔진(라이트/프로) 비즈니스 로직 설계·개발",
-        "잘못 구현된 블로킹 로직 개선 → 처리 속도 향상·병목 해소",
-        "MSA 최적화 및 서비스 간 연동 안정성 강화",
-        "소셜 로그인(카카오·네이버)·인앱 구독 결제·관리 API 개발",
-        "카카오 알림톡·Slack 통합 알림 인프라 구축"
+        "web → server → 큐 → worker(Docker 엔진)로 이어지는 비동기 검토 파이프라인 구축·운영",
+        "‘엔진을 단일 진실원(SoT)으로 두고 프론트의 재분류·보정을 금지’하는 경계 설계 — 결과 정합성 확보",
+        "build-time 환경변수가 이미지에 박히는 특성으로 인한 스테이징→운영 오배포 장애를 배포 가드레일로 봉합"
       ],
-      "link": "https://landbook.net",
-      "linkLabel": "landbook.net",
-      "workSlug": "landbook-msa"
-    },
-    {
-      "name": "LBDeveloper",
-      "tagline": "도시정비사업 원클릭 사업성 검토 AI 솔루션",
-      "period": "2023.01 – 현재",
-      "overview": "부동산 데이터 기반 B2B 사업성 분석 솔루션. 대국민 서비스와 공공기관 맞춤형 내부 솔루션 모두 제공하며, LH 가로주택정비사업에 설치형으로 적용해 사업성 분석·설계 자동화를 지원하고 공공기관 환경에 맞춘 보안·운영 구조를 설계·적용했습니다.",
-      "stack": [
-        "Ruby",
-        "Ruby on Rails",
-        "PostgreSQL",
-        "PostGIS"
-      ],
-      "achievements": [
-        "부동산 데이터 기반 비즈니스 로직 성능 개선·유지보수 효율화",
-        "설계 엔진 유형(라이트/프로)별 데이터베이스 구조 설계·개발",
-        "사용자 맞춤형 사업성 분석·자동화 로직 고도화",
-        "공공기관 환경 최적화 — 프록시 서버·방화벽·접근 제어 정책 등 보안·운영 구조 설계"
-      ],
-      "link": "https://lbdeveloper.landbook.net",
-      "linkLabel": "lbdeveloper.landbook.net",
-      "workSlug": "garo-landbook"
+      "workSlug": "planreview"
     },
     {
       "name": "PlanNext.AI",
@@ -309,24 +286,27 @@
       "linkLabel": "plannext.ai"
     },
     {
-      "name": "큐피커 (Qpicker)",
-      "tagline": "국내외 전시를 위한 오디오 가이드 앱 플랫폼",
-      "period": "2021.03 – 2022.12",
-      "overview": "국내외 전시·박람회에서 오디오 가이드를 제공하는 앱 서비스. 모바일 앱과 관리자 페이지에 연동되는 백엔드 API를 개발·운영하며 전시 기획사와의 파트너십을 확대했습니다.",
+      "name": "Landbook · 가로주택정비",
+      "tagline": "프롭테크 설계·사업성 분석 MSA 백엔드 (토대)",
+      "period": "2023 – 2026",
+      "overview": "토지·건축 설계와 도시정비 사업성 분석을 다루는 프롭테크 플랫폼의 백엔드 토대. 인증·결제·구독·필지·게이트웨이를 Kotlin/Spring MSA로, 가로주택정비 분석을 Rails·PostGIS로 설계·운영했습니다.",
       "stack": [
-        "Java",
+        "Kotlin",
         "Spring Boot",
-        "MariaDB",
-        "JPA"
+        "WebFlux",
+        "Coroutine",
+        "Kafka",
+        "Ruby on Rails",
+        "PostgreSQL",
+        "PostGIS"
       ],
       "achievements": [
-        "모바일 앱·관리자 페이지 연동 백엔드 API 개발",
-        "Firebase·PG 등 외부 서비스 연동 처리",
-        "전시별 맞춤형 콘텐츠 제공·서비스 안정성 확보",
-        "누적 다운로드 10만+ 달성, 하리보 아시아 전시 계약 성사"
+        "MSA = 장애·배포의 경계 긋기 — Kafka로 무거운 작업을 격리하고 동기 호출을 Coroutine 비동기로 전환해 한 서비스의 지연이 옆 서비스를 잡아먹지 않게 함",
+        "LH 가로주택정비사업에 설치형으로 적용 — 공공기관 환경(프록시·방화벽·접근 제어) 보안·운영 구조 설계, PNU 한 줄로 규제·시세·수익성 자동 산출(PostGIS 공간 연산)"
       ],
-      "link": "https://www.qpicker.com",
-      "linkLabel": "qpicker.com"
+      "link": "https://landbook.net",
+      "linkLabel": "landbook.net",
+      "workSlug": "landbook-msa"
     }
   ],
   "AX_PROJECTS": [
@@ -373,6 +353,20 @@
       ],
       "stack": ["Python", "FastAPI", "boto3(read-only)", "Next.js", "SQLite"],
       "workSlug": "miriva"
+    },
+    {
+      "name": "Realty Data Pipeline",
+      "tagline": "무중단 부동산 ETL · 데이터 신뢰성",
+      "period": "2026",
+      "metrics": "기여 · 안전 규칙 enforcement",
+      "overview": "전국 부동산 데이터를 매월, 운영 DB를 한 번도 깨지 않고 무중단으로 갱신하는 Blue-Green ETL. 파이프라인 설계와 안전 규칙 강제를 맡았습니다.",
+      "achievements": [
+        "운영 DB를 덮어쓰지 않고 staging에서 전 과정을 계산한 뒤 atomic swap으로 전환 — ‘성공 표시 ≠ 데이터 성공’ 침묵형 실패(silent fail)를 구조적으로 차단",
+        "워커 수 제한 등 안전 규칙을 문서가 아니라 사전 훅으로 하드 블록 — 사람이 실수해도 시스템이 거부",
+        "행 뻥튀기 등 과거 사고를 Known Mistakes로 명문화해 같은 실수의 재발을 방지"
+      ],
+      "stack": ["Python", "PostgreSQL", "PostGIS", "React", "Slack"],
+      "workSlug": "realty-data-pipeline"
     }
   ],
   "CASES": [
@@ -507,11 +501,11 @@
     "서비스 전반을 조망하며, UX 경험까지 고려한 설계를 지향합니다."
   ],
   "VISION": {
-    "headline": "문제를 정의하고, AI·자동화를 실제 업무 성과로 바꾸는 AX 리드로 성장하겠습니다.",
+    "headline": "AI 도입의 핵심은 모델을 붙이는 일이 아니라, 사람이 어디서 판단하고 시스템이 어디까지 실행할지를 구조로 고정하는 일이라고 봅니다.",
     "body": [
-      "단순히 ‘AI를 붙이는’ 데 그치지 않고, 현업의 흐름을 이해해 어디에 AI·자동화를 넣고 어디서 사람이 판단해야 하는지를 설계합니다.",
+      "문제를 기능으로 바로 번역하지 않고, 현업 흐름·운영 실패 지점·사람의 판단 경계를 먼저 정의한 뒤 AI와 자동화를 설계합니다.",
       "서비스는 결국 사람과 사람을 연결하는 일이라 믿습니다. 그래서 기술보다 사용자·팀·서비스의 연결을 우선 고민해 왔습니다.",
-      "앞으로도 운영 안전장치와 데이터 신뢰성을 갖춘 AI 도입을 재사용 가능한 패턴으로 자산화하며, 팀이 일하는 방식을 바꾸는 AX 리드로 성장하겠습니다."
+      "앞으로도 운영 안전장치와 데이터 신뢰성을 갖춘 AI 도입을 재사용 가능한 제품·플레이북으로 만들고, 팀의 일하는 방식을 바꾸는 AX 리드 역할을 해나가겠습니다."
     ]
   }
 }

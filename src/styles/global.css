@@ -965,11 +965,25 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
     --sh: none; --sh-hover: none;
   }
   body { background: #fff !important; color: #111 !important; }
-  .resume { margin: 0; padding: 0; border: none; background: #fff; max-width: 100%; font-size: 10.5pt; box-shadow: none; }
-  @page { margin: 11mm; }
-  /* 블록·프로젝트는 자연 흐름(페이지 꽉 채움), 카드/짧은 항목은 분할 방지 */
-  .r-job, .r-job-mini, .r-edu, .r-proj, .r-callout { break-inside: avoid; }
-  .r-highlights li, .r-proj li { break-inside: avoid; }
+  .resume { margin: 0; padding: 11mm 15mm; border: none; background: #fff; max-width: 100%; font-size: 10.5pt; box-shadow: none; }
+  /* A4 고정(한국 이력서 규격) + 브라우저 기본 인쇄 헤더/푸터 제거: @page margin 0 → 헤더/푸터가 그려질 여백이 없음.
+     페이지 여백은 .resume 안쪽 padding으로 (포트폴리오 PDF와 동일 방식). */
+  @page { size: A4; margin: 0; }
+  /* 각 항목·그룹은 페이지를 가르지 않고 통째로 한 페이지에 — 한 항목이 다음 장으로 쪼개지거나 한 줄만 넘어가지 않게 */
+  .r-job, .r-job-mini, .r-edu, .r-proj, .r-callout,
+  .r-skillgrid, .r-skillrow, .r-vision { break-inside: avoid; }
+  /* 한 페이지에 들어가는 섹션(AX·프로젝트·스킬)은 통째로 — 헤딩+첫 항목만 남고 나머지가 넘어가지 않게 */
+  .r-keep { break-inside: avoid; }
+  .r-highlights li, .r-proj li, .r-job li, .r-lectures li { break-inside: avoid; }
+  /* 소제목·헤더는 바로 뒤 내용과 붙어 있게(헤더만 페이지 끝에 고아로 남지 않게) */
   .r-block h2, .r-proj-head, .r-job-head, .r-blocknote { break-after: avoid; }
-  .r-block { margin-top: 13px; }
+  /* 분할 방지로 페이지가 늘면 여백이 커지므로, 인쇄 간격을 살짝 압축해 페이지를 알차게 */
+  .r-block { margin-top: 9px; }
+  .r-job { margin-bottom: 10px; }
+  .r-proj { margin-bottom: 9px; }
+  .r-summary { margin: 11px 0 3px; }
+  .r-highlights { gap: 5px; }
+  .r-skillgrid { gap: 4px; }
+  .r-lectures li { margin-bottom: 1px; }
+  .r-edu { margin-bottom: 0; }
 }

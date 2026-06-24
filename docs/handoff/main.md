@@ -1,8 +1,12 @@
 ---
 branch: main
 status: active
-updated: 2026-06-24T05:35:00Z
+updated: 2026-06-24T07:08:49Z
 ---
+> 🟢 **(최종+) AI Agent Ops 섹션 내용 확장으로 p3 공백 제거 + footer 정리로 4페이지 유지.** 사용자가 "p3 AI Agent Ops 하단 공백이 크니 더 다양하게 풀어달라(주제 확장/요소 추가)"·"마지막 빈 페이지도 마찬가지" 요청 → ① **AX 4번째 항목 추가 = Realty Data Pipeline**(무중단 ETL·silent fail 차단·안전규칙 훅 강제 — `realty-data-pipeline.md` anon 기반, cv.json AX_PROJECTS에 추가). ② **AX 항목당 achievements 2→3개**(print AX 맵만 slice(0,3); Projects 맵은 slice(0,2) 유지). ③ AX 헤딩 "·데이터 신뢰성" 추가 + blocknote 확장(Nova·GC·MIRIVA·Realty). → **p3 = AX 4항목 ~95% 채움**(공백 해소). ④ 그 결과 p4 끝 footer note(`givepro91.github.io/cv` 링크 줄)가 혼자 p5로 넘어가 거의 빈 페이지 발생 → **footer note 제거**(1p 콜아웃·헤더의 givepro91.github.io와 중복, Working Principle로 끝나는 게 더 강한 마무리). 링크 6→5(잃은 건 /cv, 포폴 홈 링크는 유지). ⑤ print 간격 추가 압축(.r-block 8px 등, print.astro 스코프). **검증**: A4 4쪽·링크 5·항목/섹션 무분할·p1·p3 채움·빈 페이지 없음. 남은 여백 = p2 하단(Experience→AX 경계, AX가 r-keep ~80%라 p2 잔여 40%에 못 들어감) — clean break 트레이드오프.
+> 🟢 **(최종 보강) 페이지 전환 분할 전부 제거 — A4 4페이지, 모든 섹션 통째.** 사용자가 3→4 전환(Projects의 Landbook이 다음 장으로 넘어감)도 지적 → **AX·Projects 블록 둘 다 `r-keep`(통째 유지) + 딥다이브 간격을 print.astro 스코프 @media print에 직접 압축**(중요: 스코프 스타일이 global.css보다 우선순위 높아 global의 압축이 안 먹고 있었음 — 그래서 print.astro 스코프에 넣어야 실제로 먹음). 결과: **p3 = AI Agent Ops(Nova·GC·MIRIVA) + 제품 백엔드(PlanReview·PlanNext·Landbook) 전부 한 페이지 통째(≈95% 채움)**, p4 = Education·Learning·Working Principle. 남은 여백 = p2 하단(Experience→딥다이브 경계, ≈35%)·p4(마지막 장) — 둘 다 정상. 검증: A4 4쪽·링크 6·전 항목/섹션 무분할.
+> 🟢 **(이번 세션 최종, 미커밋·배포대기) 인쇄 페이지네이션 + 레이아웃 마감까지 완료 — A4 4페이지·클린 분할·1페이지 채움.** 사용자 후속 피드백 반영: ① **A4 무조건 고정** = `@page{size:A4;margin:0}`(global.css + print.astro 스코프). ⚠️ 그동안 검증이 Letter(헤드리스 기본)라 실제 ⌘P(A4)와 페이지나뉨이 달랐음 — 이제 일치. ② **항목이 페이지를 가르지 않게** = `.r-job`/`.r-skillgrid`/`.r-skillrow`/`.r-vision` + bullet들 `break-inside:avoid` 복구·확장(스페이스워크·MIRIVA·Leadership 행 분할 해결). ③ **AX 블록 통째 유지** = `.r-keep{break-inside:avoid}` 클래스를 AX 섹션에 부여(헤딩+Nova만 남고 GC/MIRIVA가 넘어가던 것 해결). (Projects 블록도 이후 r-keep으로 — 최종 보강 줄 참고). ④ **1페이지 공백 채움** = CORE SKILLS를 HIGHLIGHTS 바로 뒤(Experience 앞)로 이동 → p1='요약+콜아웃+Highlights+Skills'로 알참(시니어 이력서 흔한 구성). ⑤ **스페이스워크 GC/Nova 중복 제거** = Experience 6→5 bullet, GC·Nova 상세 2줄을 "AI Agent Ops 한 줄(상세는 아래)"로 압축(AX 섹션이 상세 어필하니 중복 방지). ⑥ 인쇄 간격 압축(.resume padding 11mm, .r-block margin 9px 등). **검증**: A4 4쪽(`pdfinfo` Page size A4)·링크 6·항목 무분할·p1 채움·외톨이 마지막장 없음. **사용자 4 vs 5페이지 질문엔 처음 5p 택했으나, 이후 레이아웃 개선으로 4p 클린 달성.** **다음 = 사용자 로컬 ⌘P 확인 → 승인 시 5파일 커밋·푸시.**
+> 🟡 **(이번 세션 중반) 이력서 PDF `/cv/print/` 마감 개선 4건 + 스페이스워크 경력 보강 — 빌드·PDF·web 검증 완료, 4페이지·클릭링크 6.** ① 브라우저 인쇄 헤더/푸터 제거 = `@page{margin:0}`+`.resume` padding(13/15mm)로 전환(global.css+print.astro, 포폴과 동일). ② 헤더 연락처·콜아웃·하단 URL 클릭링크화(`.r-link`, mailto/github/포폴/field-guide/cv = 6 Annotation). ③ VISION→"일하는 방식 · Working Principle"(cv.json VISION 톤 교체, "성장하겠습니다" 제거 — web `/cv/` body에도 반영). ④ CORE SKILLS = 한 덩어리→6 카테고리 인라인(`SKILL_GROUPS` print-local, `.r-skillgrid`, 뱃지 X). **+ 사용자 추가요청**: 스페이스워크 Experience가 너무 얇음 → 정본(`social-portfolio-os/strategy`)+Work콘텐츠+TeamSPWK GitHub로 사실확인 후 **6 bullet로 보강(AI/AX 우선: PlanReview·PlanNext.AI·Ground Control·Nova → Landbook 토대 → 팀리딩)**, PDF는 `current` 직장만 전체노출. PlanReview를 PROJECTS 최상단 신규추가, AX블록 "직접 빌딩 개인" → "AI Agent Ops·운영 자동화—직접 설계·구현(사내 GC~OSS Nova)" 리프레임, Landbook 비중↓(종료 명시 X)·큐피커 회사PROJECTS서 제거(피플리 경력엔 유지). ⚠️ 내부 IP/호스트(gc.spacewalk.dev 등) 공개이력서 제외. **다음 = 사용자 로컬확인→승인시 4파일 커밋·푸시.**
 > ✅ **배포 완료 — 포트폴리오 PDF `/portfolio/print/` 라이브(`c616382`, Actions success, 200 검증).** 제출용 가로 A4 덱 10쪽: 표지→Why me→Profile→Case5(GC·Nova·Landbook·Realty·Zippit)→Other Works(Proof Table)→Contact/CTA. 라이트+브랜드블루, 데이터 도식+실제 화면(브라우저 프레임+콜아웃 2), 클릭 링크. /cv/·홈에 진입 버튼. **사용자 PDF 받는 법**: givepro91.github.io/portfolio/print/ → ⌘P(가로·배경그래픽 ON). 마지막 페이지=Contact/CTA 유지(A 권장 채택). 직전 도식 수정(▼ 가운데·flow 한 줄)도 포함.
 > 🔧 **(직전) 도식 디테일 2개 수정 — 배포에 포함.** ① before/after 구분 `▼`(`.ba-sep`)가 far-left라 어색 → `align-self:center`로 가운데. ② flow 마지막 노드만 줄넘김+화살표 댕글링 → **화살표+노드를 `.dgm-step`(inline-flex)로 한 단위로 묶고** 노드 크기 축소(font 10.5·padding 5/9) → 4노드가 한 줄에 깔끔, 줄바꿈 시 "→ 노드"가 함께 이동. realty·landbook 렌더 육안 OK. 10쪽 유지. **미결 질문: 마지막 Contact/CTA 페이지(감사 인사 아님, 이미 CTA형) 유지 여부 — A 유지(권장)/B 철학문장 빼기/C 제거. 정하면 배포.**
 > ✅ **포트폴리오 PDF 완성형(미커밋, 배포 대기). GC 다듬은 풀 treatment를 5개 케이스 전부에 롤아웃 완료.** 각 케이스 = 도식(loop/gate/ba) + 핵심 증거 3(설계원칙 톤) + `PRINCIPLE` quote(보더형) + 짧은 `ROLE` + **실제 스크린샷(`SHOT` 맵: url·label·pins 2개 콜아웃, `.proof` 브라우저 프레임, cover-top)** + 경량 본문(`decisionLog.slice(0, shots?0:2)`로 이미지 페이지는 결정로그 bullet 제거). GC만 `PROBLEM`/`INSIGHT` override(날카로운 OVERVIEW·짧은 insight). 데이터 맵: `FLOW·EVID·ROLE·PRINCIPLE·SHOT`(+GC전용 `PROBLEM·INSIGHT`). proof 블록은 `shots.length>0 && sh` 일반조건. **검증**: build OK, preview(4399) 10쪽, 클릭 링크 16, pdftoppm로 GC·Zippit·Landbook·Realty 케이스 육안 OK(랜딩도 cover-top 깔끔). GPT 평가 80점대 후반. **다음 = 배포 승인 대기.**
@@ -17,7 +21,43 @@ updated: 2026-06-24T05:35:00Z
 > **무엇을 했나:** ① 평가 — "소재(Work)는 강한데 제출 PDF가 백엔드 이력서로 읽히고 라이브 자산 링크가 묻힘"이 핵심 갭. ② **P0** AX 시그니처(Nova·GC·MIRIVA) CV 편입 + 라이브 자산 콜아웃(PDF 1p 밴드). ③ **P1** Career 다이어트(PDF, featured만 풀) + Lectures→Learning + 이해관계자 커뮤니케이션(사실 기반, 경영진 보고는 미주장). ④ **P2** summary 첫 문장 AX화(백엔드=토대 유지). ⑤ **피드백** Overview·NOW 단락 분리(`\n\n` split, 가독성) + PDF에 Vision(동기·포부) 추가로 4장 채움 + 한국어 래핑은 body 상속이라 누락 없음 확인. ⑥ **Roadmap** 공개 `/roadmap/` 신설(시장 좌표→현재 위치[Work 링크]→깊게 파는 중→다음 분기, 전진 서사). ⑦ 국내 AX 시장 리서치 2건(출처 포함, 요약은 채팅).
 > **미해결/참고:** 로컬 dev 서버 `astro dev :4321` 아직 기동 중(사용자 열람용) — 세션 끝나면 `pkill -f "astro dev"`. PDF 4쪽. work 상세 decision 블록(128~150자)은 라벨이 끊어줘 벽 아님 → 유지(원하면 분리 가능).
 
-# Handoff — Keunsik Works · AX 포지션용 CV P0 개선(AX 프로젝트 편입 + 라이브 자산 콜아웃) · main
+# Handoff — Keunsik Works · 이력서 PDF 마감 개선 + 스페이스워크 경력 보강 · main
+
+## Restore in 30s — 무엇을/어디까지/방금 끝낸 것
+**Keunsik Works** = 장근식(@givepro91) 공개 포트폴리오 + CV. Astro 정적 → 라이브 https://givepro91.github.io. **제출 산출물 = `/cv/print/` 를 ⌘P로 PDF 저장.** 데이터 SoT = `src/data/cv.json`(`cv.ts` 타입 re-export). 정체성·포지셔닝 정본 = `jay-swk/social-portfolio-os/strategy`(읽음), Work 콘텐츠 = `src/content/projects/ko/*.md`(anon/riskChecked = 공개안전 버전).
+- **이번 세션 = 사용자 요청 이력서 PDF 개선 4건 + 추가요청(스페이스워크 경력 보강). 전부 빌드·PDF(headless)·web dist 검증 완료, 미커밋·배포대기.**
+  1. **브라우저 인쇄 헤더/푸터 제거** — `@page{margin:0}`(global.css 969 + print.astro 스코프) + `.resume` padding 13/15mm. 포폴 PDF와 동일 검증된 방식. (headless `--no-pdf-header-footer`로 생성했으므로 GUI ⌘P에서 헤더 0 여부는 **사용자 ⌘P 미리보기로 최종확인 필요** — 기법상 안 나옴.)
+  2. **클릭 링크** — 헤더 연락처·콜아웃 URL·하단 cv 링크를 `<a>`로. `pdfinfo -url` = **6 Annotation**(mailto·github·givepro91.github.io×2·ax-field-guide·cv).
+  3. **VISION → 일하는 방식 · Working Principle** — print 헤딩 변경 + `cv.json` VISION headline/body 톤 교체(원칙형, "성장하겠습니다" 제거). web `/cv/`는 데이터 공유라 body 자동반영(단, web 섹션 헤딩은 "Value & Vision" 그대로 — 스코프상 미변경).
+  4. **CORE SKILLS** — `skillLine` 한 덩어리 → print-local `SKILL_GROUPS` 6 카테고리 인라인(`.r-skillgrid`). 뱃지 X, 텍스트추출 OK.
+  5. **(추가) 스페이스워크 Experience 보강** — `cv.json` CAREER[0] summary AX화 + highlights 5→**6**(PlanReview·PlanNext.AI·Ground Control·Nova → Landbook 토대 → 팀리딩). PDF는 `c.current` 직장만 전체 bullet, 나머지 slice(0,3). PROJECTS에 **PlanReview 신규 최상단**, Landbook+가로주택 1개로 병합·하단(종료 명시 X), 큐피커 제거. AX블록 헤딩/blocknote를 "직접 빌딩 개인" → "AI Agent Ops·운영 자동화 — 직접 설계·구현"으로 리프레임(print.astro + cv/index.astro projectGroups 라벨).
+
+## Next steps — 구체적 다음 행동
+- [ ] **사용자 로컬 확인** — `pnpm build && pnpm exec astro preview` → `localhost:<port>/cv/print/` → ⌘P(여백 "기본값" 유지, 미리보기에서 상단 날짜/하단 URL 사라졌는지 확인).
+- [ ] **승인 시 커밋·푸시(=라이브)** — **명시 경로만**: `git add src/data/cv.json src/pages/cv/index.astro src/pages/cv/print.astro src/styles/global.css docs/handoff/main.md` → commit(예: `feat(cv): 이력서 PDF 마감 개선 + 스페이스워크 경력 보강`) → push → Actions success → `/cv/print/`·`/cv/` 200 확인.
+- [ ] (옵션) 사용자 확인 요청한 **MIRIVA 톤** — AX블록에 "직접 설계·구현"으로만 표기(사내 공식제품 단정 X). GC는 TeamSPWK `swk-ground-control`=사내 관제플랫폼으로 확인돼 사내업무 명시. 괜찮은지 피드백 대기.
+- [ ] (옵션) PlanReview를 **Work 페이지 카드로 더 부각** — 현재 `src/content/projects/ko/planreview.md` `order:5`, featured 없음. 홈 Work 노출 키우려면 order/featured 조정.
+- [참고·최신] 페이지네이션 최종: 항목 무분할(`.r-job` 등 break-inside:avoid) + AX 섹션 통째(`.r-keep`) + CORE SKILLS를 p1로 이동 + GC/Nova Experience 압축(5 bullet) + A4 고정 → **A4 4페이지 클린**. (중간에 break 해제→4p 시도했으나 항목 분할 생겨 사용자가 거부 → 분할방지로 회귀 후 레이아웃으로 4p 달성.)
+
+## Touch points — path:line · 검증
+- `src/styles/global.css` print블록 — `@page{size:A4;margin:0}` · `.resume` padding 11mm 15mm · break-inside:avoid 목록(`.r-job`/`.r-job-mini`/`.r-edu`/`.r-proj`/`.r-callout`/`.r-skillgrid`/`.r-skillrow`/`.r-vision`/li들) + `.r-keep{break-inside:avoid}` · 인쇄 압축(.r-block margin 9px 등). ⚠️ 포폴은 자체 `@page{size:A4 landscape;margin:0}`(portfolio/print.astro:420)이라 무영향.
+- `src/pages/cv/print.astro` — frontmatter `SKILL_GROUPS`(SKILLS import 제거) · `.r-link`/`.r-skillgrid` 스타일 · `c.current?전체:slice(0,3)` · CORE SKILLS 섹션을 HIGHLIGHTS 뒤로 이동 · AX 섹션에 `r-keep` 클래스 · 헤딩 2개 리프레임 · `@media print{@page{size:A4;margin:0}; .resume padding 11mm; .r-vision 압축}`.
+- `src/data/cv.json` — CAREER[0](스페이스워크) summary+6 highlights+stack · PROJECTS 재구성(PlanReview/PlanNext/Landbook병합, 큐피커 제거) · VISION headline/body.
+- `src/pages/cv/index.astro:11-13` projectGroups 라벨/note 리프레임.
+- **검증 → 기대**: `pnpm run build`=BUILD OK · `astro preview` 후 headless `--print-to-pdf` → `pdfinfo` **Pages:4** · `pdfinfo -url | grep -c http\|mailto` **6** · `pdftotext`로 PlanReview/PlanNext.AI/Ground Control/Nova/가로주택정비/일하는 방식 추출됨 · `git status --short` = 위 5파일만.
+
+## Decisions
+- 헤더/푸터 제거 = `@page{margin:0}`+content padding(포폴 선례) — non-zero 마진은 GUI 헤더 영역을 못 막음.
+- GC·Nova·MIRIVA = 사용자 결정 "스페이스워크 업무로 편입" → Experience 본문에 직접 명명 + AX블록 "개인" 라벨 제거. (정본도 GC/Nova를 TeamSPWK 업무로 서술.)
+- Landbook = 사용자 결정 "비중만 낮추기"(종료 명시 X) — AI 제품 아래로, "백엔드 토대"로.
+- 공개안전: 내부 IP·호스트·고객/리소스명은 이력서에서 제외(정본 규칙), anon Work 콘텐츠 기준으로만 서술.
+- 페이지네이션 원칙(사용자 명시): 항목은 물론 섹션도 페이지를 가르지 않는다(분할 금지) > 페이지 꽉 채우기. AX·Projects 둘 다 `.r-keep`(통째). 두 딥다이브 블록이 한 페이지(p3)에 함께 들어가도록 print.astro 스코프 @media print에서 딥다이브 간격(.r-proj/.r-job-sum/bullet/.r-blocknote) 압축 — ⚠️ 스코프 스타일 우선순위 때문에 global.css 압축은 안 먹으니 반드시 print.astro 스코프에 넣을 것.
+- CORE SKILLS를 상단(요약 직후)으로 — p1 공백 해소 + "요약→핵심역량→스킬→경력" 시니어 구성. A4 무조건 고정(`@page size:A4`) — 검증=실제 ⌘P 출력 일치.
+- 스페이스워크 Experience에서 GC·Nova는 한 줄로 압축 — AX Agent Ops 섹션이 상세 어필하므로 중복 제거(사용자 요청).
+
+---
+
+# Handoff(이전 세션) — Keunsik Works · AX 포지션용 CV P0 개선(AX 프로젝트 편입 + 라이브 자산 콜아웃) · main
 
 ## Restore in 30s — 무엇을/어디까지/방금 끝낸 것
 **Keunsik Works** = 장근식(@givepro91) 공개 포트폴리오 + CV. Astro 정적 → 라이브 https://givepro91.github.io. 정체성=`AX Product · Engineering Lead`. **제출 산출물 = `/cv/print/` 페이지를 ⌘P로 PDF 저장.**

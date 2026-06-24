@@ -1,11 +1,20 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { PROFILE, CAREER, EDUCATION, SKILLS, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
+import { PROFILE, CAREER, EDUCATION, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
 
 // 제출 PDF는 대표 경력(featured)만 풀 디테일, 나머지는 한 줄(mini)로 — 밀도 관리.
 const detailed = CAREER.filter((c) => c.featured);
 const mini = CAREER.filter((c) => !c.featured);
-const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
+
+// CORE SKILLS — 한 덩어리 텍스트 대신 카테고리형 인라인 목록(스캔성↑·ATS 친화). 뱃지 미사용.
+const SKILL_GROUPS = [
+  { cat: "AI / Agent Ops", items: "LLM API · AI Agent Workflow · Human-in-the-loop · 품질 게이트 · 생성/검증 분리 · 커밋 전 적대적 게이트 · 운영 자동화" },
+  { cat: "Backend", items: "Kotlin · Java · Ruby · PHP · Spring Boot · Spring Cloud · WebFlux · Coroutine · JPA · QueryDSL · R2DBC · MSA · Flyway" },
+  { cat: "Infra / Data", items: "AWS · AWS EKS · Spot Ocean · Argo CD · Argo Workflows · Docker · Kubernetes · Linux · Kafka · Redis · PostgreSQL · PostGIS · MariaDB · MySQL · DynamoDB" },
+  { cat: "Reliability / Ops", items: "데이터 파이프라인 신뢰성 · silent fail 방지 · 상태 ≠ 결과 · 대시보드 관측성 · loading / fallback / failure 분리 · 인덱스 설계 · 쿼리 최적화 · 성능 튜닝" },
+  { cat: "Search / Tools", items: "ElasticSearch · OpenSearch · Meilisearch · Git · GitHub · Notion · Jira · Confluence · Slack · Google Workspace" },
+  { cat: "Leadership / Collab", items: "Agile/Scrum · 코드 리뷰 · 기술 의사결정 · 문서화 · 플레이북화" },
+];
 ---
 
 <BaseLayout title="이력서 (PDF)" description="장근식 이력서">
@@ -21,10 +30,10 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
         <p class="r-title">{PROFILE.title} · {PROFILE.domain}</p>
       </div>
       <div class="r-contact">
-        <span>{PROFILE.email}</span>
+        <a class="r-link" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
         <span>{PROFILE.phone}</span>
-        <span>github.com/givepro91</span>
-        <span>givepro91.github.io</span>
+        <a class="r-link" href="https://github.com/givepro91">github.com/givepro91</a>
+        <a class="r-link" href="https://givepro91.github.io">givepro91.github.io</a>
       </div>
     </header>
 
@@ -32,13 +41,25 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
 
     <div class="r-callout">
       <span class="r-callout-lead">이 이력서는 두 라이브 자산과 함께 보도록 만들어졌습니다 →</span>
-      <span class="r-callout-item"><b>인터랙티브 포트폴리오</b> · 문제→판단→증명 결정 로그 10선 — <span class="r-callout-u">givepro91.github.io</span></span>
-      <span class="r-callout-item"><b>AX Field Guide</b> · AI 도입을 판단 구조 재설계로(개념·기법·플레이북) — <span class="r-callout-u">ax-field-guide.vercel.app</span></span>
+      <span class="r-callout-item"><b>인터랙티브 포트폴리오</b> · 문제→판단→증명 결정 로그 10선 — <a class="r-callout-u" href="https://givepro91.github.io">givepro91.github.io</a></span>
+      <span class="r-callout-item"><b>AX Field Guide</b> · AI 도입을 판단 구조 재설계로(개념·기법·플레이북) — <a class="r-callout-u" href="https://ax-field-guide.vercel.app">ax-field-guide.vercel.app</a></span>
     </div>
 
     <section class="r-block">
       <h2>핵심 역량 · Highlights</h2>
       <ul class="r-highlights">{HIGHLIGHTS.slice(0, 7).map((h) => <li>{h}</li>)}</ul>
+    </section>
+
+    <section class="r-block r-keep">
+      <h2>Core Skills</h2>
+      <div class="r-skillgrid">
+        {SKILL_GROUPS.map((g) => (
+          <div class="r-skillrow">
+            <span class="r-skillcat">{g.cat}</span>
+            <span class="r-skillitems">{g.items}</span>
+          </div>
+        ))}
+      </div>
     </section>
 
     <section class="r-block">
@@ -51,7 +72,7 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
             <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
           </div>
           {c.summary && <p class="r-job-sum">{c.summary}</p>}
-          <ul>{c.highlights.slice(0, 3).map((h) => <li>{h}</li>)}</ul>
+          <ul>{(c.current ? c.highlights : c.highlights.slice(0, 3)).map((h) => <li>{h}</li>)}</ul>
           {c.stack && <p class="r-pstack">{c.stack.join(" · ")}</p>}
         </div>
       ))}
@@ -64,9 +85,9 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
       ))}
     </section>
 
-    <section class="r-block">
-      <h2>AX · AI Agent Ops — 직접 빌딩</h2>
-      <p class="r-blocknote">AI 코딩 도구(Claude Code 등)로 직접 만든 개인 프로젝트 — 에이전트 통제·검증·운영 안전장치</p>
+    <section class="r-block r-keep">
+      <h2>AI Agent Ops · 운영 자동화 · 데이터 신뢰성 — 직접 설계·구현</h2>
+      <p class="r-blocknote">AI 에이전트 통제·검증(Nova·Ground Control)부터 운영 누락 방지·무중단 데이터 파이프라인(MIRIVA·Realty)까지 — 운영을 내부 제품으로 직접 설계·구현(일부 오픈소스 공개)</p>
       {AX_PROJECTS.map((p) => (
         <div class="r-proj">
           <div class="r-proj-head">
@@ -75,14 +96,14 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
             <span class="r-period">{p.metrics ? `${p.metrics} · ` : ""}{p.period}</span>
           </div>
           <p class="r-job-sum">{p.overview}</p>
-          <ul>{p.achievements.slice(0, 2).map((a) => <li>{a}</li>)}</ul>
+          <ul>{p.achievements.slice(0, 3).map((a) => <li>{a}</li>)}</ul>
           <p class="r-pstack">{p.stack.join(" · ")}</p>
         </div>
       ))}
     </section>
 
-    <section class="r-block">
-      <h2>Key Projects — 회사 (PropTech · LLM API)</h2>
+    <section class="r-block r-keep">
+      <h2>스페이스워크 · 제품 백엔드 (PropTech × LLM)</h2>
       {PROJECTS.map((p) => (
         <div class="r-proj">
           <div class="r-proj-head">
@@ -97,24 +118,18 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
       ))}
     </section>
 
-    <div class="r-cols">
-      <section class="r-block">
-        <h2>Core Skills</h2>
-        <p class="r-skills">{skillLine}</p>
-      </section>
-      <section class="r-block">
-        <h2>Education</h2>
-        {EDUCATION.map((e) => (
-          <div class="r-edu">
-            <div class="r-job-head">
-              <span class="r-co">{e.school}</span>
-              <span class="r-period">{e.period}</span>
-            </div>
-            <p class="r-role">{e.degree}</p>
+    <section class="r-block">
+      <h2>Education</h2>
+      {EDUCATION.map((e) => (
+        <div class="r-edu">
+          <div class="r-job-head">
+            <span class="r-co">{e.school}</span>
+            <span class="r-role">{e.degree}</span>
+            <span class="r-period">{e.period}</span>
           </div>
-        ))}
-      </section>
-    </div>
+        </div>
+      ))}
+    </section>
 
     <section class="r-block">
       <h2>Learning · 학습과 공유</h2>
@@ -123,12 +138,11 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
     </section>
 
     <section class="r-block r-vision">
-      <h2>지향 · Vision</h2>
+      <h2>일하는 방식 · Working Principle</h2>
       <blockquote class="r-vision-q">{VISION.headline}</blockquote>
       {VISION.body.map((b) => <p class="r-vision-p">{b}</p>)}
     </section>
 
-    <p class="r-note">상세 이력 · 문제 해결 사례 · 결정 로그는 위키에서 — givepro91.github.io/cv</p>
   </section>
 
   <script is:inline>
@@ -175,12 +189,21 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
   .r-callout-lead { font-family: var(--mono); font-size: 10.5px; color: var(--accent); letter-spacing: 0.02em; }
   .r-callout-item { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
   .r-callout-item b { color: var(--ink); }
-  .r-callout-u { font-family: var(--mono); font-size: 11.5px; color: var(--accent); font-weight: 700; }
+  .r-callout-u { font-family: var(--mono); font-size: 11.5px; color: var(--accent); font-weight: 700; text-decoration: none; }
+  .r-callout-u:hover { text-decoration: underline; }
   .r-blocknote { font-size: 11.5px; color: var(--muted); margin: -6px 0 10px; }
+
+  /* PDF 클릭 링크 — 본문 톤 유지(색 상속·밑줄 없음), 화면에서만 hover 밑줄 */
+  .r-link { color: inherit; text-decoration: none; }
+  .r-link:hover { text-decoration: underline; }
 
   .r-block { margin-top: 22px; }
   .r-block h2 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--hair); padding-bottom: 5px; margin-bottom: 12px; }
-  .r-skills { font-size: 12px; color: var(--ink-soft); line-height: 1.75; }
+  /* CORE SKILLS — 카테고리 소제목 + 인라인 키워드(스캔성·텍스트 추출 친화, 뱃지 미사용) */
+  .r-skillgrid { display: flex; flex-direction: column; gap: 7px; }
+  .r-skillrow { display: grid; grid-template-columns: 134px 1fr; gap: 14px; align-items: baseline; }
+  .r-skillcat { font-family: var(--mono); font-size: 10.5px; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; line-height: 1.5; }
+  .r-skillitems { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
   .r-lectures { columns: 2; column-gap: 32px; margin-left: 16px; }
   .r-lectures li { font-size: 12px; color: var(--ink-soft); margin-bottom: 5px; break-inside: avoid; }
 
@@ -207,15 +230,34 @@ const skillLine = SKILLS.map((g) => g.items.join(" · ")).join("  ·  ");
     .resume { padding: 28px 20px; }
     .r-head { flex-direction: column; align-items: flex-start; }
     .r-contact { text-align: left; }
-    .r-cols { grid-template-columns: 1fr; gap: 0; }
+    .r-skillrow { grid-template-columns: 1fr; gap: 1px; }
   }
 
-  /* 인쇄: 카드 테두리·배경·여백 제거 (scoped 우선순위로 global @media print를 보강) */
+  /* 인쇄: 브라우저 기본 헤더/푸터(날짜·제목·URL·페이지번호) 제거 —
+     @page margin을 0으로 두면 브라우저가 헤더/푸터를 그릴 여백 자체가 사라진다.
+     대신 페이지 여백은 .resume 안쪽 padding으로 준다(포트폴리오 PDF와 동일 방식). */
   @media print {
-    .resume { border: none !important; padding: 0 !important; margin: 0 !important; background: #fff !important; }
-    /* Skills 그룹 추가로 Core Skills 라인이 길어져 footer가 4p로 밀리던 것 — 인쇄 간격만 압축해 3p 유지 */
-    .r-skills { line-height: 1.5; }
-    .r-lectures li { margin-bottom: 3px; }
-    .r-note { margin-top: 12px; padding-top: 10px; }
+    @page { size: A4; margin: 0; }
+    .resume { border: none !important; padding: 11mm 15mm !important; margin: 0 !important; background: #fff !important; }
+    /* 인쇄 전용 간격 압축 — 스코프 우선순위라 global.css보다 확실히 먹음.
+       AX 블록 + 제품 백엔드 블록이 한 페이지(p3)에 함께 들어가도록 딥다이브 간격을 좁힘. */
+    .r-block { margin-top: 8px; }
+    .r-summary { margin: 9px 0 3px; }
+    .r-highlights { gap: 5px; }
+    .r-skillgrid { gap: 5px; }
+    .r-skillitems { line-height: 1.5; }
+    .r-job { margin-bottom: 10px; }
+    .r-proj { margin-bottom: 7px; }
+    .r-job-sum { margin: 4px 0 2px; }
+    .r-job ul, .r-proj ul { margin-top: 3px; gap: 3px; }
+    .r-job li, .r-proj li { line-height: 1.46; }
+    .r-pstack { margin-top: 3px; }
+    .r-blocknote { margin: -4px 0 6px; }
+    .r-lectures li { margin-bottom: 1px; }
+    /* 마지막 Working Principle + footer note 를 p4 안에 들이기 위한 압축 */
+    .r-vision-q { font-size: 13px; margin-bottom: 5px; line-height: 1.42; }
+    .r-vision-p { font-size: 11.5px; margin-top: 2px; line-height: 1.48; }
+    /* footer 한 줄이 자기 혼자 다음 장으로 넘어가지 않게 — 테두리·패딩 오버헤드 제거하고 컴팩트하게 */
+    .r-note { margin-top: 8px; padding-top: 0; border-top: none; }
   }
 </style>
