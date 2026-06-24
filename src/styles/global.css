@@ -730,6 +730,10 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
   transition: background 0.18s, transform 0.18s;
 }
 .pdf-btn:hover { background: var(--accent-ink); transform: translateY(-1px); }
+.pdf-btn.ghost { background: var(--card); color: var(--accent-ink); border: 1px solid var(--accent-border); }
+.pdf-btn.ghost:hover { background: var(--accent-weak); }
+.cv-docs { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex: none; }
+@media (max-width: 640px) { .cv-docs { align-items: stretch; width: 100%; } }
 .cv-info {
   display: flex;
   justify-content: space-between;
