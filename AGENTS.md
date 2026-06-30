@@ -28,3 +28,18 @@
 ## 공개 범위(disclosure)
 
 공개 이력서/포폴이다. SoT의 정책을 따른다 — 회사 내부 정보·고객명·비공개 수치·비공개 내부 서비스명은 공개 카드/CV에 넣지 않는다. home 공개 Work 카드와 1:1 대응되는 근거만 사용.
+
+## 작업 환경 (세부는 `README.md` 정본)
+
+스택·개발 명령·콘텐츠 편집 위치·배포 흐름의 **정본은 `README.md`** — 여기서 중복 기술하지 않는다(드리프트 방지). 요지만:
+
+- Astro 정적 사이트, pkg 매니저는 **pnpm**. `pnpm dev`(localhost:4321) · `pnpm build` · `pnpm preview`.
+- 데이터 SoT: CV = `src/data/cv.ts` / 사이트 설정 = `src/config.ts` / Work 카드 = `src/content/projects/ko/<slug>.md` / Lab = `src/data/lab.ts`.
+- 배포: `main` push → GitHub Actions(`.github/workflows/deploy.yml`) → GitHub Pages(`givepro91.github.io`, USER 루트라 `base` 없음).
+
+## 운영 규칙 (에이전트)
+
+- **빌드 게이트는 blocking.** `pnpm build` 는 `astro build` 전후로 `scripts/check-disclosure.mjs`(source·dist)를 돌려 시크릿 패턴을 스캔한다. 게이트 실패 = 배포 불가이므로 우회(`build:nogate`)로 덮지 말고 원인을 고친다. commit 입구에도 `.githooks/pre-commit` 으로 동일 스캔이 걸린다.
+- **레포 위생 — `git add .` / `git add -A` 금지.** 항상 명시 경로만 스테이징하고, add 전 `git status` 로 무엇이 잡히는지 확인한다. 커밋·푸시는 사용자가 요청할 때만.
+- **스크린샷·캡쳐는 레포 밖/ignore 경로로.** throwaway 캡쳐는 `/tmp` 또는 gitignore된 경로에 둔다. 레포 루트 `*.png` 는 gitignore되지만 흩뿌리지 않는다. `.omc/` `.playwright-mcp/` 도 ignore 대상.
+- **핸드오프**: 세션 인계는 `docs/handoff/<branch>.md` 에 기록·갱신한다. 작업 시작 전 해당 파일을 읽고 현재 코드와 어긋났는지 확인한 뒤 "Next steps" 부터 이어간다.
