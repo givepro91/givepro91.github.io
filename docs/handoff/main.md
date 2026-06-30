@@ -4,7 +4,7 @@ status: active
 updated: 2026-06-30T04:25:00Z
 ---
 ## Restore in 30s
-**(이번 세션) ① 프로젝트 지침 정리 + ② CV "두 축 전면 재구조" 구현·검증·UI폴리시 완료 — 전부 미커밋, 커밋 결정 대기.**
+**(이번 세션) ① 프로젝트 지침 정리 + ② CV "두 축 전면 재구조" 구현·검증·UI폴리시 — 커밋·배포 완료(라이브 반영 확인).** 커밋 `c3738d6`(지침) + `97ac867`(CV재구조). GitHub Actions Deploy success, `givepro91.github.io/cv` 에 subtitle 반영·옛 직책 0건 확인.
 
 폴리시 라운드들(사용자 로컬 육안 피드백, 전부 반영·검증):
 1. 히어로 부제 색 `--ink-mute`→`--ink-sub`(흐림 해소). 히어로 하드코딩 한줄카피→"조직 전체가 AI와 안전하게 일하는 운영 구조"(`SITE.tagline`은 미사용 dead라 index.astro 직접).
