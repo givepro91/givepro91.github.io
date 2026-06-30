@@ -110,7 +110,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
         <div class="why-card">
           <span class="why-n">02</span><h3>데이터·운영을 ‘침묵형 실패’에서 보호</h3>
           <p>‘workflow 성공 ≠ 데이터 성공’을 전제로 silent fail을 빌드·테스트 레벨에서 차단. 안전 규칙을 문서가 아니라 훅으로 강제.</p>
-          <span class="why-ev">증거 — <b>Realty Pipeline</b>(무중단 ETL·운영 DB 다운 0) · 알림 수 분→수 초</span>
+          <span class="why-ev">증거 — <b>Realty Pipeline</b>(무중단 ETL·운영 DB 다운 0) · 알림 처리 수 분에서 수 초로</span>
         </div>
         <div class="why-card">
           <span class="why-n">03</span><h3>0→1을 끝까지 운영까지</h3>
@@ -118,7 +118,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
           <span class="why-ev">증거 — <b>Zippit</b>(실서비스) · <b>Landbook MSA</b>(lead committer · ~1,800 커밋)</span>
         </div>
       </div>
-      <p class="why-foot">백엔드 10년을 <b>토대</b>로, 문제 정의 → 판단 → 운영 안전장치를 한 사이클로 만듭니다. &nbsp;상세 결정 로그 → <a href={SITE}>givepro91.github.io</a></p>
+      <p class="why-foot">백엔드 10년을 <b>토대</b>로, 문제를 정의하고 판단해 운영 안전장치까지 한 사이클로 만듭니다. &nbsp;상세 결정 로그 → <a href={SITE}>givepro91.github.io</a></p>
       <div class="s-foot"><span>장근식 · Portfolio 2026</span><a href={SITE}>givepro91.github.io</a></div>
     </section>
 
@@ -153,7 +153,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
             <div class="exp">
               <div class="exp-row"><span class="exp-k">AI Agent Ops</span><p><b>Nova·Ground Control</b> — 에이전트 통제·human-in-the-loop를 직접 설계·빌딩 (생성–검증 분리 게이트)</p></div>
               <div class="exp-row"><span class="exp-k">Data Reliability</span><p><b>Realty Pipeline</b> — 무중단 Blue-Green ETL로 운영 DB 다운 0 · silent fail 구조적 차단</p></div>
-              <div class="exp-row"><span class="exp-k">Backend · MSA</span><p><b>Landbook</b> lead committer(~1,800 커밋) — 장애 격리 경계 설계 · 동기→비동기 전환</p></div>
+              <div class="exp-row"><span class="exp-k">Backend · MSA</span><p><b>Landbook</b> lead committer(~1,800 커밋) — 장애 격리 경계 설계 · 동기 호출을 비동기로 전환</p></div>
               <div class="exp-row"><span class="exp-k">Stack</span><p>{SKILLS.find((g:any)=>g.group.includes("Backend"))?.items.slice(0,4).join(" · ")} · Kafka · Redis · AWS EKS · ArgoCD</p></div>
             </div>
           </div>
