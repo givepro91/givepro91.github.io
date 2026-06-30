@@ -84,14 +84,11 @@ const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
         {d.stack.slice(0, 5).map((t) => <span class="tag">{t}</span>)}
       </div>
     )}
-    {
-      d.visibility === "public" && d.link ? (
-        <a class="wc-link" href={`/work/${slug}/`}>
-          자세히 <span class="arr">→</span>
-        </a>
-      ) : (
-        <span class="wc-nolink"><span class="lock">●</span> {noLinkText}</span>
-      )
-    }
+    {!(d.visibility === "public" && d.link) && (
+      <span class="wc-nolink"><span class="lock">●</span> {noLinkText}</span>
+    )}
+    <a class="wc-link" href={`/work/${slug}/`}>
+      자세히 보기 <span class="arr">→</span>
+    </a>
   </div>
 </article>

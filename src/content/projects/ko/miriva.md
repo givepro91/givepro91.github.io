@@ -2,7 +2,7 @@
 title: "MIRIVA — 운영 누락 방지 관제"
 theme: reliability
 kind: work
-order: 10
+order: 9
 positioning: "소규모 팀이 놓치면 사고 나는 운영 항목(클라우드 비용·SSL/도메인 만료·소유자 공백)을 외부 의존 없이 감지해, 매주 결정 3건만 들이대는 SaaS입니다."
 shows:
   - "가설 검증 규율(적대적 PRD)"

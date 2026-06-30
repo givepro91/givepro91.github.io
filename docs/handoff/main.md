@@ -1,7 +1,7 @@
 ---
 branch: main
 status: active
-updated: 2026-06-30T06:18:28Z
+updated: 2026-06-30T07:28:09Z
 ---
 ## Restore in 30s
 **(이번 세션) ① 프로젝트 지침 정리 + ② CV "두 축 전면 재구조" 구현·검증·UI폴리시 — 커밋·배포 완료(라이브 반영 확인).** 커밋 `c3738d6`(지침) + `97ac867`(CV재구조). GitHub Actions Deploy success, `givepro91.github.io/cv` 에 subtitle 반영·옛 직책 0건 확인.
@@ -15,8 +15,19 @@ updated: 2026-06-30T06:18:28Z
 6. **PDF에도 ①/② 그룹 헤더** 추가(`cv/print.astro`에 동일 `groupHighlights()`+`.r-axis-head`) — 요약 축약으로 PDF에서 ①/②가 미설명되던 문제 해소, 웹/PDF 구조 일치.
 7. CEO 「퇴직 확인 및 인재 추천서」(사용자 로컬 PDF) 검토 — 이력서 ①축(LLM-Wiki·접근/시크릿 권한·90%+ 인프라 로컬이전·이중화·전사 레버리지)을 CEO가 독립 검증, ②축을 "풀스택 역할"로 명시. 사실 보정: `duration` 3년 5개월→**3년 6개월**(추천서 정본). 재직상태는 사용자 결정으로 "재직 중" 유지. 퇴직·권고사직 맥락은 민감정보라 공개 사이트 비노출(메모리 `project-spacewalk-departure`에 기록).
 8. **AI 말투(이질감) 전체 정리** — 사용자가 "사용하는 게 이질감" 피드백. cv.json 요약·HIGHLIGHTS(7)·경력(8)·CASES 제목/화살표·VISION 헤드라인에서 수사적 tell(엠대시 연결·"A 아니라 B" 남발·화살표 체인·≠) 제거→자연 문장. **보존**: 실제 파이프라인 화살표(web→server→worker)·인용 설계원칙(Nova/Realty)·홈 브랜드 1줄. de-slop으로 PDF 5쪽 됐다가 `cv/print.astro` @media print 간격 압축으로 **4쪽 복구**.
-9. **portfolio/print de-slop(부분)** — 사용자가 포폴 반영 여부 확인. 제목·부제·경력summary는 이미 반영(공유). 포폴 자체 카피는 "X가 아니라 Y" 판단 소바이트가 정체성이라 보존하고, **수사적 화살표만** 3곳 정리(why-foot "문제 정의 → 판단 → 운영 안전장치" 체인, "수 분→수 초", "동기→비동기"). 보존: 브랜드 "문제 → 판단 → 증명"·다이어그램 화살표·0→1·인용 원칙·"아니라" 18개. 포폴 PDF 10쪽 유지.
-재빌드 PASS·이력서 PDF 4쪽 유지 매 라운드 확인.
+9. **portfolio/print de-slop(부분)** — 사용자가 포폴 반영 여부 확인. 제목·부제·경력summary는 이미 반영(공유). 포폴 자체 카피는 "X가 아니라 Y" 판단 소바이트가 정체성이라 보존하고, **수사적 화살표만** 3곳 정리(why-foot "문제 정의 → 판단 → 운영 안전장치" 체인, "수 분→수 초", "동기→비동기"). 보존: 브랜드 "문제 → 판단 → 증명"·다이어그램 화살표·0→1·인용 원칙·"아니라" 18개. 포폴 PDF 10쪽 유지. **커밋 `7d11db6` 배포 완료.**
+재빌드 PASS·이력서 PDF 4쪽 유지 매 라운드 확인(커밋 c3738d6·97ac867·7fe7b08·23650b0·7d11db6 라이브).
+
+## 🆕 진행 중 (미커밋·검증대기) — 포폴에 Josh 전략 '내용' 반영
+사용자 지적: "포폴은 스타일만 고쳤고 Josh가 말한 내용(②축 제품증거·①축 차별점)은 미반영." + ②축 자료 제공(retail.plannext.ai demo/0000, planreviewer 캡쳐 4장). → **포폴 실질 재구조 완료, 미배포.**
+- ② 제품증거: **PlanNext Retail 신규 카드**(`plannext-retail.md`, order 8, link retail.plannext.ai) + **PlanReview MAIN 승격**. 둘 다 포폴 MAIN 5선→6선에 추가, zippit은 others로. 실제 화면 캡쳐 적재(웹 압축): `public/og/plannext-retail.png`·`planreviewer-{hero.jpg,upload.png,review.png}`. galleries.json work+cv 갱신.
+- ① 재프레임: WHY ME 01=회사차원 운영기반(개인 OSS→증명으로 강등), 02=②풀스택제품, 03=신뢰성. EXPERTISE=AI Operations/AI Product/Data Reliability 두 축. PROFILE s-ctx·figcaption "마스킹" 문구 제거. OTHER WORKS 페이지번호 동적화({TOTAL-1}).
+- **빌드 PASS(17p)·게이트 통과, 포폴 케이스 01 PlanNext·02 PlanReview(실 도면판정 화면) 렌더 육안 확인.**
+- ⚠️ **PlanNext Retail 카드 서사 = 추론(unverified).** CEO 추천서+제품화면 기반 초안 — 역할/핵심판단/스택을 사용자 검증 후 배포해야 함. PlanReview 실클라이언트 도면(중동·망원동)은 **사용자 명시 승인**으로 공개 OK.
+- **정렬 재배치(사용자 "순서 애매" 지적):** 제품 상단 고정 + 최근성·기여도순. 포폴 MAIN = `[plannext-retail, planreview, ground-control, nova, landbook-msa, realty-data-pipeline]`. 카드 `order` 11개 일괄 재번호(plannext1·planreview2·gc3·nova4·landbook5·realty6·zippit7·garo8·miriva9·markwand10·markbrief11·medincurl90) → 홈 Work + 포폴 OTHER WORKS 표 동시 정렬. 빌드 PASS. **미결 질문: Landbook(lead 1,800)을 더 위로(기여 우선) vs 현재(최신 단독 GC·Nova 아래).**
+- **상세페이지 진입 버튼 누락 픽스(사용자 지적):** `ProjectCard.astro`의 "자세히" 링크가 `visibility==public && link`일 때만 떠서 anon 8/12 카드에 버튼 없었음 → **항상 "자세히 보기 →" 노출**(상세는 모든 카드 존재), `.wc-link` 알약 버튼화(호버 채움). dist 홈 wc-link 12개 확인.
+- **PlanNext Retail 카드 강화(사용자가 실제 제품화면 4장 추가 제공, demo/0000):** 입지·유동인구 분석→참고사례→AI 전략 다중안(Balanced/Focused/Exploratory)→2D·3D 자동설계→AI 포토리얼 렌더→DXF·검증(plan_c.json·149 fixtures). 내 "설계 데이터 모델 분리" 추론은 검증됨. `plannext-retail.md` 서사 재작성, 갤러리=[plannext-3d.jpg(3D렌더), plannext-plans.png(3안), plannext-analysis.jpg(입지), plannext-retail.png(랜딩)], 포폴 FLOW/EVID/SHOT 갱신. **상세 히어로=3D 렌더, 빌드 PASS, 육안 OK.** (스택 실프레임워크는 여전히 unverified — 캡쳐에 안 나옴.)
+- dev 서버 localhost:4322 hot-reload 중. **전부 미커밋·미배포 — 사용자 로컬 검토 후 커밋·배포 예정.**
 
 ①은 **완료**: `CLAUDE.md` 없어서 만들지 묻길래 — 이미 같은 역할의 `AGENTS.md`가 있어 별도 생성 시 드리프트라 판단 → AGENTS.md에 운영규칙 보강 후 `CLAUDE.md → AGENTS.md` 심링크로 단일 SoT 유지. 불필요한 `NOVA-STATE.md` 삭제.
 
@@ -25,11 +36,13 @@ updated: 2026-06-30T06:18:28Z
 직전 핸드오프 "AI 말투 정리"는 이미 커밋됨(`9e949bf`) — 해소.
 
 ## Next steps
-- **커밋 결정 대기.** 사용자 OK 시 명시경로만(`git add .` 금지):
-  `git add src/config.ts src/data/cv.json src/pages/index.astro src/pages/cv/index.astro src/pages/cv/print.astro src/pages/portfolio/print.astro src/styles/global.css AGENTS.md CLAUDE.md docs/superpowers docs/handoff/main.md`
-  - ⚠️ 지침정리(①)와 CV재구조(②)는 성격이 달라 **커밋 2개로 분리** 권장.
-- 파킹: **②축 증거(retail.plannext.ai 데모·planreviewer 캡쳐) = 자료 미확보** → 들어오면 ②에 추가(스펙 비목표에 명시). 직전 핸드오프 미결 카피건("결정 로그" 라벨·"A가 아니라 B" 구문)은 별건.
-- 배포 후 카카오톡 OG 캐시는 별개(기존 작업).
+- **사용자 검증 대기 (PlanNext Retail 카드 서사).** 역할/핵심판단/스택이 맞는지 확인 받기 → 틀리면 `src/content/projects/ko/plannext-retail.md` 수정.
+- 검증되면 **커밋+배포** (명시경로만, `git add .` 금지):
+  `git add src/content/projects/ko src/data/galleries.json src/pages/portfolio/print.astro public/og/plannext-retail.png public/og/planreviewer-hero.jpg public/og/planreviewer-upload.png public/og/planreviewer-review.png docs/handoff/main.md`
+  (※ `src/content/projects/ko`는 신규 plannext-retail.md + order 재번호된 10개 카드 포함. `git add .` 금지.)
+  → `git commit` → `git push origin main` → `gh run watch` success → 라이브 `givepro91.github.io/portfolio/print` 확인.
+- 옵션: PlanNext Retail을 `/cv`에도 추가(현재 포폴+홈Work만 노출, cv.json PROJECTS엔 PlanNext.AI만 있음). retail.plannext.ai 라이브 콘솔(demo/0000) 추가 캡쳐도 가능(현재는 랜딩만).
+- 파킹: 직전 핸드오프 미결 카피건("결정 로그" 라벨)·OG 카카오 캐시는 별건.
 
 ## Touch points
 - `docs/superpowers/specs/2026-06-30-cv-two-axis-reframe-design.md` — ②의 정본 스펙(확정 문구·변경표·검증).

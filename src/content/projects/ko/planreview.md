@@ -2,7 +2,7 @@
 title: "PlanReview — 건축 도면 규정 검토 자동화"
 theme: proptech
 kind: work
-order: 5
+order: 2
 positioning: "건축 도면(PDF)을 올리면 분석 엔진이 규정 적합성을 자동 검토해주는 SaaS입니다."
 shows:
   - "비동기 분석 파이프라인"

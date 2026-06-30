@@ -2,7 +2,7 @@
 title: "Realty Data Pipeline — 무중단 부동산 ETL"
 theme: reliability
 kind: work
-order: 7
+order: 6
 positioning: "전국 부동산 데이터를 매월, 운영 DB를 단 한 번도 깨지 않고 무중단으로 갱신하는 Blue-Green ETL입니다."
 shows:
   - "Blue-Green 데이터 배포"

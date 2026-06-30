@@ -2,7 +2,7 @@
 title: "Landbook MSA 백엔드"
 theme: backend
 kind: work
-order: 1
+order: 5
 featured: true
 positioning: "토지·부동산 플랫폼의 인증·결제·구독·필지정보·게이트웨이를 Kotlin/Spring 마이크로서비스로 설계·운영했습니다."
 shows:

@@ -16,9 +16,15 @@
       "/og/990507fa9bbb7.png"
     ],
     "planreview": [
-      "/og/scr-20260623-svjw.jpeg",
-      "/og/scr-20260623-svme.png",
-      "/og/scr-20260623-svpi.png"
+      "/og/planreviewer-review.png",
+      "/og/planreviewer-hero.jpg",
+      "/og/planreviewer-upload.png"
+    ],
+    "plannext-retail": [
+      "/og/plannext-3d.jpg",
+      "/og/plannext-plans.png",
+      "/og/plannext-analysis.jpg",
+      "/og/plannext-retail.png"
     ],
     "nova": [
       "/og/scr-20260623-svyq.png"
@@ -45,6 +51,10 @@
     "PlanNext.AI": [
       "/og/scr-20260623-sybp.png",
       "/og/scr-20260623-sxyw.png"
+    ],
+    "PlanReview": [
+      "/og/planreviewer-review.png",
+      "/og/planreviewer-hero.jpg"
     ],
     "큐피커 (Qpicker)": [
       "/og/scr-20260623-sysm.jpeg"

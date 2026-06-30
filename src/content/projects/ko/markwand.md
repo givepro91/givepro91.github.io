@@ -2,7 +2,7 @@
 title: "Markwand — AI 산출물 큐레이터"
 theme: devtools
 kind: work
-order: 9
+order: 10
 positioning: "AI 도구가 프로젝트 곳곳에 흩뿌린 마크다운 문서를, 한곳에서 찾고 읽고 다시 들어가게 해주는 macOS read-only 데스크톱 앱입니다."
 shows:
   - "데스크톱 앱(Electron)"
