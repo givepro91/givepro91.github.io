@@ -9,9 +9,27 @@ const initial = PROFILE.name.charAt(0);
 
 // Projects 섹션은 'AX 직접 빌딩'을 맨 위, '회사 대표 프로젝트'를 그 아래로 그룹핑한다.
 const projectGroups = [
-  { label: "AI Agent Ops · 운영 자동화 · 데이터 신뢰성", note: "AI 에이전트 통제·검증(Nova·Ground Control)부터 운영 누락 방지·무중단 데이터 파이프라인(MIRIVA·Realty)까지 — 운영을 내부 제품으로 직접 설계·구현(일부 오픈소스 공개)", items: AX_PROJECTS },
+  { label: "AI Agent Ops · 운영 자동화 · 데이터 신뢰성", note: "회사 차원에서 깐 거버넌스·운영 원리를 외부 의존 0의 재사용 가능한 제품으로 증명 — AI 에이전트 통제·검증(Nova·Ground Control)부터 운영 누락 방지·무중단 데이터 파이프라인(MIRIVA·Realty)까지 단독 설계·구현(일부 OSS 공개)", items: AX_PROJECTS },
   { label: "스페이스워크 · 제품 백엔드", note: "PropTech 플랫폼 백엔드 · LLM 기반 API 서비스", items: PROJECTS },
 ];
+
+// Career highlights 중 ①/② 접두 항목을 두 축으로 그룹핑 (없으면 평면 리스트)
+const AXES: Record<string, string> = {
+  "①": "AI Operations & Agent Infrastructure",
+  "②": "AI Full-Stack Product Engineering",
+};
+function groupHighlights(highlights: string[]) {
+  const out: { axis: string | null; items: string[] }[] = [];
+  for (const h of highlights) {
+    const m = h.match(/^([①②])\s+([\s\S]*)$/);
+    const axis = m ? m[1] : null;
+    const text = m ? m[2] : h;
+    const last = out[out.length - 1];
+    if (last && last.axis === axis) last.items.push(text);
+    else out.push({ axis, items: [text] });
+  }
+  return out;
+}
 
 const toc = [
   { id: "overview", label: "Overview" },
@@ -44,7 +62,7 @@ const toc = [
           <div>
             <p class="cv-kicker">log.cv — 상세 이력 / detailed résumé</p>
             <h1 class="cv-title">{PROFILE.name} <span class="cv-en">{PROFILE.nameEn}</span></h1>
-            <p class="cv-sub">{PROFILE.title} · {PROFILE.domain}</p>
+            <p class="cv-sub">{PROFILE.title} · {PROFILE.subtitle}</p>
           </div>
         </div>
         <div class="cv-docs">
@@ -89,7 +107,13 @@ const toc = [
       <!-- OVERVIEW -->
       <section id="overview" class="cv-section reveal">
         <h2 class="cv-h2"><span class="n">01</span> Overview</h2>
-        {PROFILE.summary.split("\n\n").map((p) => <p class="cv-lead">{p}</p>)}
+        {PROFILE.summary.split("\n\n").map((p) => {
+          const isAxis = p.startsWith("①") || p.startsWith("②");
+          const i = p.indexOf(" — ");
+          return isAxis && i > -1
+            ? <p class="cv-lead cv-axis"><b>{p.slice(0, i)}</b>{p.slice(i)}</p>
+            : <p class="cv-lead">{p}</p>;
+        })}
         {PROFILE.current.split("\n\n").map((p, i) => (
           <p class="cv-now">{i === 0 ? <Fragment><span class="now-tag">NOW</span>{p}</Fragment> : p}</p>
         ))}
@@ -108,7 +132,14 @@ const toc = [
               <div class="cv-entry-period">{c.period}{c.duration && <span class="dur">{c.duration}</span>}</div>
             </div>
             {c.summary && <p class="cv-entry-summary">{c.summary}</p>}
-            <ul class="cv-list">{c.highlights.map((h) => <li>{h}</li>)}</ul>
+            {c.highlights.some((h) => /^[①②]/.test(h))
+              ? groupHighlights(c.highlights).map((g) => (
+                  <div class={g.axis ? "cv-hi-grp cv-axis-group" : "cv-hi-grp"}>
+                    {g.axis && <p class="cv-axis-head">{g.axis} {AXES[g.axis]}</p>}
+                    <ul class="cv-list">{g.items.map((t) => <li>{t}</li>)}</ul>
+                  </div>
+                ))
+              : <ul class="cv-list">{c.highlights.map((h) => <li>{h}</li>)}</ul>}
             {c.stack && <div class="tags">{c.stack.map((s) => <span class="tag">{s}</span>)}</div>}
           </article>
         ))}

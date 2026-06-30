@@ -183,6 +183,7 @@ nav.links a.btn-cv:hover { background: var(--accent-ink); color: #fff; transform
 .p-name { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; }
 .p-name-en { font-family: var(--mono); font-size: 12.5px; color: var(--ink-mute); }
 .p-title { margin-top: 3px; font-size: 15px; font-weight: 600; color: var(--accent-ink); }
+.p-subtitle { margin-top: 3px; font-family: var(--mono); font-size: 12.5px; font-weight: 500; color: var(--ink-sub); letter-spacing: -0.01em; }
 .p-status {
   margin-top: 9px;
   display: inline-flex;
@@ -782,6 +783,13 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
 .cv-h2-note { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); font-weight: 400; }
 .cv-lead { font-size: 16.5px; line-height: 1.74; color: var(--ink-sub); max-width: 66ch; }
 .cv-lead + .cv-lead { margin-top: 11px; }
+.cv-axis { padding-left: 15px; border-left: 2px solid var(--accent-border); }
+.cv-axis + .cv-axis { margin-top: 8px; }
+.cv-axis b { color: var(--accent-ink); font-weight: 700; }
+/* Career highlights — 두 축 그룹 헤더 (①/②) */
+.cv-hi-grp { margin-top: 11px; }
+.cv-axis-group { padding-left: 14px; border-left: 2px solid var(--accent-border); }
+.cv-axis-head { font-size: 14px; font-weight: 700; color: var(--accent-ink); margin: 0 0 5px; letter-spacing: -0.01em; }
 .cv-now { margin-top: 16px; font-size: 14.5px; color: var(--ink-sub); line-height: 1.7; }
 .cv-now + .cv-now { margin-top: 8px; }
 .now-tag { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--accent-ink); background: var(--accent-weak); border: 1px solid var(--accent-border); border-radius: 6px; padding: 2px 8px; margin-right: 8px; letter-spacing: 0.04em; }
@@ -798,7 +806,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 30px; }
 .cv-entry-role { font-size: 13.5px; color: var(--ink-mute); margin-top: 3px; }
 .cv-entry-period { font-family: var(--mono); font-size: 12px; color: var(--accent); text-align: right; }
 .cv-entry-period .dur { display: block; color: var(--ink-mute); margin-top: 2px; }
-.cv-entry-summary { margin: 12px 0; color: var(--ink-sub); font-size: 14.5px; line-height: 1.7; }
+.cv-entry-summary { margin: 12px 0; color: var(--ink); font-size: 14.5px; line-height: 1.7; }
 /* cv 프로젝트 썸네일 (공개 제품만) */
 .cv-entry.has-thumb { display: flex; gap: 22px; align-items: flex-start; }
 .cv-entry.has-thumb .cv-entry-text { flex: 1; min-width: 0; }

@@ -13,10 +13,11 @@ export const SITE = {
   // Hero / identity
   name: "장근식",
   nameEn: "Keun-sik Jang",
-  title: "AX Product · Engineering Lead",
+  title: "Technical Product Lead",
+  subtitle: "AI Operations & Agent Infrastructure",
   // 한 문장 정체성
   tagline:
-    "AI를 붙이는 개발자가 아니라, AI가 안전하게 일할 수 있는 운영 구조를 설계하는 사람.",
+    "AI를 붙이는 개발자가 아니라, 조직 전체가 AI와 안전하게 일할 수 있는 운영 구조를 — 개인이 아니라 팀 차원으로 — 설계하는 사람.",
   subtagline: "무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.",
   description:
     "장근식(Jay)의 공개 포트폴리오 겸 작업 기록 — 어떤 문제를 어떤 기준으로 풀었는지를 중심으로.",

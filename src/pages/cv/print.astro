@@ -15,6 +15,24 @@ const SKILL_GROUPS = [
   { cat: "Search / Tools", items: "ElasticSearch · OpenSearch · Meilisearch · Git · GitHub · Notion · Jira · Confluence · Slack · Google Workspace" },
   { cat: "Leadership / Collab", items: "Agile/Scrum · 코드 리뷰 · 기술 의사결정 · 문서화 · 플레이북화" },
 ];
+
+// Career highlights 중 ①/② 접두 항목을 두 축 헤더로 그룹핑 (PDF도 ①/②가 자기설명되게 — 웹과 동일)
+const AXES: Record<string, string> = {
+  "①": "AI Operations & Agent Infrastructure",
+  "②": "AI Full-Stack Product Engineering",
+};
+function groupHighlights(highlights: string[]) {
+  const out: { axis: string | null; items: string[] }[] = [];
+  for (const h of highlights) {
+    const m = h.match(/^([①②])\s+([\s\S]*)$/);
+    const axis = m ? m[1] : null;
+    const text = m ? m[2] : h;
+    const last = out[out.length - 1];
+    if (last && last.axis === axis) last.items.push(text);
+    else out.push({ axis, items: [text] });
+  }
+  return out;
+}
 ---
 
 <BaseLayout title="이력서 (PDF)" description="장근식 이력서">
@@ -27,7 +45,7 @@ const SKILL_GROUPS = [
     <header class="r-head">
       <div class="r-id">
         <h1>{PROFILE.name} <span class="r-en">{PROFILE.nameEn}</span></h1>
-        <p class="r-title">{PROFILE.title} · {PROFILE.domain}</p>
+        <p class="r-title">{PROFILE.title} · {PROFILE.subtitle}</p>
       </div>
       <div class="r-contact">
         <a class="r-link" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
@@ -72,17 +90,26 @@ const SKILL_GROUPS = [
             <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
           </div>
           {c.summary && <p class="r-job-sum">{c.summary}</p>}
-          <ul>{(c.current ? c.highlights : c.highlights.slice(0, 3)).map((h) => <li>{h}</li>)}</ul>
+          {c.current && c.highlights.some((h) => /^[①②]/.test(h))
+            ? groupHighlights(c.highlights).map((g) => (
+                <Fragment>
+                  {g.axis && <p class="r-axis-head">{g.axis} {AXES[g.axis]}</p>}
+                  <ul>{g.items.map((t) => <li>{t}</li>)}</ul>
+                </Fragment>
+              ))
+            : <ul>{(c.current ? c.highlights : c.highlights.slice(0, 3)).map((h) => <li>{h}</li>)}</ul>}
           {c.stack && <p class="r-pstack">{c.stack.join(" · ")}</p>}
         </div>
       ))}
-      {mini.map((c) => (
-        <div class="r-job-mini">
-          <span class="r-co">{c.company}</span>
-          <span class="r-role">{c.role}</span>
-          <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
-        </div>
-      ))}
+      <div class="r-mini-group">
+        {mini.map((c) => (
+          <div class="r-job-mini">
+            <span class="r-co">{c.company}</span>
+            <span class="r-role">{c.role}</span>
+            <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
+          </div>
+        ))}
+      </div>
     </section>
 
     <section class="r-block r-keep">
@@ -212,6 +239,8 @@ const SKILL_GROUPS = [
   .r-highlights li::marker { color: var(--accent); }
 
   .r-job { margin-bottom: 16px; }
+  .r-axis-head { font-size: 12px; font-weight: 700; color: var(--accent); margin: 9px 0 3px; letter-spacing: -0.01em; }
+  .r-axis-head:first-of-type { margin-top: 6px; }
   .r-job-head, .r-proj-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   .r-co, .r-pname { font-weight: 700; color: var(--ink); font-size: 14px; }
   .r-role, .r-ptag { color: var(--ink-soft); font-size: 12.5px; }
@@ -247,6 +276,9 @@ const SKILL_GROUPS = [
     .r-skillgrid { gap: 5px; }
     .r-skillitems { line-height: 1.5; }
     .r-job { margin-bottom: 10px; }
+    .r-axis-head { margin: 6px 0 2px; }
+    /* mini 경력은 통째로 한 페이지에 — 페이지 경계서 쪼개지지 않게 */
+    .r-mini-group, .r-job-mini { break-inside: avoid; }
     .r-proj { margin-bottom: 7px; }
     .r-job-sum { margin: 4px 0 2px; }
     .r-job ul, .r-proj ul { margin-top: 3px; gap: 3px; }
