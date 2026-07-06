@@ -14,9 +14,12 @@
 
 ## 정체성·포지셔닝의 Source of Truth
 
-근식님의 "현재"는 별도 레포가 정본으로 기록·갱신한다. **직무/이력/정체성 관련 작업은 추측하지 말고 이 레포의 최신 `strategy/` 를 먼저 확인한다.**
+근식님의 "현재"는 추측하지 말고 **두 SoT 레포**를 먼저 확인한다. 층위가 다르다 — ①은 "어떻게 말할까"(표현), ②는 "누구이고 왜"(근거).
 
-- **`jay-swk/social-portfolio-os`** (GitHub private, 현재 계정 `givepro91`로 접근 가능) — "Jay Social & Portfolio OS". 매주 Codex 자동화가 실제 업무·커밋 기반으로 포지셔닝을 갱신.
+### 1. 표현·포지셔닝 — `jay-swk/social-portfolio-os`
+
+"Jay Social & Portfolio OS" (GitHub private, 현재 계정 `givepro91`로 접근 가능). 매주 Codex 자동화가 실제 업무·커밋 기반으로 포지셔닝을 갱신. **직무/이력/카피 작업은 최신 `strategy/` 를 먼저 확인한다.**
+
 - 읽는 법: `gh api 'repos/jay-swk/social-portfolio-os/contents/<path>' --jq .content | base64 -d`
 - 핵심 파일:
   - `strategy/profile-copy.md` — 헤드라인·About·한 줄 소개 카피
@@ -24,6 +27,26 @@
   - `strategy/profile-analysis.md`, `strategy/resume-refresh.md` — 강점 서사·이력서 갱신 방향
   - `portfolio/project-cards.md` — 공개 프로젝트 카드(이 사이트 Work와 대응)
   - `sources/profile-snapshot.md` — 기준 자료 요약
+
+### 2. 누구이고 왜 그렇게 판단하나 (cognitive 근거) — `givepro91/my-wiki`
+
+장근식 개인 cognitive SoT (**private**). 8특질·가치 3축·기질·내면 동기·연대기·판단 기록의 **근거층** — 포지셔닝 카피의 "왜"가 여기 있다. 공개 서사가 인물의 진실과 어긋나지 않는지 대조하는 기준.
+
+- 읽는 법: `gh api 'repos/givepro91/my-wiki/contents/<path>' --jq .content | base64 -d` (또는 clone 후 read)
+- 핵심 파일:
+  - `me.md` — 8특질·가치 3축·기질·동력/그림자 (⚠️ `status: inferred` = 본인 확인 전)
+  - `timeline.md` — 2016~2026 연대기·기술 진화 축
+  - `values/*.md` — 왜 그렇게 판단했나(포기한 대안 포함)
+  - `skills/ax-philosophy.md` — AX 세계관(공개 서사의 지적 뿌리)
+  - `work/*.md` — 프로젝트별 판단·증거(proof·nova·miriva 등)
+
+### ⚠️ 공개 경계 (my-wiki=private → 이 사이트=public)
+
+my-wiki엔 민감정보(생일·전화·연봉·인사평가·비공개 타겟)가 있다. **맥락·근거로만 읽고, 공개 CV/카드에 그대로 옮기지 않는다.**
+
+- my-wiki 규칙: `public: true` 명시된 것만 공개 투영 대상. 그 외 전부 private.
+- 표현·공개 판단은 여전히 §1 + 아래 "공개 범위(disclosure)" + 빌드 게이트(`check-disclosure`)를 따른다.
+- `status: inferred` 항목은 **미검증 초안** — 공개 문구의 사실 근거로 삼지 말 것.
 
 ## 공개 범위(disclosure)
 
