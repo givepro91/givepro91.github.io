@@ -14,23 +14,9 @@
 
 ## 정체성·포지셔닝의 Source of Truth
 
-근식님의 "현재"는 추측하지 말고 **두 SoT 레포**를 먼저 확인한다. 층위가 다르다 — ①은 "어떻게 말할까"(표현), ②는 "누구이고 왜"(근거).
+근식님의 "현재"는 추측하지 말고 **`givepro91/my-wiki` 하나만 상위 SoT로 확인한다.** 사실·판단·프로젝트 계보와 공개 포지셔닝·소셜 운영을 이 저장소에 통합했다. 기존 `jay-swk/social-portfolio-os`는 2026-07-10 이관된 레거시이므로 최신 권위로 사용하지 않는다.
 
-### 1. 표현·포지셔닝 — `jay-swk/social-portfolio-os`
-
-"Jay Social & Portfolio OS" (GitHub private, 현재 계정 `givepro91`로 접근 가능). 매주 Codex 자동화가 실제 업무·커밋 기반으로 포지셔닝을 갱신. **직무/이력/카피 작업은 최신 `strategy/` 를 먼저 확인한다.**
-
-- 읽는 법: `gh api 'repos/jay-swk/social-portfolio-os/contents/<path>' --jq .content | base64 -d`
-- 핵심 파일:
-  - `strategy/profile-copy.md` — 헤드라인·About·한 줄 소개 카피
-  - `strategy/github-derived-positioning.md` — 최신 포지셔닝 + 반복할 키워드 + 피할 표현
-  - `strategy/profile-analysis.md`, `strategy/resume-refresh.md` — 강점 서사·이력서 갱신 방향
-  - `portfolio/project-cards.md` — 공개 프로젝트 카드(이 사이트 Work와 대응)
-  - `sources/profile-snapshot.md` — 기준 자료 요약
-
-### 2. 누구이고 왜 그렇게 판단하나 (cognitive 근거) — `givepro91/my-wiki`
-
-장근식 개인 cognitive SoT (**private**). 8특질·가치 3축·기질·내면 동기·연대기·판단 기록의 **근거층** — 포지셔닝 카피의 "왜"가 여기 있다. 공개 서사가 인물의 진실과 어긋나지 않는지 대조하는 기준.
+장근식 개인 단일 SoT (**private**). 핵심 facet이 "누구이고 왜"의 근거이고, `writing/social/`은 그 근거를 "어떻게 말할까"로 바꾸는 파생 레이어다.
 
 - 읽는 법: `gh api 'repos/givepro91/my-wiki/contents/<path>' --jq .content | base64 -d` (또는 clone 후 read)
 - 핵심 파일:
@@ -39,13 +25,16 @@
   - `values/*.md` — 왜 그렇게 판단했나(포기한 대안 포함)
   - `skills/ax-philosophy.md` — AX 세계관(공개 서사의 지적 뿌리)
   - `work/*.md` — 프로젝트별 판단·증거(proof·nova·miriva 등)
+  - `writing/social/positioning/*.md` — 프로필·이력서·채널 표현 전략. 날짜와 핵심 facet 정합성을 확인한 뒤 사용
+  - `writing/social/weekly/*.md` — 최신 주간 활동·학습·글감
+  - `writing/social/state.md` — 주간 자동화의 현재 상태
 
 ### ⚠️ 공개 경계 (my-wiki=private → 이 사이트=public)
 
 my-wiki엔 민감정보(생일·전화·연봉·인사평가·비공개 타겟)가 있다. **맥락·근거로만 읽고, 공개 CV/카드에 그대로 옮기지 않는다.**
 
 - my-wiki 규칙: `public: true` 명시된 것만 공개 투영 대상. 그 외 전부 private.
-- 표현·공개 판단은 여전히 §1 + 아래 "공개 범위(disclosure)" + 빌드 게이트(`check-disclosure`)를 따른다.
+- 표현·공개 판단은 `writing/social/` + 아래 "공개 범위(disclosure)" + 빌드 게이트(`check-disclosure`)를 따른다.
 - `status: inferred` 항목은 **미검증 초안** — 공개 문구의 사실 근거로 삼지 말 것.
 
 ## 공개 범위(disclosure)
