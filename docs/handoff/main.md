@@ -1,16 +1,17 @@
 ---
 branch: main
 status: active
-updated: 2026-07-10T13:04:23Z
+updated: 2026-07-10T13:13:40Z
 ---
 ## 2026-07-10 — SoT 최신화 + my-wiki 단일화
 
-- **단일 SoT 전환 완료·원격 반영:** `givepro91/my-wiki`에 기존 social OS의 포지셔닝·주간 분석·초안·캘린더·운영 절차를 `writing/social/`·`.system/social/`로 이관하고, 원본 분석·레거시 지침은 `_evidence/2026/social-portfolio-os/`에 보존. commit `6f54a7c` push 완료.
-- `jay-swk/social-portfolio-os`는 신규 쓰기 중단·read-only 전환 안내와 경로표를 추가. commit `5b37cbd` push 완료. 다음 주간 자동화가 my-wiki에 정상 반영된 뒤 GitHub archive 예정.
+- **단일 SoT 전환 완료·원격 반영:** `givepro91/my-wiki`에 기존 social OS의 포지셔닝·주간 분석·초안·캘린더·운영 절차를 `writing/social/`·`.system/social/`로 이관하고, 원본 분석·레거시 지침은 `_evidence/2026/social-portfolio-os/`에 보존. 최종 commit `1833598` push 완료.
+- `my-wiki`의 중복 지침·스킬도 정리: `AGENTS.md → CLAUDE.md`, `.agents/skills → .claude/skills` 심링크로 원본을 하나씩만 유지(commit `9e8758b`).
+- `jay-swk/social-portfolio-os`는 이관된 중복 86파일을 제거해 안내 파일 4개만 남기고 commit `8abf2cd` push, GitHub archive 완료.
 - Codex 자동화 `weekly-social-portfolio-review`를 `Weekly My Wiki Social Review`로 갱신. 기존 스케줄·모델은 유지하고 `/Users/keunsik/develop/givepro91/my-wiki`만 작업하도록 변경. core facet·`public: true` 자동 변경 금지.
 - 이 레포의 `AGENTS.md`는 두 SoT 참조를 제거하고 `givepro91/my-wiki` 하나만 상위 SoT로 사용하도록 변경.
 
-### 공개 사이트 최신화 (검증 완료·미커밋)
+### 공개 사이트 최신화 (검증 완료·최종 커밋)
 
 - `jay-swk/social-portfolio-os` 최신 주간 근거(2026-07-06)와 핵심 `strategy/` 6종, `givepro91/my-wiki`의 최신 cognitive 근거를 대조함.
 - 공개 반영: 실행 게이트·재검증 가능한 인계 문서·폐기 승인 기준을 홈 Now, CV 현재 관심사/Highlights, 포트폴리오 WHY ME에 반영.
@@ -18,8 +19,8 @@ updated: 2026-07-10T13:04:23Z
 - 공개 GitHub 저장소에서 리브랜드와 운영 상태를 재확인해 Lab의 `Nova Orbit`을 `Crewdeck`으로 변경하고 공개 링크 추가.
 - 비공개이거나 `public: true`가 없는 cognitive SoT 신규 항목, 고객 정보, 미검증 항목은 공개 콘텐츠에 반영하지 않음.
 - 검증: `pnpm build` PASS(source/dist disclosure 포함), 정적 UI 감사 실행(기존 경고 4건, 변경 무관), 브라우저 1440×900·390×844 홈/CV/포트폴리오 확인(가로 overflow·console error 0), 실제 출력 CV 4p·포트폴리오 11p 유지 및 PNG 육안 확인.
-- 이 지침·핸드오프 커밋 뒤 남는 미커밋 변경 파일: `src/data/cv.json`, `src/data/lab.ts`, `src/pages/index.astro`, `src/pages/portfolio/print.astro`. 사용자 소유 `design.md`, `docs/design/`은 건드리지 않음.
-- Next: 공개 사이트 카피 검토 후 요청이 있을 때만 해당 콘텐츠를 명시 경로로 스테이징·커밋·푸시. social OS GitHub archive는 첫 my-wiki 주간 자동화 성공 확인 뒤 진행.
+- `src/data/cv.json`, `src/data/lab.ts`, `src/pages/index.astro`, `src/pages/portfolio/print.astro`와 이 핸드오프를 이번 마무리 커밋에 포함. 사용자 소유 `design.md`, `docs/design/`은 건드리지 않음.
+- Next: 별도 후속 작업 없음. 다음 월요일 자동화는 `my-wiki/writing/social/`만 갱신하며, 사용자 디자인 초안은 독립 작업으로 남김.
 
 ## Restore in 30s
 **(이번 세션) ① 프로젝트 지침 정리 + ② CV "두 축 전면 재구조" 구현·검증·UI폴리시 — 커밋·배포 완료(라이브 반영 확인).** 커밋 `c3738d6`(지침) + `97ac867`(CV재구조). GitHub Actions Deploy success, `givepro91.github.io/cv` 에 subtitle 반영·옛 직책 0건 확인.

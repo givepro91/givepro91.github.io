@@ -16,12 +16,13 @@ export interface LabEntry {
 
 export const LAB: LabEntry[] = [
   {
-    title: "Nova Orbit",
-    status: "experiment",
+    title: "Crewdeck",
+    status: "active",
     theme: "agentops",
     order: 2,
     oneLiner:
-      "Claude 구독 하나로 AI 코더와 적대적 리뷰어를 분리 운영하는 솔로 창업자용 오케스트레이션 대시보드.",
+      "Claude Code 세션을 역할별 에이전트 팀으로 편성하고, 모든 산출물을 독립 품질 게이트로 검증하는 개인 운영 도구.",
+    link: "https://github.com/givepro91/crewdeck",
   },
   {
     title: "Agent Work Memory",
