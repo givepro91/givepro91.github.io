@@ -1,8 +1,36 @@
 ---
 branch: main
 status: active
-updated: 2026-07-10T13:13:40Z
+updated: 2026-07-13T06:56:32Z
 ---
+## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook "MSA 설계" 과장 정정 (공개 CV/포폴 포함)
+
+### Restore in 30s
+나니아랩스(Narnia Labs) AI Product Engineer 1차 인터뷰 준비자료를 `my-wiki/writing/interviews/`에 만들고 여러 라운드 정정했다(전략 md + 모의드릴 md + 실시간 브리핑 html). **이번 세션 후반의 핵심은 사실 정정 2건:**
+1. **Nova v1/v2 구분** — "Nova=단일 에이전트 품질"은 틀림. v1(`TeamSPWK/nova`, 회사, 오케스트레이션+품질 5기둥 doer)·v2(`givepro91/nova`, 개인, keeper 재설계). 멀티 에이전트 오케스트레이션은 Crewdeck(v1 오케스트레이션 축 분화). 근거: 두 레포 README + `givepro91/nova/docs/positioning.md`.
+2. **⚠️ Landbook "MSA 설계" 과장 정정 (공개 자료 포함)** — 면접관이 "처음부터 MSA 설계"로 오해. 커밋 실측(jay-swk 저자) 결과 **모든 서비스 레포가 근식 합류(2023) 전 생성**: auth(2020-07/484)·premium(2021-10/695)·payment(2022-02/526)·api-gateway(2020-06/82)·garo(2020-11/481 최다)·build(2019-09/232). → 사실 = "이미 MSA인 환경에 2023 합류해 개발·운영, garo 최다 기여". "설계" 아님.
+
+**공개 사이트 파일 2개를 이 사실로 정정(미커밋):** `src/data/cv.json`(요약②·Landbook overview·achievements), `src/content/projects/ko/landbook-msa.md`(positioning·shows·role·decision·metrics). "설계·운영"→"합류해 개발·운영". **`pnpm build` PASS·disclosure 게이트 통과·17p 확인.**
+
+### Next steps
+- **공개 사이트 배포는 근식 결정(미커밋).** 배포 시 명시 경로만: `git add src/data/cv.json src/content/projects/ko/landbook-msa.md` → commit → push → Actions. (`git add .` 금지.)
+- my-wiki도 미커밋: `git -C ../my-wiki add work/landbook-msa.md work/nova.md writing/interviews/`.
+- 파킹: 다른 프로젝트(PlanReview·Ground Control 등)도 협업/기여 경계를 커밋으로 재확인 제안함 — 근식 요청 시.
+- 인터뷰 준비 남은 것: §1.5-C 갭 답변 소리내어 연습, retail.plannext.ai/Nova GitHub 데모 탭 준비(브리핑 html §8 체크리스트).
+
+### Touch points
+- `src/data/cv.json` — CAREER[0] highlights②·PROJECTS "Landbook·가로주택정비" overview/achievements. 검증: `python3 -c "import json;json.load(open('src/data/cv.json'))"` → valid.
+- `src/content/projects/ko/landbook-msa.md` — positioning/shows/role/decision/metrics.
+- 재검증: `pnpm build 2>&1 | tail -3` → PASS + "✔ PASS (dist): 알려진 시크릿 패턴 미발견".
+- 인터뷰 자료(공개 아님, my-wiki): `../my-wiki/writing/interviews/{narnia-labs-1차.md, narnia-labs-2-모의드릴.md, narnia-labs-cheatsheet.html}`. 브리핑 로컬 열람: `python3 -m http.server 8899` 후 `localhost:8899/narnia-labs-cheatsheet.html`.
+- 근거(my-wiki): `work/landbook-msa.md`(커밋 실측표+정직성 경계), `work/nova.md`(v1/v2), `_evidence/2026/2026-07-03-github-audit.md`.
+
+### Decisions
+- 이력/포폴에서 Landbook은 "MSA 설계"가 아니라 "이미 MSA인 환경에 합류해 개발·운영(garo 최다 기여)"으로만 표기 — 커밋 실측이 근거, 과장 금지.
+- 게이트웨이(api-gateway 82커밋)는 기여 사실이라 CV 유지하되 "설계"→"개발·운영".
+- Nova는 v1(doer 프레임워크)/v2(keeper 재설계) 구분, 커밋 수로 우열 말하지 않음. 멀티 에이전트 오케스트레이션=Crewdeck.
+- 인터뷰 준비자료는 private(my-wiki)에만, 공개 레포 커밋 금지.
+
 ## 2026-07-10 — SoT 최신화 + my-wiki 단일화
 
 - **단일 SoT 전환 완료·원격 반영:** `givepro91/my-wiki`에 기존 social OS의 포지셔닝·주간 분석·초안·캘린더·운영 절차를 `writing/social/`·`.system/social/`로 이관하고, 원본 분석·레거시 지침은 `_evidence/2026/social-portfolio-os/`에 보존. 최종 commit `1833598` push 완료.
