@@ -1,22 +1,24 @@
 ---
 branch: main
 status: active
-updated: 2026-07-13T06:56:32Z
+updated: 2026-07-13T07:33:30Z
 ---
-## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook "MSA 설계" 과장 정정 (공개 CV/포폴 포함)
+## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook 이력 과장 정정 (커밋 실측 기반·배포 완료)
 
 ### Restore in 30s
-나니아랩스(Narnia Labs) AI Product Engineer 1차 인터뷰 준비자료를 `my-wiki/writing/interviews/`에 만들고 여러 라운드 정정했다(전략 md + 모의드릴 md + 실시간 브리핑 html). **이번 세션 후반의 핵심은 사실 정정 2건:**
-1. **Nova v1/v2 구분** — "Nova=단일 에이전트 품질"은 틀림. v1(`TeamSPWK/nova`, 회사, 오케스트레이션+품질 5기둥 doer)·v2(`givepro91/nova`, 개인, keeper 재설계). 멀티 에이전트 오케스트레이션은 Crewdeck(v1 오케스트레이션 축 분화). 근거: 두 레포 README + `givepro91/nova/docs/positioning.md`.
-2. **⚠️ Landbook "MSA 설계" 과장 정정 (공개 자료 포함)** — 면접관이 "처음부터 MSA 설계"로 오해. 커밋 실측(jay-swk 저자) 결과 **모든 서비스 레포가 근식 합류(2023) 전 생성**: auth(2020-07/484)·premium(2021-10/695)·payment(2022-02/526)·api-gateway(2020-06/82)·garo(2020-11/481 최다)·build(2019-09/232). → 사실 = "이미 MSA인 환경에 2023 합류해 개발·운영, garo 최다 기여". "설계" 아님.
+나니아랩스(Narnia Labs) AI Product Engineer 1차 인터뷰 준비자료를 `my-wiki/writing/interviews/`에 만들고, **커밋 실측으로 이력 과장 3건을 잡아 공개 CV/포폴까지 정정·배포 완료.**
+1. **Nova v1/v2 구분** — "Nova=단일 에이전트 품질" 틀림. v1(`TeamSPWK/nova`, 회사, 오케스트레이션+품질 5기둥 doer)·v2(`givepro91/nova`, 개인, keeper 재설계). 멀티 에이전트 오케스트레이션은 Crewdeck. 근거: 두 레포 README + `givepro91/nova/docs/positioning.md`.
+2. **Landbook "MSA 설계" 과장** — 커밋 실측(jay-swk) 결과 모든 서비스 레포가 합류(2023) 전 생성(auth 2020-07·premium 2021-10·payment 2022-02·api-gw 2020-06·garo 2020-11 최다·build 2019-09). → "이미 MSA인 환경에 합류해 개발·운영, garo 최다 기여". "설계" 아님.
+3. **⚠️ Landbook Kafka/Redis·수치 과장** — auth/payment/premium `build.gradle`에 **Kafka·Redis 의존성 0**(WebFlux/Coroutine만). "Kafka로 무거운 작업 격리"·"Redis 캐시/Rate Limit"·"대규모 알림 수 분→수 초"는 **근거 없어 삭제**. 검증된 것(WebFlux·Coroutine 비동기 + 매물 배치알림 병렬처리 blocking→non-blocking)만 유지. **Kafka/Redis는 PlanNext.AI에서만 진짜**(plannext-engine-consumer `spring-kafka` + jay infra 커밋) → PlanNext 맥락은 유지. 가로랜드북(LBDeveloper, Rails)을 랜드북(Kotlin/Spring)과 분리.
 
-**공개 사이트 파일 2개를 이 사실로 정정(미커밋):** `src/data/cv.json`(요약②·Landbook overview·achievements), `src/content/projects/ko/landbook-msa.md`(positioning·shows·role·decision·metrics). "설계·운영"→"합류해 개발·운영". **`pnpm build` PASS·disclosure 게이트 통과·17p 확인.**
+**공개 사이트 정정·배포 완료:** commit `37038b3`(MSA설계)→`1e2b62b`(Kafka/Redis). `cv.json`·`landbook-msa.md` 수정, `pnpm build` PASS·disclosure 통과, **Actions 배포 success·라이브 반영 검증**(Kafka/Redis·"수 분→수 초" 잔재 0, "매물 배치 알림" 반영). my-wiki도 push 완료(`199fd42`).
+
+4. **파킹 검증 — 전 프로젝트 커밋 수 실측 정정** (2026-07-13, 로컬 shortlog + gh). 공개 metrics가 다수 부정확: **MIRIVA 257→570, Ground Control 600→734, garo 722→482, zippit 550→586, Nova "공개 OSS 441"→"단독·공개 OSS"**(441은 회사 v1, 공개 v2는 27이라 오해 소지). markwand 225·markbrief 116은 정확(유지). **검증 통과**: GC 신뢰도 3단계(certain 11/likely 15/hypothesis 10 실코드), MIRIVA read-only(describe만 AWS, create/delete는 앱 SQLite — "AWS write 0" 유효). 미확인(파킹): realty-data·planreview Redis 스택.
 
 ### Next steps
-- **공개 사이트 배포는 근식 결정(미커밋).** 배포 시 명시 경로만: `git add src/data/cv.json src/content/projects/ko/landbook-msa.md` → commit → push → Actions. (`git add .` 금지.)
-- my-wiki도 미커밋: `git -C ../my-wiki add work/landbook-msa.md work/nova.md writing/interviews/`.
-- 파킹: 다른 프로젝트(PlanReview·Ground Control 등)도 협업/기여 경계를 커밋으로 재확인 제안함 — 근식 요청 시.
-- 인터뷰 준비 남은 것: §1.5-C 갭 답변 소리내어 연습, retail.plannext.ai/Nova GitHub 데모 탭 준비(브리핑 html §8 체크리스트).
+- **정정·배포 완료.** 별도 후속 없음.
+- 파킹: PlanReview·Ground Control·Realty 등 다른 프로젝트도 협업/기여·스택 주장을 커밋으로 재검증하면 좋음(같은 방식) — 근식 요청 시.
+- 인터뷰 준비 남은 것: 브리핑 html §8 체크리스트(갭 답변 연습, retail.plannext.ai·Nova GitHub 데모 탭).
 
 ### Touch points
 - `src/data/cv.json` — CAREER[0] highlights②·PROJECTS "Landbook·가로주택정비" overview/achievements. 검증: `python3 -c "import json;json.load(open('src/data/cv.json'))"` → valid.
@@ -26,6 +28,7 @@ updated: 2026-07-13T06:56:32Z
 - 근거(my-wiki): `work/landbook-msa.md`(커밋 실측표+정직성 경계), `work/nova.md`(v1/v2), `_evidence/2026/2026-07-03-github-audit.md`.
 
 ### Decisions
+- **랜드북 스택 = WebFlux·Coroutine만** — Kafka·Redis는 랜드북 `build.gradle`에 의존성 0이라 이력에서 제거. Kafka/Redis/Argo는 PlanNext.AI에서만 사용(spring-kafka·infra 커밋으로 검증)이라 그 맥락만 유지. 미검증 수치(수 분→수 초·boundedElastic·3회/5s·수만 건)는 삭제, 검증된 "매물 배치알림 병렬처리(blocking→non-blocking)"만 유지.
 - 이력/포폴에서 Landbook은 "MSA 설계"가 아니라 "이미 MSA인 환경에 합류해 개발·운영(garo 최다 기여)"으로만 표기 — 커밋 실측이 근거, 과장 금지.
 - 게이트웨이(api-gateway 82커밋)는 기여 사실이라 CV 유지하되 "설계"→"개발·운영".
 - Nova는 v1(doer 프레임워크)/v2(keeper 재설계) 구분, 커밋 수로 우열 말하지 않음. 멀티 에이전트 오케스트레이션=Crewdeck.

@@ -22,7 +22,7 @@ decisionLog:
   - why: "공개 채널 오발신을 막는 다중 잠금을 둬, 기본값이 항상 ‘조용한 DM’이 되게 했습니다."
 stack: ["Python", "Claude Code CLI", "FastAPI", "Slack Bolt", "SQLite", "AWS"]
 period: "2026"
-metrics: "단독 · 600 커밋"
+metrics: "단독 · 730+ 커밋"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"

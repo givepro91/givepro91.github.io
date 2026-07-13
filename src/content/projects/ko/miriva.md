@@ -20,7 +20,7 @@ decisionLog:
     tradeoff: "자동 수집 범위 대신 검증 속도를 택했습니다."
 stack: ["Python", "FastAPI", "boto3(read-only)", "Next.js", "SQLite"]
 period: "2026"
-metrics: "단독 · 257 커밋"
+metrics: "단독 · 570 커밋"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"

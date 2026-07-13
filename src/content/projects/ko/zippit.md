@@ -22,7 +22,7 @@ decisionLog:
     tradeoff: "조인 편의 대신 데이터 경계의 안전을 택했습니다."
 stack: ["Next.js", "React", "TypeScript", "Prisma", "PostGIS"]
 period: "2025–2026"
-metrics: "단독 · 550 커밋"
+metrics: "단독 · 586 커밋"
 visibility: public
 link: "https://zippit.im"
 riskChecked: true

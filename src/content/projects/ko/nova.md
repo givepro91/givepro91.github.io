@@ -21,7 +21,7 @@ decisionLog:
     tradeoff: "검색의 정교함 대신 이식성과 투명성을 택했습니다."
 stack: ["Claude Code Plugin", "MCP", "TypeScript", "Bash"]
 period: "2026"
-metrics: "단독 · 441 커밋"
+metrics: "단독 · 공개 OSS"
 visibility: public
 link: "https://github.com/jay-swk/nova-landing"
 riskChecked: true

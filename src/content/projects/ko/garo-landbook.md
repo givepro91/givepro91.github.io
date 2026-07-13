@@ -20,7 +20,7 @@ decisionLog:
   - why: "기본 DB와 외부 빌드 DB를 상속 클래스로 분리해, 데이터 출처를 코드 구조로 드러냈습니다."
 stack: ["Ruby", "Rails", "PostgreSQL", "PostGIS", "Elasticsearch", "Redis"]
 period: "2025–2026"
-metrics: "lead committer · 722 커밋"
+metrics: "최다 기여 · 482 커밋"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"
