@@ -3,26 +3,27 @@ title: "Realty Data Pipeline — 무중단 부동산 ETL"
 theme: reliability
 kind: work
 order: 6
-positioning: "전국 부동산 데이터를 매월, 운영 DB를 단 한 번도 깨지 않고 무중단으로 갱신하는 Blue-Green ETL입니다."
+positioning: "전국 부동산 데이터를 매월 무중단으로 갱신하는 Blue-Green ETL 파이프라인. 저는 크롤러 안정성과 중단 지점 재개(resume) 로직을 기여했습니다."
 shows:
-  - "Blue-Green 데이터 배포"
+  - "크롤러 resilience"
+  - "중단 지점 재개(checkpoint)"
+  - "rate-limit·봇 차단 대응"
   - "데이터 신뢰성"
-  - "안전 규칙을 코드로 강제"
-  - "파이프라인 시각화"
-angle: "workflow가 성공해도 데이터는 멈춰 있을 수 있습니다 — 그 침묵을 구조로 막았습니다."
-problem: "외부 원천의 전국 데이터를 매월 갱신해야 하는데, 운영 DB를 덮어쓰면 사고가 나고 서버는 OOM에 취약했습니다."
-role: "파이프라인 설계와 안전 규칙 enforcement를 담당했습니다."
-decision: "운영 DB를 덮어쓰지 않고 staging에서 전 과정을 계산한 뒤 <b>atomic swap</b>으로 전환하고(역방향 금지), 워커 수 제한 같은 규칙을 문장이 아니라 <b>훅으로 하드 블록</b>했습니다. 두 번의 서버 다운 경험에서 나온 결정입니다."
-result: "‘성공 표시 ≠ 데이터 성공’이라는 침묵형 실패를 구조적으로 차단했습니다."
-learning: "안전 규칙은 문서에 적으면 지켜지지 않았습니다 — 코드로 강제해야 지켜졌습니다."
+angle: "수집이 중간에 막히거나 끊겨도, 마지막 지점부터 다시 이어지게 만들었습니다."
+problem: "외부 원천에서 전국 부동산 데이터를 매월 수집하는데, rate-limit·봇 차단·중단으로 크롤이 자주 깨지고 처음부터 다시 돌려야 했습니다."
+role: "크롤러 안정성(재시도·서킷브레이커·rate-limit 대응)과 dong 단위 체크포인트·재개(resume) 로직을 기여했습니다."
+decision: "매 단계(dong) 완료 시 진행 상태(heartbeat·마지막 위치)를 저장해, 차단이나 중단이 나도 마지막 지점부터 재개하게 했습니다. 429·403·5xx를 서킷브레이커·백오프·jitter로 처리하고, 봇 차단 신호를 누적해 임계치를 넘으면 스스로 요청을 멈추게 했습니다."
+result: "크롤이 중간에 막혀도 무손실로 재개되고, rate-limit·차단에 견디는 수집 안정성을 확보했습니다."
+learning: "대규모 외부 수집의 난이도는 파싱이 아니라, 막히고 끊길 때 어떻게 견디고 이어가느냐에 있었습니다."
 decisionLog:
-  - why: "OOM을 부른 다중 워커를 사전 훅으로 막아, 사람이 실수해도 시스템이 거부하게 했습니다."
-  - why: "행이 2배로 뻥튀기된 사고를 Known Mistakes로 명문화해, 같은 실수의 재발을 막았습니다."
-stack: ["Python", "PostgreSQL", "Shapely(PostGIS)", "React", "Slack"]
+  - why: "매 dong 완료 시 체크포인트(heartbeat·last_dong)를 남겨, 중단돼도 처음이 아니라 마지막 지점부터 재개하게 했습니다."
+  - why: "봇 차단(429/403) 신호를 누적해 임계치를 넘으면 스스로 요청을 중단·회피하게 했습니다."
+    tradeoff: "수집 속도를 일부 늦추더라도 차단·재수집 비용을 줄였습니다."
+stack: ["Python", "PostgreSQL", "requests", "Slack"]
 period: "2026"
-metrics: "기여 · 안전 규칙 enforcement"
+metrics: "기여 · 크롤러 안정성·재개 (13 커밋)"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"
-riskCheckedDate: "2026-06-04"
+riskCheckedDate: "2026-07-13"
 ---

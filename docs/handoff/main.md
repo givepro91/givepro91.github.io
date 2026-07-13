@@ -13,7 +13,9 @@ updated: 2026-07-13T07:33:30Z
 
 **공개 사이트 정정·배포 완료:** commit `37038b3`(MSA설계)→`1e2b62b`(Kafka/Redis). `cv.json`·`landbook-msa.md` 수정, `pnpm build` PASS·disclosure 통과, **Actions 배포 success·라이브 반영 검증**(Kafka/Redis·"수 분→수 초" 잔재 0, "매물 배치 알림" 반영). my-wiki도 push 완료(`199fd42`).
 
-4. **파킹 검증 — 전 프로젝트 커밋 수 실측 정정** (2026-07-13, 로컬 shortlog + gh). 공개 metrics가 다수 부정확: **MIRIVA 257→570, Ground Control 600→734, garo 722→482, zippit 550→586, Nova "공개 OSS 441"→"단독·공개 OSS"**(441은 회사 v1, 공개 v2는 27이라 오해 소지). markwand 225·markbrief 116은 정확(유지). **검증 통과**: GC 신뢰도 3단계(certain 11/likely 15/hypothesis 10 실코드), MIRIVA read-only(describe만 AWS, create/delete는 앱 SQLite — "AWS write 0" 유효). 미확인(파킹): realty-data·planreview Redis 스택.
+4. **파킹 검증 — 전 프로젝트 커밋 수 실측 정정** (2026-07-13, 로컬 shortlog + gh). 공개 metrics가 다수 부정확: **MIRIVA 257→570, Ground Control 600→734, garo 722→482, zippit 550→586, Nova "공개 OSS 441"→"단독·공개 OSS"**(441은 회사 v1, 공개 v2는 27이라 오해 소지). markwand 225·markbrief 116은 정확(유지). **검증 통과**: GC 신뢰도 3단계(certain 11/likely 15/hypothesis 10 실코드), MIRIVA read-only(describe만 AWS, create/delete는 앱 SQLite — "AWS write 0" 유효), PlanReview Redis 실사용(ioredis·redis.ts) 유지.
+
+5. **⚠️ Realty 과장 발견·정정** — realty-data 근식 커밋 **13개**뿐. 실제 기여는 **크롤러 resilience**(서킷브레이커·백오프·jitter·429/403 처리)·**dong 체크포인트·resume**인데, 포폴/cv가 **"atomic swap·Blue-Green·워커훅·OOM·행 뻥튀기"(다른 기여자 몫)를 근식 성과로 서술** → 크롤러 기여로 재초점 정정. 포폴 카드 `realty-data-pipeline.md` 재작성, cv PROJECTS Realty·준비자료 3파일 정정. "atomic swap·silent fail 차단을 내 성과로 쓰지 말 것".
 
 ### Next steps
 - **정정·배포 완료.** 별도 후속 없음.
