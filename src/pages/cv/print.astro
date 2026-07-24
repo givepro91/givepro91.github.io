@@ -90,14 +90,14 @@ function groupHighlights(highlights: string[]) {
             <span class="r-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
           </div>
           {c.summary && <p class="r-job-sum">{c.summary}</p>}
-          {c.current && c.highlights.some((h) => /^[①②]/.test(h))
+          {c.featured && c.highlights.some((h) => /^[①②]/.test(h))
             ? groupHighlights(c.highlights).map((g) => (
                 <Fragment>
                   {g.axis && <p class="r-axis-head">{g.axis} {AXES[g.axis]}</p>}
                   <ul>{g.items.map((t) => <li>{t}</li>)}</ul>
                 </Fragment>
               ))
-            : <ul>{(c.current ? c.highlights : c.highlights.slice(0, 3)).map((h) => <li>{h}</li>)}</ul>}
+            : <ul>{(c.featured ? c.highlights : c.highlights.slice(0, 3)).map((h) => <li>{h}</li>)}</ul>}
           {c.stack && <p class="r-pstack">{c.stack.join(" · ")}</p>}
         </div>
       ))}
