@@ -22,7 +22,7 @@ const AXIS: Record<string, string> = {
 };
 // 케이스별 도식(제품 스크린샷 대신) + 핵심 증거 3개(사실 기반)
 const FLOW: Record<string, any> = {
-  "ground-control": { kind: "loop", nodes: ["주기 관찰", "원인 추론", "담당자에 조용히 DM", "피드백으로 학습"], cap: "신뢰도는 certain·likely·hypothesis 3단계 ‘언어’로 — 퍼센트 과신 제거" },
+  "ground-control": { kind: "loop", nodes: ["주기 관찰", "원인 추론", "담당자에 조용히 DM", "피드백으로 학습"], cap: "신뢰도를 퍼센트 대신 세 단계 말(확실·추정·가설)로만 — 검증 안 된 숫자를 믿게 만들지 않으려고" },
   "nova": { kind: "gate", nodes: ["AI 코드 생성", "적대적 게이트", "독립 평가자", "커밋"], gate: 1, cap: "생성과 검증 분리 — 같은 AI가 자기 코드를 승인하지 못한다" },
   "landbook-msa": { kind: "ba", before: ["단일 서비스", "한 곳 장애 → 전체 전파"], after: ["인증·결제·구독·필지 분리", "장애가 한 서비스에 격리"], cap: "무거운 작업은 Kafka로 떼어 격리 · 동기 호출은 Coroutine 비동기로" },
   "realty-data-pipeline": { kind: "gate", nodes: ["전국 원천", "staging 전구간 계산", "atomic swap", "운영 DB · 무중단"], gate: 2, cap: "‘workflow 성공 ≠ 데이터 성공’ — 안전 규칙을 문서가 아니라 훅으로 하드 블록" },
@@ -52,7 +52,7 @@ const PROBLEM: Record<string, string> = {
   "ground-control": "모니터링 도구는 이상을 알려줬지만, 원인 지목·담당자 확인·재발 학습은 사람이 매번 수동으로 처리했습니다.",
 };
 const EVID: Record<string, string[]> = {
-  "ground-control": ["퍼센트형 신뢰도 제거 — certain·likely·hypothesis로 제한", "공개채널 기본 발신 차단 — DM 우선 설계", "담당자 피드백 루프 내장 — 오탐 학습 가능"],
+  "ground-control": ["신뢰도를 퍼센트 대신 세 단계 말(확실·추정·가설)로만 표시", "알림 기본값은 공개 채널이 아니라 담당자 DM", "담당자가 아니라고 답하면 그걸 학습해 다음 오탐을 줄임"],
   "nova": ["생성과 검증을 구조로 분리 — 자기검토 차단", "맥락은 외부 임베딩 없이 텍스트로 — 이식성·투명성", "공개 OSS · Claude Code 플러그인"],
   "landbook-msa": ["장애·배포 경계를 긋는 MSA 설계", "무거운 작업은 Kafka로 격리", "lead committer · 합산 ~1,800 커밋"],
   "realty-data-pipeline": ["운영 DB를 덮어쓰지 않는 atomic swap", "안전 규칙을 문서 아닌 훅으로 강제", "‘성공 표시 ≠ 데이터 성공’ 전제"],
