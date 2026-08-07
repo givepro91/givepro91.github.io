@@ -18,8 +18,8 @@ const SKILL_GROUPS = [
 
 // Career highlights 중 ①/② 접두 항목을 두 축 헤더로 그룹핑 (PDF도 ①/②가 자기설명되게 — 웹과 동일)
 const AXES: Record<string, string> = {
-  "①": "AI Operations & Agent Infrastructure",
-  "②": "AI Full-Stack Product Engineering",
+  "①": "AI Full-Stack Product Engineering",
+  "②": "AI Operations & Agent Infrastructure",
 };
 function groupHighlights(highlights: string[]) {
   const out: { axis: string | null; items: string[] }[] = [];
@@ -60,7 +60,7 @@ function groupHighlights(highlights: string[]) {
     <div class="r-callout">
       <span class="r-callout-lead">이력서와 함께 보면 좋은 자료 두 개를 같이 두었습니다 →</span>
       <span class="r-callout-item"><b>인터랙티브 포트폴리오</b> · 프로젝트 10개를 왜 그렇게 판단했는지 중심으로 기록 — <a class="r-callout-u" href="https://givepro91.github.io">givepro91.github.io</a></span>
-      <span class="r-callout-item"><b>AX Field Guide</b> · AI 도입의 개념·기법·플레이북을 현장에서 정리·공개 — <a class="r-callout-u" href="https://ax-field-guide.vercel.app">ax-field-guide.vercel.app</a></span>
+      <span class="r-callout-item"><b>Fieldwork</b> · 해본 것과 조사한 것을 글마다 구분해 밝히는 실행 필드가이드 — <a class="r-callout-u" href="https://ax-field-guide.vercel.app">ax-field-guide.vercel.app</a></span>
     </div>
 
     <section class="r-block">
@@ -160,7 +160,7 @@ function groupHighlights(highlights: string[]) {
 
     <section class="r-block">
       <h2>Learning · 학습과 공유</h2>
-      <p class="r-blocknote">온라인 강의로 익히고, 기술 블로그·AX Field Guide로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
+      <p class="r-blocknote">온라인 강의로 익히고, 기술 블로그·Fieldwork로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
       <ul class="r-lectures">{AWARDS.map((a) => <li>{a}</li>)}</ul>
     </section>
 

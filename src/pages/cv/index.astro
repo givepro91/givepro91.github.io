@@ -15,8 +15,8 @@ const projectGroups = [
 
 // Career highlights 중 ①/② 접두 항목을 두 축으로 그룹핑 (없으면 평면 리스트)
 const AXES: Record<string, string> = {
-  "①": "AI Operations & Agent Infrastructure",
-  "②": "AI Full-Stack Product Engineering",
+  "①": "AI Full-Stack Product Engineering",
+  "②": "AI Operations & Agent Infrastructure",
 };
 function groupHighlights(highlights: string[]) {
   const out: { axis: string | null; items: string[] }[] = [];
@@ -96,9 +96,9 @@ const toc = [
             <span class="ccc-u">givepro91.github.io ↗</span>
           </a>
           <a class="cv-callout-card" href="https://ax-field-guide.vercel.app" target="_blank" rel="noopener">
-            <span class="ccc-k">AX 현장 노트</span>
-            <span class="ccc-t">AX Field Guide</span>
-            <span class="ccc-d">AI 도입의 <b>개념·기법·플레이북</b>을 현장에서 정리해 공개</span>
+            <span class="ccc-k">공개 필드가이드</span>
+            <span class="ccc-t">Fieldwork</span>
+            <span class="ccc-d"><b>해본 것과 조사한 것을 글마다 구분해</b> 밝히는 실행 가이드 — 끝까지 갈 수 있는 하나의 경로</span>
             <span class="ccc-u">ax-field-guide.vercel.app ↗</span>
           </a>
         </div>
@@ -242,7 +242,7 @@ const toc = [
       <!-- LEARNING -->
       <section id="lectures" class="cv-section reveal">
         <h2 class="cv-h2"><span class="n">07</span> Learning <span class="cv-h2-note">— 학습과 공유</span></h2>
-        <p class="sec-note">온라인 강의로 익히고, 기술 블로그·AX Field Guide로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
+        <p class="sec-note">온라인 강의로 익히고, 기술 블로그·Fieldwork로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
         <ul class="cv-list">{AWARDS.map((a) => <li>{a}</li>)}</ul>
       </section>
 

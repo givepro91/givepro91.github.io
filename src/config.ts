@@ -13,11 +13,14 @@ export const SITE = {
   // Hero / identity
   name: "장근식",
   nameEn: "Keun-sik Jang",
-  title: "Technical Product Lead",
-  subtitle: "AI Operations & Agent Infrastructure",
+  // 정체성 헤드라인 — 어순이 곧 주장이다: 백엔드가 정체(명사) · 제품이 방향 · AI가 부연.
+  // 직무명(Product Engineer / AX Lead / FDE)을 박지 않는 건 의도. 지원처가 백엔드/서버/프로덕트/AI로 갈린다.
+  // 근거: my-wiki `values/why-product-first-positioning.md` (2026-08-07)
+  title: "제품을 만드는 백엔드 엔지니어",
+  subtitle: "서버에서 출발해, 문제를 풀 수 있는 데까지",
   // 한 문장 정체성
   tagline:
-    "AI를 붙이는 개발자가 아니라, 조직 전체가 AI와 안전하게 일할 수 있는 운영 구조를 — 개인이 아니라 팀 차원으로 — 설계하는 사람.",
+    "“어디까지가 내 역할인가”가 아니라 “이 문제를 풀려면 어디까지 가야 하는가”로 일합니다. 최근 축은 AI 제품과 운영 자동화.",
   subtagline: "무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.",
   description:
     "장근식(Jay)의 공개 포트폴리오 겸 작업 기록 — 어떤 문제를 어떤 기준으로 풀었는지를 중심으로.",

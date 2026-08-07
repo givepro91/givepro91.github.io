@@ -94,11 +94,9 @@ const heroLinks = [
             <span class="p-status"><span class="live"></span>Open to work · 이직 준비 중 · 10년차</span>
           </div>
         </div>
-        <p class="p-tagline">
-          AI를 붙이는 개발자가 아니라, <b>조직 전체가 AI와 안전하게 일하는 운영 구조</b>를 설계하는
-          사람입니다.
-        </p>
-        <p class="p-sub">무엇을 만들었나보다, 왜 그렇게 판단했나를 기록합니다.</p>
+        <!-- 문구 정본은 src/config.ts (SITE.tagline / SITE.subtagline). 하드코딩하지 말 것 — 드리프트로 옛 문구가 남아 있던 자리다. -->
+        <p class="p-tagline">{SITE.tagline}</p>
+        <p class="p-sub">{SITE.subtagline}</p>
         <div class="p-actions">
           <a class="pill primary" href="/cv/">이력서 CV 보기 →</a>
           {heroLinks.map((l) => (
@@ -109,10 +107,10 @@ const heroLinks = [
 
       <!-- infobox (wiki) -->
       <aside class="card infobox reveal">
-        <div class="infobox-h"><span>Profile</span><span>갱신 2026.07</span></div>
+        <div class="infobox-h"><span>Profile</span><span>갱신 2026.08</span></div>
         <dl>
           <dt>경력</dt>
-          <dd><b>10년차</b> · 백엔드·제품 → AX 리드</dd>
+          <dd><b>10년차</b> · 서버·백엔드 → 제품</dd>
           <dt>현재</dt>
           <dd>이직 준비 중 · Open to work</dd>
           <dt>직전</dt>

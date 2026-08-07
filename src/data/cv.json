@@ -2,15 +2,15 @@
   "PROFILE": {
     "name": "장근식",
     "nameEn": "Keun-sik Jang",
-    "title": "Technical Product Lead",
-    "subtitle": "AI Operations & Agent Infrastructure",
+    "title": "제품을 만드는 백엔드 엔지니어",
+    "subtitle": "서버에서 출발해, 문제를 풀 수 있는 데까지",
     "domain": "PropTech × AI",
     "birth": "1991.02.18",
     "phone": "010-3175-9809",
     "email": "givepro91@gmail.com",
     "location": "대한민국",
     "photo": "/cv/profile.jpg",
-    "summary": "조직 전체가 AI와 안전하게 일하는 운영 구조를 설계합니다.\n\n10년차 백엔드 엔지니어링(WebFlux 기반 MSA·Kafka·Redis·EKS)을 토대로, 지금은 두 축으로 일합니다.\n\n① AI Operations & Agent Infrastructure — 조직이 AI 에이전트와 안전하게 일하는 데 필요한 접근 권한, 시크릿, 승인 절차, 지식 기준, 인프라 비용을 회사 차원에서 표준화했습니다.\n\n② AI Full-Stack Product Engineering — AI 부동산·건축 제품을 기획부터 UI/UX, 백엔드, 인프라, LLM Serving까지 직접 제품화했습니다.\n\n문제를 곧장 기능으로 옮기기보다 현업 흐름과 운영에서 깨지는 지점을 먼저 봅니다. 설계한 뒤에는 운영에서 검증하고, 다음에 다시 쓸 수 있게 패턴으로 정리합니다.",
+    "summary": "제품을 만드는 백엔드 엔지니어입니다.\n\n10년간 서버·백엔드를 해왔고(Kotlin/Spring 기반 MSA·비동기 처리·데이터 파이프라인), 그 위에서 제품을 기획부터 운영까지 끌고 가는 일로 범위를 넓혔습니다. ‘어디까지가 내 역할인가’가 아니라 ‘이 문제를 풀려면 어디까지 가야 하는가’를 기준으로 일합니다.\n\n① AI Full-Stack Product Engineering — AI 부동산·건축 제품을 기획부터 UI/UX, 백엔드, 인프라, LLM Serving까지 직접 제품화했습니다.\n\n② AI Operations & Agent Infrastructure — 조직이 AI 에이전트와 안전하게 일하는 데 필요한 접근 권한, 시크릿, 승인 절차, 지식 기준, 인프라 비용을 회사 차원에서 표준화했습니다.\n\n문제를 곧장 기능으로 옮기기보다 현업 흐름과 운영에서 깨지는 지점을 먼저 봅니다. 설계한 뒤에는 운영에서 검증하고, 다음에 다시 쓸 수 있게 패턴으로 정리합니다.",
     "current": "스페이스워크에서 프롭테크 백엔드·LLM 기반 API를 운영하며 데이터 신뢰성과 운영 관측성을 맡았고(2023.01–2026.07), ‘운영 자체를 내부 제품으로 만드는 일’에 집중해 왔습니다. 현재는 다음 역할을 찾는 이직 준비 중이며(Open to work), 준비 기간 동안 스터디와 개인 프로젝트로 폭을 넓히고 있습니다.\n\nAI 에이전트가 어디서 멈추고 사람이 판단할지를 승인·취소·롤백·감사 로그로 구조화합니다. 전환과 폐기를 완료 공지로 끝내지 않고, 재검증 기록·인계 문서·승인 기준을 실행 게이트로 묶는 일에 집중해 왔습니다.",
     "links": [
       {
@@ -38,7 +38,7 @@
         "href": "https://givepro91.github.io"
       },
       {
-        "label": "AX Field Guide",
+        "label": "Fieldwork",
         "href": "https://ax-field-guide.vercel.app"
       }
     ]
@@ -60,15 +60,15 @@
       "role": "Technical Product Lead / 백엔드·제품팀",
       "current": false,
       "featured": true,
-      "summary": "백엔드 엔지니어로 입사해 팀 리딩과 Technical Product Lead로 역할을 넓혔습니다. 지금은 두 축으로 일합니다.",
+      "summary": "백엔드 엔지니어로 입사해 팀 리딩과 Technical Product Lead로 역할을 넓혔습니다. 두 축으로 일했습니다.",
       "highlights": [
-        "① 파편화된 PEM 키 서버 접근을 Tailscale SSH 통합 구조로 바꾸고, Google Workspace 계정 기반으로 개인별 권한을 설계했습니다. 흩어진 시크릿·API 키는 1Password로 모아 그룹별 Service Account로 권한을 분리했습니다.",
-        "① AI 에이전트가 인프라 상태와 운영 문서를 참조해 스스로 진단하되, 실제 변경은 사람이 승인하도록 운영 절차를 표준화했습니다(human-in-the-loop).",
-        "① 분산된 인프라·운영 지식을 LLM이 읽기 좋은 위키(SoT)로 정리하고, 사내 공용 스킬·지식 체계를 통합해 조직 전체가 같은 기준으로 AI를 쓰도록 만들었습니다.",
-        "① 비용·서버·리포지토리를 추적하는 사내 콘솔과 LXD 온프레미스로 안정성을 지키면서 AWS 비용을 10분의 1 수준으로 줄였고, ZFS 스냅샷과 이중 백업으로 복구 가능성을 높였습니다.",
-        "② PlanReview는 건축 도면(PDF)의 규정 적합성을 업로드 한 번으로 자동 검토하는 SaaS입니다. 인프라부터 개발 전반을 맡아 web에서 server·큐·worker(Docker 엔진)로 이어지는 비동기 검토 파이프라인을 구축하고, 엔진을 단일 진실원으로 두어 프론트가 결과를 보정·재분류하지 못하게 경계와 배포 가드레일을 설계했습니다(현재 자문).",
-        "② LLM 기반 오피스 가구 배치 설계 API(PlanNext.AI)를 기획부터 개발·배포까지 주도했고, 그 자산을 AI 매장 설계 콘솔(PlanNext Retail)로 확장했습니다. 입지·전략 분석부터 2D·3D 자동 설계, 검증, DXF 익스포트까지 제품화했습니다.",
-        "② 이미 Kotlin/Spring MSA로 구성된 Landbook 백엔드(인증·결제·프리미엄·게이트웨이)에 합류해 서비스를 개발·운영했습니다. WebFlux·Coroutine 비동기로 병목을 줄이고 매물 배치 알림을 병렬처리(blocking→non-blocking)했으며, 가로주택정비(LBDeveloper, Rails·PostGIS)는 최다 기여자로 LH 공공기관 설치형 보안(프록시·방화벽·접근제어)과 온프레미스 이전을 대응했습니다.",
+        "① 이미 Kotlin/Spring MSA로 구성된 Landbook 백엔드(인증·결제·프리미엄·게이트웨이)에 합류해 서비스를 개발·운영했습니다. WebFlux·Coroutine 비동기로 병목을 줄이고 매물 배치 알림을 병렬처리(blocking→non-blocking)했으며, 가로주택정비(LBDeveloper, Rails·PostGIS)는 최다 기여자로 LH 공공기관 설치형 보안(프록시·방화벽·접근제어)과 온프레미스 이전을 대응했습니다.",
+        "① LLM 기반 오피스 가구 배치 설계 API(PlanNext.AI)를 기획부터 개발·배포까지 주도했고, 그 자산을 AI 매장 설계 콘솔(PlanNext Retail)로 확장했습니다. 입지·전략 분석부터 2D·3D 자동 설계, 검증, DXF 익스포트까지 제품화했습니다.",
+        "① PlanReview는 건축 도면(PDF)의 규정 적합성을 업로드 한 번으로 자동 검토하는 SaaS입니다. 인프라부터 개발 전반을 맡아 web에서 server·큐·worker(Docker 엔진)로 이어지는 비동기 검토 파이프라인을 구축하고, 엔진 결과를 원본으로 두어 프론트가 결과를 보정·재분류하지 못하게 경계와 배포 가드레일을 설계했습니다(현재 자문).",
+        "② 파편화된 PEM 키 서버 접근을 Tailscale SSH 통합 구조로 바꾸고, Google Workspace 계정 기반으로 개인별 권한을 설계했습니다. 흩어진 시크릿·API 키는 1Password로 모아 그룹별 Service Account로 권한을 분리했습니다.",
+        "② AI 에이전트가 인프라 상태와 운영 문서를 참조해 스스로 진단하되, 실제 변경은 사람이 승인하도록 운영 절차를 표준화했습니다(human-in-the-loop).",
+        "② 분산된 인프라·운영 지식을 LLM이 읽기 좋은 위키(SoT)로 정리하고, 사내 공용 스킬·지식 체계를 통합해 조직 전체가 같은 기준으로 AI를 쓰도록 만들었습니다.",
+        "② 비용·서버·리포지토리를 추적하는 사내 콘솔과 LXD 온프레미스로 안정성을 지키면서 AWS 비용을 10분의 1 수준으로 줄였고, ZFS 스냅샷과 이중 백업으로 복구 가능성을 높였습니다.",
         "백엔드 팀을 이끌며 코드 리뷰 체계와 기술 문서화, 배포·운영 프로세스를 정립하고 신규 입사자 온보딩으로 팀의 반복 업무를 줄였습니다."
       ],
       "stack": [
@@ -262,7 +262,7 @@
       ],
       "achievements": [
         "web → server → 큐 → worker(Docker 엔진)로 이어지는 비동기 검토 파이프라인 구축·운영",
-        "‘엔진을 단일 진실원(SoT)으로 두고 프론트의 재분류·보정을 금지’하는 경계 설계 — 결과 정합성 확보",
+        "‘엔진 결과를 원본으로 두고 프론트의 재분류·보정을 금지’하는 경계 설계 — 결과 정합성 확보",
         "build-time 환경변수가 이미지에 박히는 특성으로 인한 스테이징→운영 오배포 장애를 배포 가드레일로 봉합"
       ],
       "workSlug": "planreview"
@@ -283,7 +283,7 @@
         "AWS EKS"
       ],
       "achievements": [
-        "LLM 대화 레이어와 결정론적인 설계 데이터(존·집기·치수)를 분리해 2D·3D 렌더와 DXF가 같은 진실원에서 나오도록 설계",
+        "LLM 대화 레이어와 결정론적인 설계 데이터(존·집기·치수)를 분리해 2D·3D 렌더와 DXF가 같은 데이터를 보고 나오도록 설계",
         "입지·참고사례 분석 뒤 여러 전략안을 근거와 함께 제시하고, 사람이 고른 방향을 평면·3D·포토리얼 렌더로 연결",
         "Coroutine·Kafka·Redis 기반 비동기 처리와 인증·요금제·사용 이력으로 API 상품화, EKS·Argo Workflow 운영"
       ],

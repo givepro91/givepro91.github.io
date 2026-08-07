@@ -27,8 +27,8 @@ const FLOW: Record<string, any> = {
   "landbook-msa": { kind: "ba", before: ["단일 서비스", "한 곳 장애 → 전체 전파"], after: ["인증·결제·구독·필지 분리", "장애가 한 서비스에 격리"], cap: "무거운 작업은 Kafka로 떼어 격리 · 동기 호출은 Coroutine 비동기로" },
   "realty-data-pipeline": { kind: "gate", nodes: ["전국 원천", "staging 전구간 계산", "atomic swap", "운영 DB · 무중단"], gate: 2, cap: "‘workflow 성공 ≠ 데이터 성공’ — 안전 규칙을 문서가 아니라 훅으로 하드 블록" },
   "zippit": { kind: "flow", nodes: ["내 소득·현금", "DSR/LTV 규제 엔진", "전국 단지 매수 등급"], cap: "매물이 아니라 ‘내 통장’에서 출발 — 규제 로직은 순수 함수(테스트로 증명)" },
-  "plannext-retail": { kind: "flow", nodes: ["입지·유동인구 분석", "전략 다중안 제안", "2D·3D 자동 설계", "AI 렌더 · DXF"], cap: "대화는 의도와 전략만 받고, 평면은 검증 가능한 구조화 데이터로 둬 렌더와 DXF가 같은 진실원에서 나옵니다." },
-  "planreview": { kind: "gate", nodes: ["도면 업로드", "분석 엔진(SoT)", "규정 적합성 판정", "항목별 리포트"], gate: 1, cap: "엔진을 단일 진실원으로 두고 프론트의 보정·재분류를 막아 결과 정합성을 지켰습니다." },
+  "plannext-retail": { kind: "flow", nodes: ["입지·유동인구 분석", "전략 다중안 제안", "2D·3D 자동 설계", "AI 렌더 · DXF"], cap: "대화는 의도와 전략만 받고, 평면은 검증 가능한 구조화 데이터로 둬 렌더와 DXF가 같은 데이터를 보고 나옵니다." },
+  "planreview": { kind: "gate", nodes: ["도면 업로드", "분석 엔진(SoT)", "규정 적합성 판정", "항목별 리포트"], gate: 1, cap: "엔진 결과를 원본으로 두고 프론트의 보정·재분류를 막아 결과 정합성을 지켰습니다." },
 };
 // 짧은 역할(플로우와 중복 제거) · INSIGHT 축약(증거 이미지 있는 페이지는 본문 가볍게)
 const ROLE: Record<string, string> = {
@@ -58,12 +58,12 @@ const EVID: Record<string, string[]> = {
   "realty-data-pipeline": ["운영 DB를 덮어쓰지 않는 atomic swap", "안전 규칙을 문서 아닌 훅으로 강제", "‘성공 표시 ≠ 데이터 성공’ 전제"],
   "zippit": ["매물이 아니라 ‘내 통장’에서 출발", "규제 로직은 순수 함수 — 테스트로 증명", "전국 단지 등급화 실서비스 운영"],
   "plannext-retail": ["입지·유동인구 분석으로 전략 후보 다중안 제시", "존·집기 검증 통과 후 2D·3D·DXF 익스포트", "기획·UI/UX·백엔드·인프라·LLM Serving 풀스택"],
-  "planreview": ["업로드 한 번으로 도면 규정 적합성 자동 검토", "항목별 준수·위반·검토필요를 근거와 함께 제시", "엔진을 단일 진실원으로 둔 경계 설계"],
+  "planreview": ["업로드 한 번으로 도면 규정 적합성 자동 검토", "항목별 준수·위반·검토필요를 근거와 함께 제시", "엔진 결과를 원본으로 둔 경계 설계"],
 };
 // 케이스별 실제 화면 메타 — URL · 라벨 · 콜아웃 2개
 const SHOT: Record<string, { url: string; label: string; pins: string[] }> = {
-  "ground-control": { url: "gc.spacewalk.dev", label: "Ground Control 운영 대시보드", pins: ["실시간 관측 16/16", "신뢰도 3단계 언어 · 담당자 DM"] },
-  "nova": { url: "github.com/jay-swk/nova", label: "Nova · 공개 OSS (Claude Code 플러그인)", pins: ["Generator–Evaluator 분리", "커밋 전 독립 평가자"] },
+  "ground-control": { url: "ground-control · 내부", label: "Ground Control 운영 대시보드", pins: ["실시간 관측 16/16", "신뢰도 3단계 언어 · 담당자 DM"] },
+  "nova": { url: "github.com/givepro91/nova", label: "Nova · 공개 OSS (Claude Code 플러그인)", pins: ["Generator–Evaluator 분리", "커밋 전 독립 평가자"] },
   "landbook-msa": { url: "landbook.net", label: "Landbook 서비스 화면", pins: ["인증·결제·구독·필지 분리", "장애 격리 · 독립 배포"] },
   "realty-data-pipeline": { url: "realty-pipeline · 내부", label: "Realty 파이프라인 모니터", pins: ["매월 무중단 갱신", "atomic swap"] },
   "zippit": { url: "zippit.im", label: "Zippit 서비스 화면", pins: ["내 통장 기준 매칭", "규제 로직 = 순수 함수"] },
@@ -91,12 +91,12 @@ const GUIDE = "https://ax-field-guide.vercel.app";
     <section class="slide cover">
       <div class="cover-top">
         <span class="brandmark">PORTFOLIO <b>2026</b></span>
-        <span class="cover-axes">AI Agent Ops · Data Reliability · Backend · 0→1</span>
+        <span class="cover-axes">Backend · AI Product · Data Reliability · 0→1</span>
       </div>
       <div class="cover-mid">
-        <p class="cover-eyebrow">AX = AI Transformation — AI 에이전트를 운영 시스템 안에 ‘안전하게’ 들이는 일</p>
+        <p class="cover-eyebrow">‘어디까지가 내 역할인가’가 아니라 ‘이 문제를 풀려면 어디까지 가야 하는가’</p>
         <h1>백엔드 10년을 기반으로,<br />AI 에이전트가 <span class="hl">안전하게 운영되는</span><br />제품 시스템을 설계·구현합니다.</h1>
-        <p class="cover-name"><b>장근식</b> <span>Keun-sik Jang · Technical Product Lead · AI Operations &amp; Agent Infrastructure</span></p>
+        <p class="cover-name"><b>장근식</b> <span>Keun-sik Jang · 제품을 만드는 백엔드 엔지니어 · 서버에서 출발해, 문제를 풀 수 있는 데까지</span></p>
       </div>
       <div class="cover-foot">
         <a class="cover-cta" href={SITE}>▶ givepro91.github.io<span>인터랙티브 결정 로그 10선 — 대표 포트폴리오</span></a>
@@ -109,14 +109,14 @@ const GUIDE = "https://ax-field-guide.vercel.app";
       <div class="s-top"><span class="s-sec">WHY ME</span><span class="s-ctx">기능을 만든 사람이 아니라, 실패하지 않게 ‘구조’를 설계한 사람</span><span class="s-pg">02 / {TOTAL}</span></div>
       <div class="why-grid">
         <div class="why-card">
-          <span class="why-n">01</span><h3>조직 전체가 AI와 안전하게 일하는 운영 기반</h3>
-          <p>접근·시크릿 권한 체계, 지식 SoT, 인프라 비용까지 회사 차원으로 표준화했습니다. 전환과 폐기는 재검증 기록·인계 문서·승인 기준을 실행 게이트로 묶었습니다.</p>
-          <span class="why-ev">증거 — 전사 운영 기반(접근·시크릿·지식 SoT·비용 1/10) · <b>Nova</b>·<b>Ground Control</b>로 원리를 OSS 증명</span>
-        </div>
-        <div class="why-card">
-          <span class="why-n">02</span><h3>AI 제품을 기획부터 LLM Serving까지</h3>
+          <span class="why-n">01</span><h3>AI 제품을 기획부터 LLM Serving까지</h3>
           <p>LLM을 서비스에 녹인 제품을 기획·UI/UX·백엔드·인프라·LLM Serving까지 풀스택으로 만들었습니다. 출력은 구조화해 측정·익스포트되게 했습니다.</p>
           <span class="why-ev">증거 — <b>PlanNext Retail</b>(AI 매장 설계) · <b>PlanReview</b>(AI 도면 판정) · <b>Landbook</b>(상용 백엔드 토대)</span>
+        </div>
+        <div class="why-card">
+          <span class="why-n">02</span><h3>조직 전체가 AI와 안전하게 일하는 운영 기반</h3>
+          <p>접근·시크릿 권한 체계, 지식 SoT, 인프라 비용까지 회사 차원으로 표준화했습니다. 전환과 폐기는 재검증 기록·인계 문서·승인 기준을 실행 게이트로 묶었습니다.</p>
+          <span class="why-ev">증거 — 전사 운영 기반(접근·시크릿·지식 SoT·비용 1/10) · <b>Nova</b>·<b>Ground Control</b>로 원리를 OSS 증명</span>
         </div>
         <div class="why-card">
           <span class="why-n">03</span><h3>데이터·운영을 ‘침묵형 실패’에서 보호</h3>
@@ -130,7 +130,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
 
     <!-- ░ 03 PROFILE ░ -->
     <section class="slide">
-      <div class="s-top"><span class="s-sec">PROFILE</span><span class="s-ctx">Technical Product Lead · AI Operations & Agent Infrastructure</span><span class="s-pg">03 / {TOTAL}</span></div>
+      <div class="s-top"><span class="s-sec">PROFILE</span><span class="s-ctx">제품을 만드는 백엔드 엔지니어 · 서버에서 출발해, 문제를 풀 수 있는 데까지</span><span class="s-pg">03 / {TOTAL}</span></div>
       <div class="prof">
         <aside class="prof-card">
           <div class="avatar"><span>{initial}</span><img src={PROFILE.photo} alt="" onerror="this.remove()" /></div>
@@ -140,7 +140,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
             <div><dt>EMAIL</dt><dd><a href="mailto:givepro91@gmail.com">givepro91@gmail.com</a></dd></div>
             <div><dt>PHONE</dt><dd>010-3175-9809</dd></div>
             <div><dt>PORTFOLIO</dt><dd><a href={SITE}>givepro91.github.io</a></dd></div>
-            <div><dt>AX NOTE</dt><dd><a href={GUIDE}>ax-field-guide.vercel.app</a></dd></div>
+            <div><dt>FIELDWORK</dt><dd><a href={GUIDE}>ax-field-guide.vercel.app</a></dd></div>
           </dl>
         </aside>
         <div class="prof-main">
@@ -157,8 +157,8 @@ const GUIDE = "https://ax-field-guide.vercel.app";
           <div class="prof-sec">
             <h3 class="prof-h">EXPERTISE — 영역별 대표 성과</h3>
             <div class="exp">
-              <div class="exp-row"><span class="exp-k">AI Operations</span><p>접근·시크릿 권한 체계·지식 SoT·인프라 비용을 <b>회사 차원으로 표준화</b>. <b>Nova·Ground Control</b>로 원리를 OSS 증명</p></div>
               <div class="exp-row"><span class="exp-k">AI Product</span><p><b>PlanNext Retail·PlanReview</b>로 LLM 결합 제품을 기획부터 LLM Serving까지 풀스택. <b>Landbook</b> 상용 백엔드 토대(lead committer · ~1,800 커밋)</p></div>
+              <div class="exp-row"><span class="exp-k">AI Operations</span><p>접근·시크릿 권한 체계·지식 SoT·인프라 비용을 <b>회사 차원으로 표준화</b>. <b>Nova·Ground Control</b>로 원리를 OSS 증명</p></div>
               <div class="exp-row"><span class="exp-k">Data Reliability</span><p><b>Realty Pipeline</b> 무중단 Blue-Green ETL로 운영 DB 다운 0, silent fail 구조적 차단</p></div>
               <div class="exp-row"><span class="exp-k">Stack</span><p>{SKILLS.find((g:any)=>g.group.includes("Backend"))?.items.slice(0,4).join(" · ")} · Kafka · Redis · AWS EKS · ArgoCD</p></div>
             </div>
@@ -265,7 +265,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
       <h2>판단의 기록을<br />직접 확인해 보세요.</h2>
       <div class="ct-cards">
         <a class="ct-card" href={SITE}><span class="ct-k">결정 로그 10선</span><b>givepro91.github.io ↗</b><em>문제 → 판단 → 증명의 인터랙티브 기록</em></a>
-        <a class="ct-card" href={GUIDE}><span class="ct-k">AX 현장 노트</span><b>ax-field-guide.vercel.app ↗</b><em>개념·기법·플레이북을 현장에서 정리·공개</em></a>
+        <a class="ct-card" href={GUIDE}><span class="ct-k">공개 필드가이드</span><b>Fieldwork · ax-field-guide.vercel.app ↗</b><em>해본 것과 조사한 것을 글마다 구분해 밝힌다</em></a>
         <a class="ct-card mail" href="mailto:givepro91@gmail.com"><span class="ct-k">연락</span><b>메일 보내기 ↗</b><em>givepro91@gmail.com · 010-3175-9809</em></a>
       </div>
       <p class="ct-foot">자동화는 조용해져야 제품이 되고, <span class="hl">AI는 결정을 대체하는 게 아니라 근거를 좁힙니다.</span></p>

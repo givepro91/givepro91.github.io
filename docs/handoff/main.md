@@ -110,3 +110,33 @@ updated: 2026-07-13T07:33:30Z
 - 공개 수위 = 구체적으로 쓰되 **실제 절대 금액만 비노출**(비율·상용 기술명 OK, 내부 코드네임 일반화). SoT 공개정책 준수.
 - ②축 라벨 = "AI Full-Stack Product Engineering" 유지하되 본문은 "끝까지 제품화"로(SoT 피할표현 "풀스택 됐다" 회피).
 - 정체성 정본 = social-portfolio-os/strategy. 직무 작업 전 항상 먼저 확인(추측 금지) — 이번에 준수.
+
+---
+
+# 2026-08-07 · 포지셔닝 재정의 + 퇴직 반영 + 레거시 정리
+
+## What
+SoT(`givepro91/my-wiki`)에서 한 줄 정체성이 바뀌었고(`values/why-product-first-positioning.md`, 본인 판단), 그 파생으로 이 레포를 정렬했다.
+
+- **정체성**: `Technical Product Lead / AI Operations & Agent Infrastructure` → **"제품을 만드는 백엔드 엔지니어"**. 어순이 곧 주장 — **백엔드=정체(명사) · 제품=방향 · AI=부연**. 직무명(Product Engineer/AX/FDE)은 헤드라인에 박지 않는다(지원처가 백엔드/서버/프로덕트/AI로 갈림).
+- **두 축 순서 반전**: ①AI Operations → ①**AI Full-Stack Product Engineering**, ②AI Operations. `cv.json` PROFILE.summary·CAREER[0].highlights 접두, `cv/index`·`cv/print`의 `AXES` 맵, `portfolio/print` EXPERTISE 행·WHY ME 01/02 카드 전부 동일 순서로 맞춤.
+- **퇴직 반영**: CAREER[0] `2023.01 – 재직 중`→`2023.01 – 2026.07`, `duration` 3년 6개월→**3년 7개월**, `current: true`→**false**, summary 과거형. `PROFILE.current` 전면 재작성(이직 준비 중). 홈 배지·infobox 2곳. ⚠️ 퇴직 **사유**는 SoT에서 public 금지 — 어떤 형태로도 쓰지 않는다.
+- **`ax-field-guide` → `Fieldwork` 리브랜드**(SoT 2026-07-26). **URL은 유지** — `ax-field-guide.vercel.app` 이 살아있고 `<title>Fieldwork</title>` 를 서빙한다(curl 확인). 바뀐 건 이름·성격(AX 단독 필드북 → 5트랙, `basis` 표시제)이므로 **라벨·설명만** 교체.
+
+## 레거시 정리 (실측으로 찾은 것)
+- **`SITE.tagline`/`subtagline` 이 어디서도 안 쓰였다** — `index.astro` 가 옛 문구를 하드코딩. config 를 고쳐도 화면에 안 나가던 드리프트. `{SITE.tagline}` 참조로 교체 + 주석으로 재발 방지.
+- **`github.com/jay-swk/nova` = 404** (공개 PDF에 실린 죽은 링크) → `github.com/givepro91/nova`(200). 참고: `jay-swk` 계정·`jay-swk/nova-landing` 은 살아있어 유지.
+- **`gc.spacewalk.dev`** (퇴직한 회사 내부 도메인)이 PDF 브라우저 크롬에 노출 → `ground-control · 내부`(기존 `realty-pipeline · 내부` 선례와 동일 표기).
+- **`jay@spacewalk.tech`**(AGENTS.md 헤더) → `givepro91@gmail.com`.
+- **폐기어 "진실원" 10건 전멸** — SoT `CLAUDE.md` 1항 폐기어. `원본`/`같은 데이터를 보고`/`결과 원본`으로.
+- 표지 eyebrow 의 `AX = AI Transformation` 정의 리드 제거(AX는 이제 간판이 아니라 방법론 층), `cover-axes` 순서도 Backend 선두로.
+
+## Verify
+- `pnpm build` → PASS(17p), `check-disclosure`(source·dist) 통과.
+- dist 잔존 0건 검증: `재직 중` · `spacewalk.tech` · `spacewalk.dev` · `jay-swk/nova"` · `진실원` · `AX Field Guide` · `Technical Product Lead · AI Operations`.
+- 반영 확인: `제품을 만드는 백엔드 엔지니어` 17p · `2023.01 – 2026.07` 3p · `Fieldwork` 4p · `github.com/givepro91/nova` 1p.
+
+## Next steps
+- ⏳ **미처리**: SoT `writing/social/positioning/` 5개 문서(profile-copy·resume-refresh·channel-strategy…)가 아직 옛 간판 기준. **검색 키워드로서의 "서버 개발자" 는 여기서 커버하기로 설계**했으므로(정체는 `me.md` 에 백엔드 하나) 다음 세션에 같이 처리.
+- 편집 판단 보류: `cv/index.astro` `projectGroups` 가 AX 개인 OSS 를 회사 제품 위에 둔다. 축을 뒤집은 것과 어긋나 보이나, "지금 뭘 만드는가"를 먼저 보여주는 것도 근거가 있어 본인 판단 대기.
+- 커밋·푸시 안 함(레포 규칙: 사용자 요청 시에만).
