@@ -46,6 +46,15 @@ updated: 2026-08-11T00:00:00Z
 - my-wiki `6aba6b5` — 여정형 재개정 기록(values·me.md·profile-copy·README) push 완료.
 - ⚠️ 재검증 후보: 포폴 인쇄본 Landbook "합산 ~1,800 커밋"(garo 482+auth 484+payment 526+gw 82=1,574+premium 미확인) — 실측 재확인 권장.
 
+## 2026-08-11 — CV 단기 경력 제거 + 인쇄 p3 빈 페이지 해소 + Working Principle 재구성
+
+### Restore in 30s
+근식 지시 3건. ① **단기 경력 2건 삭제**: 메일플러그(인턴 4개월)·인포맥스(프리랜서 3개월) — cv.json CAREER에서 통째 제거(다른 참조 없음, mini 리스트·웹 CV 자동 반영). ② **인쇄 p3 텅 빔**: 원인은 AX 섹션의 `r-keep`(섹션 통째 페이지 유지) — 평문화로 문장이 길어지며 섹션 전체가 p4로 밀려 p3 하단이 통째로 비었음. 해법은 "생략분 다시 채우기"가 아니라 **흐름 개선**: AX·제품백엔드 섹션의 r-keep 제거, 대신 `.r-proj { break-inside: avoid }`(프로젝트 단위 유지) + `h2/blocknote { break-after: avoid }`(제목이 첫 항목과 붙어 넘어가게). ③ **Working Principle**: AI 원칙 하나 + "AX 리드 되겠다" 포부(포지셔닝 위반)뿐이던 것을 → headline(AI 판단 경계) 유지 + **제목 있는 원칙 4개**(비정상 상황 먼저 설계 / 문제 정의가 기능보다 먼저 / 판단과 근거 기록 / 서비스는 사람 연결)로 재구성. 데이터 스키마 `VISION.body`→`VISION.principles[{title,text}]`, cv/index·cv/print 렌더 동시 수정. roadmap "AX 리드의 정체성" 문구도 규칙 맞춰 정정.
+
+### Touch points
+- `src/data/cv.json` — CAREER 2건 제거·VISION 재구성. `src/pages/cv/print.astro` — r-keep 제거+인쇄 CSS·principles 렌더. `src/pages/cv/index.astro` — principles 렌더. `src/pages/roadmap.astro` — AX 리드 문구.
+- 인쇄 페이지 흐름은 CSS 로직으로 해소했으나 **실제 ⌘P 미리보기로 페이지 경계 확인 권장**(근식 육안 확인 전).
+
 ## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook 이력 과장 정정 (커밋 실측 기반·배포 완료)
 
 ### Restore in 30s

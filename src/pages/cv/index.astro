@@ -251,7 +251,9 @@ const toc = [
         <h2 class="cv-h2"><span class="n">08</span> Value & Vision</h2>
         <ul class="cv-values">{VALUES.map((v) => <li>{v}</li>)}</ul>
         <blockquote class="cv-vision-q">{VISION.headline}</blockquote>
-        {VISION.body.map((b) => <p class="cv-vision-p">{b}</p>)}
+        {VISION.principles.map((pr) => (
+          <p class="cv-vision-p"><strong>{pr.title}</strong> — {pr.text}</p>
+        ))}
       </section>
 
       <div class="cv-foot reveal">
