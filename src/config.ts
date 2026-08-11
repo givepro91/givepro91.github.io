@@ -13,11 +13,12 @@ export const SITE = {
   // Hero / identity
   name: "장근식",
   nameEn: "Keun-sik Jang",
-  // 정체성 헤드라인 — 어순이 곧 주장이다: 백엔드가 정체(명사) · 제품이 방향 · AI가 부연.
-  // 직무명(Product Engineer / AX Lead / FDE)을 박지 않는 건 의도. 지원처가 백엔드/서버/프로덕트/AI로 갈린다.
-  // 근거: my-wiki `values/why-product-first-positioning.md` (2026-08-07)
-  title: "제품을 만드는 백엔드 엔지니어",
-  subtitle: "서버에서 출발해, 문제를 풀 수 있는 데까지",
+  // 정체성 헤드라인 — 여정형: 백엔드가 출발점 · AI 제품이 도착점 · 명사는 '엔지니어'.
+  // "백엔드 엔지니어"로 명사를 좁히면 AI/프로덕트 공고가 닫혀 2026-08-11 여정형으로 개정.
+  // 직무명(Product Engineer / AX Lead / FDE)을 박지 않는 건 여전히 의도. 지원처가 백엔드/서버/프로덕트/AI로 갈린다.
+  // 근거: my-wiki `values/why-product-first-positioning.md` (2026-08-07, 2026-08-11 개정)
+  title: "백엔드에서 출발해 AI 제품까지 만드는 엔지니어",
+  subtitle: "서버가 토대, 제품이 방향",
   // 한 문장 정체성
   tagline:
     "“어디까지가 내 역할인가”가 아니라 “이 문제를 풀려면 어디까지 가야 하는가”로 일합니다. 최근 축은 AI 제품과 운영 자동화.",

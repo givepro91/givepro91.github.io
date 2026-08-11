@@ -1,8 +1,37 @@
 ---
 branch: main
 status: active
-updated: 2026-07-13T07:33:30Z
+updated: 2026-08-11T00:00:00Z
 ---
+## 2026-08-11 — 정체성 헤드라인 여정형 재개정 (백엔드 한정 인상 해소)
+
+### Restore in 30s
+근식 요청("백엔드로 제한된 느낌, AI/프로덕트 엔지니어도 포괄")으로 헤드라인을 **여정형으로 재개정**: `제품을 만드는 백엔드 엔지니어` → **`백엔드에서 출발해 AI 제품까지 만드는 엔지니어`**, 부제 `서버에서 출발해, 문제를 풀 수 있는 데까지` → **`서버가 토대, 제품이 방향`**. 어순 규칙도 개정 — 백엔드가 출발점 · AI 제품이 도착점 · 명사는 '엔지니어'. 직무명 금지·스택 나열 금지는 유지. 3안(여정형/명사 개방형/부연 확장형) 중 근식이 여정형 선택.
+
+### Touch points
+- `src/config.ts` — SITE.title/subtitle + 주석(개정 근거). tagline은 유지.
+- `src/data/cv.json` — PROFILE.title/subtitle + summary 첫 문장.
+- `src/pages/portfolio/print.astro` — 표지(cover-name)·PROFILE s-ctx 하드코딩 2곳.
+- `AGENTS.md`(=CLAUDE.md) — "⚠️ 정체성" 절 제목·정본·어순 규칙 재작성, 개정 이력 3단계로 갱신.
+- 검증: `pnpm build` PASS(소스·dist disclosure 게이트 통과), dist에 새 헤드라인 반영 확인, 옛 문구 잔존 0.
+
+### Next steps
+- **커밋·배포는 미실행** (사용자 요청 시에만). 스테이징 대상: 위 4개 파일 명시 경로.
+- my-wiki `values/why-product-first-positioning.md`에 2026-08-11 재개정 기록 추가 필요(AGENTS.md가 이 파일을 근거로 참조 중) — 근식 요청 시.
+
+## 2026-08-11 — AX_PROJECTS 섹션 평문화 (면접에서 본인이 말할 수 있는 문장으로)
+
+### Restore in 30s
+근식 피드백: "AI Agent Ops 섹션이 너무 어렵다. 채용은 이력서 기반 질문인데, 내 이력서인데 내가 내용을 파악하기 어렵다." → CV의 AX_PROJECTS 4개(Nova·Ground Control·MIRIVA·Realty) 문구를 **‘무엇을 했고 왜 그랬는지’를 일상어 한 문장으로** 재작성. 원칙: 검증된 사실(55% 판단·245행 보존·13커밋 기여 범위)은 유지, 전문용어는 꼭 필요한 것만 괄호로. 예: "크롤러 resilience — 429·403·5xx를 서킷브레이커·백오프·jitter로 처리" → "사이트가 접속을 제한하면 잠시 멈췄다가 간격을 늘려 재시도하고, 차단 신호가 쌓이면 스스로 수집을 중단". "PRD를 적대적 자기검증 가설 문서로(confidence 55%·conditional-go)" → "기획 문서에 성공 확신 대신 ‘성공 확률 55%, 조건 확인되면 진행’ 판단 기준을 그대로 적음". 섹션명도 "AI Agent Ops" → "AI 에이전트 운영".
+
+### Touch points
+- `src/data/cv.json` — AX_PROJECTS overview·achievements·tagline 14곳 문자열 교체(내용 사실은 동일, 표현만).
+- `src/pages/cv/index.astro` — projectGroups[0] label·note 평문화.
+- `src/pages/cv/print.astro` — 해당 섹션 h2·blocknote 평문화.
+- `src/content/projects/ko/realty-data-pipeline.md` — shows "크롤러 resilience"→"크롤러 안정성", decision 문장 평문화(카드는 기술 독자용이라 괄호 용어는 유지).
+- **(후속) 스페이스워크 PROJECTS 3개도 같은 기준 적용** — PlanReview("web → server → 큐 → worker" 화살표 체인, "경계 설계", "배포 가드레일로 봉합"), PlanNext Retail(스택 나열형 성과 → 상품화 서사), Landbook("(blocking→non-blocking)", "(토대)" 태그라인) 평문화. CAREER 스페이스워크 highlights 중 같은 압축체 2곳(①Landbook·①PlanReview)도 수정. 공개 카드 `planreview.md`(shows·result·learning)·`landbook-msa.md`(decision)와 `portfolio/print.astro` planreview 불릿도 정합 맞춤.
+- 검증: `pnpm build` PASS(게이트 통과), dist에 "적대적 자기검증·크롤러 resilience·jitter·blocking→non-blocking·web → server" 잔재 0.
+
 ## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook 이력 과장 정정 (커밋 실측 기반·배포 완료)
 
 ### Restore in 30s

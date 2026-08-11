@@ -58,7 +58,7 @@ const EVID: Record<string, string[]> = {
   "realty-data-pipeline": ["운영 DB를 덮어쓰지 않는 atomic swap", "안전 규칙을 문서 아닌 훅으로 강제", "‘성공 표시 ≠ 데이터 성공’ 전제"],
   "zippit": ["매물이 아니라 ‘내 통장’에서 출발", "규제 로직은 순수 함수 — 테스트로 증명", "전국 단지 등급화 실서비스 운영"],
   "plannext-retail": ["입지·유동인구 분석으로 전략 후보 다중안 제시", "존·집기 검증 통과 후 2D·3D·DXF 익스포트", "기획·UI/UX·백엔드·인프라·LLM Serving 풀스택"],
-  "planreview": ["업로드 한 번으로 도면 규정 적합성 자동 검토", "항목별 준수·위반·검토필요를 근거와 함께 제시", "엔진 결과를 원본으로 둔 경계 설계"],
+  "planreview": ["업로드 한 번으로 도면 규정 적합성 자동 검토", "항목별 준수·위반·검토필요를 근거와 함께 제시", "엔진 결과를 원본으로 두고 화면 보정 금지"],
 };
 // 케이스별 실제 화면 메타 — URL · 라벨 · 콜아웃 2개
 const SHOT: Record<string, { url: string; label: string; pins: string[] }> = {
@@ -96,7 +96,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
       <div class="cover-mid">
         <p class="cover-eyebrow">‘어디까지가 내 역할인가’가 아니라 ‘이 문제를 풀려면 어디까지 가야 하는가’</p>
         <h1>백엔드 10년을 기반으로,<br />AI 에이전트가 <span class="hl">안전하게 운영되는</span><br />제품 시스템을 설계·구현합니다.</h1>
-        <p class="cover-name"><b>장근식</b> <span>Keun-sik Jang · 제품을 만드는 백엔드 엔지니어 · 서버에서 출발해, 문제를 풀 수 있는 데까지</span></p>
+        <p class="cover-name"><b>장근식</b> <span>Keun-sik Jang · 백엔드에서 출발해 AI 제품까지 만드는 엔지니어 · 서버가 토대, 제품이 방향</span></p>
       </div>
       <div class="cover-foot">
         <a class="cover-cta" href={SITE}>▶ givepro91.github.io<span>인터랙티브 결정 로그 10선 — 대표 포트폴리오</span></a>
@@ -130,7 +130,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
 
     <!-- ░ 03 PROFILE ░ -->
     <section class="slide">
-      <div class="s-top"><span class="s-sec">PROFILE</span><span class="s-ctx">제품을 만드는 백엔드 엔지니어 · 서버에서 출발해, 문제를 풀 수 있는 데까지</span><span class="s-pg">03 / {TOTAL}</span></div>
+      <div class="s-top"><span class="s-sec">PROFILE</span><span class="s-ctx">백엔드에서 출발해 AI 제품까지 만드는 엔지니어 · 서버가 토대, 제품이 방향</span><span class="s-pg">03 / {TOTAL}</span></div>
       <div class="prof">
         <aside class="prof-card">
           <div class="avatar"><span>{initial}</span><img src={PROFILE.photo} alt="" onerror="this.remove()" /></div>
