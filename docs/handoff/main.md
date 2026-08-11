@@ -32,6 +32,20 @@ updated: 2026-08-11T00:00:00Z
 - **(후속) 스페이스워크 PROJECTS 3개도 같은 기준 적용** — PlanReview("web → server → 큐 → worker" 화살표 체인, "경계 설계", "배포 가드레일로 봉합"), PlanNext Retail(스택 나열형 성과 → 상품화 서사), Landbook("(blocking→non-blocking)", "(토대)" 태그라인) 평문화. CAREER 스페이스워크 highlights 중 같은 압축체 2곳(①Landbook·①PlanReview)도 수정. 공개 카드 `planreview.md`(shows·result·learning)·`landbook-msa.md`(decision)와 `portfolio/print.astro` planreview 불릿도 정합 맞춤.
 - 검증: `pnpm build` PASS(게이트 통과), dist에 "적대적 자기검증·크롤러 resilience·jitter·blocking→non-blocking·web → server" 잔재 0.
 
+## 2026-08-11 — 포트폴리오·전 표면 확장 (평문화 + 시제 + ⚠️사실 정정)
+
+### Restore in 30s
+근식 추가 지시 2건: ① "포트폴리오도 같은 기준?" → 전면 점검 실행, ② "퇴사했는데 진행형 문구가 보임" → 스페이스워크 관련 시제 정정. 점검 중 **7/13 사실검증 결정 위반 3건을 포트폴리오 인쇄본에서 발견·정정**: (a) Landbook 도식 cap "무거운 작업은 Kafka로 떼어 격리"(Landbook에 Kafka 없음 — 실측), (b) ROLE/EVID "MSA 설계"·"핵심 서비스 설계 (lead committer)"(설계 아님·합류 개발·운영), (c) Realty "atomic swap·안전 규칙 훅 강제·silent fail 차단"을 본인 성과처럼 서술(타 기여자 몫) → 크롤러 안정화·체크포인트 재개로 재초점. WHY ME 카드 03도 같은 이유로 재작성. 시제: PlanReview "2026 – 현재"→"2026"·"현재는 자문을 맡고 있습니다"→"후반에는 자문 역할로 참여했습니다"(cv.json+카드), PlanNext "2025.03 – 현재"→"– 2026.07". zippit "운영하고 있습니다"는 개인 서비스 현재 운영이라 유지.
+
+### Touch points
+- `src/pages/portfolio/print.astro` — FLOW(nova·landbook·realty)·ROLE·PRINCIPLE·EVID·SHOT pins·WHY ME 카드 3개·EXPERT rows·MIRIVA 각주. "지식 SoT"→"지식 기준", "풀스택"→"기획부터 …까지 직접".
+- `src/data/cv.json` — PlanReview·PlanNext 시제/기간, SKILLS·CASES의 "적대적 게이트"→"독립 검증 게이트"·silent fail 평문화.
+- 카드: `nova.md`(positioning·shows·decision·result), `miriva.md`(전반), `markbrief.md`(1급·도메인 무지·dogfooding), `ground-control.md`(화살표 role·human-in-the-loop), `planreview.md`(role·metrics 시제).
+- `src/pages/roadmap.astro` — "적대적" 4곳, Realty evidence 재초점.
+- `src/pages/cv/print.astro` — 스킬 라인 "적대적 게이트" 교체.
+- my-wiki `6aba6b5` — 여정형 재개정 기록(values·me.md·profile-copy·README) push 완료.
+- ⚠️ 재검증 후보: 포폴 인쇄본 Landbook "합산 ~1,800 커밋"(garo 482+auth 484+payment 526+gw 82=1,574+premium 미확인) — 실측 재확인 권장.
+
 ## 2026-07-13 — 나니아랩스 인터뷰 준비 + Landbook 이력 과장 정정 (커밋 실측 기반·배포 완료)
 
 ### Restore in 30s
