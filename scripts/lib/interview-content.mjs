@@ -21,7 +21,42 @@ function inline(s) {
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 }
 
+// ``` 로 감싼 구간은 도식(화이트보드 그림)이다.
+// 빈 줄을 품을 수 있으므로 블록 분할보다 먼저 떼어내고, 안쪽은 손대지 않는다.
 function mdToHtml(md) {
+  const segments = [];
+  let prose = [];
+  let fence = null;
+
+  for (const line of md.split("\n")) {
+    if (line.trimStart().startsWith("```")) {
+      if (fence === null) {
+        segments.push({ code: false, text: prose.join("\n") });
+        prose = [];
+        fence = [];
+      } else {
+        segments.push({ code: true, text: fence.join("\n") });
+        fence = null;
+      }
+      continue;
+    }
+    (fence === null ? prose : fence).push(line);
+  }
+
+  // 닫히지 않은 fence 는 그냥 본문으로 되돌린다.
+  if (fence !== null) prose.push(...fence);
+  segments.push({ code: false, text: prose.join("\n") });
+
+  return segments
+    .map((s) =>
+      s.code
+        ? `<pre><code>${escapeHtml(s.text.replace(/^\n+|\n+$/g, ""))}</code></pre>`
+        : renderBlocks(s.text),
+    )
+    .join("");
+}
+
+function renderBlocks(md) {
   const out = [];
 
   for (const block of md.trim().split(/\n{2,}/)) {
@@ -47,7 +82,7 @@ function mdToHtml(md) {
       // 소제목 바로 아래에 빈 줄 없이 목록이 붙는 경우가 많다.
       // 남은 줄은 다시 블록 규칙으로 처리해야 목록이 목록으로 남는다.
       const rest = lines.slice(1);
-      if (rest.length) out.push(mdToHtml(rest.join("\n")));
+      if (rest.length) out.push(renderBlocks(rest.join("\n")));
       continue;
     }
 

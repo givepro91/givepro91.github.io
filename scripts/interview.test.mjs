@@ -120,6 +120,24 @@ test("소제목 바로 아래 목록도 목록으로 남는다 (빈 줄 없음)"
   assert.ok(!a.includes("<p>- "), "목록이 문단으로 뭉개지면 안 된다");
 });
 
+test("도식(코드 블록)은 원문 그대로 pre 로 보존된다", () => {
+  const raw =
+    "---\ntitle: X\n---\n\n## q\n\n앞 문단.\n\n```\n회사\n └ 조직\n\n    └ 사용자\n```\n\n뒤 문단.\n";
+  const [s] = buildContent([{ id: "10-x.md", raw }]).sections;
+  const a = s.items[0].a;
+  assert.ok(a.includes("<pre><code>"), "pre 로 감싸야 한다");
+  assert.ok(a.includes(" └ 조직"), "들여쓰기가 보존돼야 한다");
+  assert.ok(a.includes("\n\n    └ 사용자"), "도식 안의 빈 줄도 유지돼야 한다");
+  assert.ok(a.includes("<p>앞 문단.</p>") && a.includes("<p>뒤 문단.</p>"));
+  assert.ok(!a.includes("```"), "fence 표시가 남으면 안 된다");
+});
+
+test("도식 안의 꺾쇠는 이스케이프된다", () => {
+  const raw = "---\ntitle: X\n---\n\n## q\n\n```\nA -> B <조건>\n```\n";
+  const [s] = buildContent([{ id: "10-x.md", raw }]).sections;
+  assert.ok(s.items[0].a.includes("&lt;조건&gt;"));
+});
+
 test("파일명 순서대로 섹션이 정렬된다", () => {
   const mk = (t) => `---\ntitle: ${t}\n---\n\n## q\n\nbody\n`;
   const { sections } = buildContent([
