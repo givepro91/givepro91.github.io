@@ -1,0 +1,305 @@
+---
+// 비공개 면접 준비 페이지.
+// 내용은 빌드 전에 이미 암호화돼 있고(scripts/seal-interview.mjs), 이 페이지는
+// 암호문을 그대로 실어 나른다. 복호화는 비밀번호를 아는 사람의 브라우저에서만 일어난다.
+// BaseLayout 을 쓰지 않는다 — GA·OG·사이트맵이 함께 딸려오기 때문이다.
+import "../styles/global.css";
+import sealed from "../data/interview.sealed.json";
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>비공개</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <script type="application/json" id="sealed" set:html={JSON.stringify(sealed)} />
+
+    <main class="iv">
+      <section id="lock" class="iv-lock">
+        <h1>비공개 문서</h1>
+        <form id="lock-form">
+          <input
+            id="pw"
+            type="password"
+            placeholder="비밀번호"
+            autocomplete="current-password"
+            autofocus
+          />
+          <button id="unlock" type="submit">열기</button>
+        </form>
+        <p id="msg" class="iv-msg" role="status"></p>
+      </section>
+
+      <section id="doc" hidden>
+        <header class="iv-head">
+          <nav id="tabs" class="iv-tabs"></nav>
+          <div class="iv-tools">
+            <input id="q" type="search" placeholder="검색" />
+            <button id="expand" type="button">모두 펼치기</button>
+            <button id="relock" type="button">잠그기</button>
+          </div>
+        </header>
+        <div id="list" class="iv-list"></div>
+        <p id="empty" class="iv-msg" hidden>검색 결과가 없습니다.</p>
+      </section>
+    </main>
+
+    <script>
+      const box = JSON.parse(document.getElementById("sealed").textContent);
+      const $ = (id) => document.getElementById(id);
+      const STORE_KEY = "iv-pw";
+
+      let content = null;
+      let active = 0;
+      let allOpen = false;
+
+      const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+      async function decrypt(password) {
+        const material = await crypto.subtle.importKey(
+          "raw",
+          new TextEncoder().encode(password),
+          "PBKDF2",
+          false,
+          ["deriveKey"],
+        );
+        const aesKey = await crypto.subtle.deriveKey(
+          {
+            name: "PBKDF2",
+            salt: b64(box.kdf.salt),
+            iterations: box.kdf.iter,
+            hash: box.kdf.hash,
+          },
+          material,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["decrypt"],
+        );
+        const plain = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: b64(box.iv) },
+          aesKey,
+          b64(box.ct),
+        );
+        return JSON.parse(new TextDecoder().decode(plain));
+      }
+
+      function renderTabs() {
+        $("tabs").replaceChildren();
+        content.sections.forEach((section, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = `${section.title} ${section.items.length}`;
+          if (i === active) btn.className = "on";
+          btn.addEventListener("click", () => {
+            active = i;
+            renderTabs();
+            renderList();
+          });
+          $("tabs").append(btn);
+        });
+      }
+
+      function renderList() {
+        const term = $("q").value.trim().toLowerCase();
+        const items = content.sections[active].items.filter(
+          (it) =>
+            !term ||
+            it.q.toLowerCase().includes(term) ||
+            it.a.toLowerCase().includes(term) ||
+            it.tags.some((t) => t.toLowerCase().includes(term)),
+        );
+
+        $("list").replaceChildren();
+        for (const it of items) {
+          const details = document.createElement("details");
+          details.open = allOpen || Boolean(term);
+
+          const summary = document.createElement("summary");
+          summary.textContent = it.q;
+
+          const body = document.createElement("div");
+          body.className = "iv-a";
+          // 본인이 작성해 본인 비밀번호로 봉인한 내용만 들어온다 — 신뢰 경계 안이다.
+          body.innerHTML = it.a;
+
+          if (it.tags.length) {
+            const tags = document.createElement("p");
+            tags.className = "iv-tags";
+            tags.textContent = it.tags.join(" · ");
+            body.append(tags);
+          }
+
+          details.append(summary, body);
+          $("list").append(details);
+        }
+        $("empty").hidden = items.length > 0;
+      }
+
+      async function attempt(password, fromStorage) {
+        $("unlock").disabled = true;
+        $("msg").textContent = "여는 중…";
+        try {
+          content = await decrypt(password);
+          sessionStorage.setItem(STORE_KEY, password);
+          $("msg").textContent = "";
+          $("lock").hidden = true;
+          $("doc").hidden = false;
+          renderTabs();
+          renderList();
+        } catch {
+          sessionStorage.removeItem(STORE_KEY);
+          $("msg").textContent = fromStorage ? "" : "비밀번호가 틀렸습니다.";
+          $("pw").value = "";
+          $("pw").focus();
+        } finally {
+          $("unlock").disabled = false;
+        }
+      }
+
+      if (!window.crypto?.subtle) {
+        $("msg").textContent = "이 브라우저에서는 열 수 없습니다. 최신 브라우저에서 https 로 접속하세요.";
+      } else {
+        $("lock-form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          attempt($("pw").value, false);
+        });
+        $("q").addEventListener("input", renderList);
+        $("expand").addEventListener("click", () => {
+          allOpen = !allOpen;
+          $("expand").textContent = allOpen ? "모두 접기" : "모두 펼치기";
+          renderList();
+        });
+        $("relock").addEventListener("click", () => {
+          sessionStorage.removeItem(STORE_KEY);
+          location.reload();
+        });
+
+        const saved = sessionStorage.getItem(STORE_KEY);
+        if (saved) attempt(saved, true);
+      }
+    </script>
+
+    <style>
+      .iv {
+        max-width: 46rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 6rem;
+      }
+      .iv-lock {
+        max-width: 22rem;
+        margin: 20vh auto 0;
+        text-align: center;
+      }
+      .iv-lock h1 {
+        font-size: 1.125rem;
+        letter-spacing: 0.02em;
+        opacity: 0.8;
+      }
+      .iv-lock form {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+      .iv-lock input {
+        flex: 1;
+        min-width: 0;
+        padding: 0.6rem 0.75rem;
+        font: inherit;
+      }
+      .iv-msg {
+        margin-top: 0.75rem;
+        min-height: 1.25rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+      }
+      .iv-head {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 0.75rem 0 1rem;
+        background: var(--bg, inherit);
+      }
+      .iv-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .iv-tabs button,
+      .iv-tools button {
+        padding: 0.4rem 0.8rem;
+        font: inherit;
+        font-size: 0.875rem;
+        cursor: pointer;
+      }
+      .iv-tabs button.on {
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 0.3em;
+      }
+      .iv-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+      }
+      .iv-tools input {
+        flex: 1;
+        min-width: 7rem;
+        padding: 0.4rem 0.6rem;
+        font: inherit;
+        font-size: 0.875rem;
+      }
+      .iv-list details {
+        padding: 0.85rem 0;
+        border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+      }
+      .iv-list summary {
+        cursor: pointer;
+        font-weight: 600;
+        line-height: 1.55;
+      }
+      .iv-a {
+        padding-top: 0.85rem;
+        line-height: 1.8;
+      }
+      .iv-a ul {
+        margin: 0.75rem 0;
+        padding-left: 1.25rem;
+        list-style: disc;
+      }
+      .iv-a li {
+        margin: 0.35rem 0;
+      }
+      .iv-a h4 {
+        margin: 1.1rem 0 0.4rem;
+        font-size: 0.875rem;
+        opacity: 0.7;
+      }
+      .iv-a blockquote {
+        margin: 0.75rem 0;
+        padding-left: 0.9rem;
+        border-left: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+        opacity: 0.85;
+      }
+      .iv-a code {
+        font-size: 0.9em;
+      }
+      .iv-tags {
+        margin-top: 0.9rem;
+        font-size: 0.8125rem;
+        opacity: 0.55;
+      }
+      @media print {
+        .iv-head {
+          position: static;
+        }
+      }
+    </style>
+  </body>
+</html>

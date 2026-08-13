@@ -1,8 +1,43 @@
 ---
 branch: main
 status: active
-updated: 2026-08-11T00:00:00Z
+updated: 2026-08-13T00:00:00Z
 ---
+## 2026-08-13 — /interview 비공개 면접 준비 페이지 (내용 암호화)
+
+### Restore in 30s
+근식 요청: 이력서 기반 면접 문답(CS·직무·조직)을 모아두되 본인만 열람. **공개 레포·공개 Pages 라 단순 비번 게이트는 보호가 아니라고 판단** → 내용 자체를 AES-256-GCM 으로 봉인하고 브라우저에서 비번으로 푸는 구조로 구현. 41문항(CS 14·직무 14·조직 13) 작성·봉인·배포 완료.
+
+### 구조
+```
+private/interview/*.md   평문 원문. gitignore. 커밋된 적 없음
+  │  pnpm interview:seal  (비번은 실행 시 입력, 어디에도 저장 안 함)
+  ▼
+src/data/interview.sealed.json   salt·iv·암호문만. 이것만 커밋
+  ▼  astro build → 페이지에 인라인
+/interview  → 비번 입력 → 브라우저 Web Crypto 로 복호화
+```
+
+- 암호: PBKDF2-SHA256 310,000회 → AES-256-GCM. Node `node:crypto` 봉인 ↔ 브라우저 `crypto.subtle` 해제 호환 검증함.
+- **비밀번호는 이 레포·CI·어디에도 없다.** 분실하면 원문(`private/`)에서 새 비번으로 다시 봉인하는 방법뿐.
+- 내용 갱신: `private/interview/*.md` 고치고 → `pnpm interview:seal` → `src/data/interview.sealed.json` 커밋·푸시.
+- 봉인 스크립트는 `git ls-files private/` 가 비지 않으면 **중단**한다(평문 유출 마지막 방어선).
+
+### Touch points
+- 신규: `scripts/lib/interview-crypto.mjs` · `scripts/lib/interview-content.mjs` · `scripts/interview.test.mjs`(16 테스트) · `scripts/seal-interview.mjs` · `src/pages/interview.astro`
+- 수정: `.gitignore`(`private/`) · `scripts/check-disclosure.mjs`(SKIP_DIR 에 `private`) · `astro.config.ts`(사이트맵에서 `/interview` 제외) · `package.json`
+- 문서: `docs/superpowers/specs/2026-08-13-interview-page-design.md` · `docs/superpowers/plans/2026-08-13-interview-page.md`
+- **robots.txt 는 일부러 만들지 않았다** — `Disallow: /interview` 는 숨기려는 경로를 공개적으로 광고하는 역효과. 차단은 `noindex` 메타 + 사이트맵 제외 + 링크 없음으로.
+
+### Verify
+- `node --test scripts/interview.test.mjs` 16/16 PASS · `pnpm build` 게이트(source·dist) PASS
+- dist 평문 잔존 0건(`코루틴이 스레드와`·`이직을 결심한`·`임계값 5회`·비밀번호 문자열) · 사이트맵에 `/interview` 0건
+- 브라우저 실측: 틀린 비번 거부 → 정상 비번 해제 → 탭 전환·검색·모두 펼치기 동작 확인
+
+### Next steps
+- 콘텐츠는 초안이다. **"이직을 결심한 이유"는 뼈대만 적어뒀다** — 본인 문장으로 채워야 함(퇴직 사유는 레포에 안 쓴다는 규칙 유지).
+- 근식이 본인 비번으로 재봉인 권장(현재 비번은 세션 대화에 노출됨). `pnpm interview:seal` 후 sealed.json 커밋·푸시 2단계.
+
 ## 2026-08-11 — 정체성 헤드라인 여정형 재개정 (백엔드 한정 인상 해소)
 
 ### Restore in 30s

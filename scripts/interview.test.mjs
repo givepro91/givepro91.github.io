@@ -110,6 +110,16 @@ test("소제목과 인용을 변환한다", () => {
   assert.ok(s.items[0].a.includes("<blockquote>그대로 말해도 되는 문장</blockquote>"));
 });
 
+test("소제목 바로 아래 목록도 목록으로 남는다 (빈 줄 없음)", () => {
+  const raw = "---\ntitle: X\n---\n\n## q\n\n### 꼬리질문\n- 첫째 질문 → 답\n- 둘째 질문 → 답\n";
+  const [s] = buildContent([{ id: "10-x.md", raw }]).sections;
+  const a = s.items[0].a;
+  assert.ok(a.includes("<h4>꼬리질문</h4>"));
+  assert.ok(a.includes("<li>첫째 질문 → 답</li>"), "목록 항목이 li 로 남아야 한다");
+  assert.ok(a.includes("<li>둘째 질문 → 답</li>"));
+  assert.ok(!a.includes("<p>- "), "목록이 문단으로 뭉개지면 안 된다");
+});
+
 test("파일명 순서대로 섹션이 정렬된다", () => {
   const mk = (t) => `---\ntitle: ${t}\n---\n\n## q\n\nbody\n`;
   const { sections } = buildContent([

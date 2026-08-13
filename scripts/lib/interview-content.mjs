@@ -44,8 +44,10 @@ function mdToHtml(md) {
 
     if (lines[0].startsWith("### ")) {
       out.push(`<h4>${inline(escapeHtml(lines[0].slice(4).trim()))}</h4>`);
+      // 소제목 바로 아래에 빈 줄 없이 목록이 붙는 경우가 많다.
+      // 남은 줄은 다시 블록 규칙으로 처리해야 목록이 목록으로 남는다.
       const rest = lines.slice(1);
-      if (rest.length) out.push(`<p>${inline(escapeHtml(rest.join(" ")))}</p>`);
+      if (rest.length) out.push(mdToHtml(rest.join("\n")));
       continue;
     }
 
