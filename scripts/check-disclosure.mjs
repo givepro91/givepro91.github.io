@@ -49,6 +49,8 @@ const TEXT_EXT = new Set([
 const SKIP_DIR = new Set([
   ".git", "node_modules", ".astro", "dist", ".omc",
   ".playwright-mcp", ".nova", ".vscode",
+  // private/ = 면접 준비 원문(평문). gitignore 대상이라 배포에 포함되지 않는다.
+  "private",
 ]);
 
 function walk(dir, out = []) {
