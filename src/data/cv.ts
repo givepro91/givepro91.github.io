@@ -41,6 +41,7 @@ export const HIGHLIGHTS = cv.HIGHLIGHTS;
 export const CAREER = cv.CAREER as CareerEntry[];
 export const EDUCATION = cv.EDUCATION;
 export const SKILLS = cv.SKILLS;
+export const SOLO_PROJECTS = cv.SOLO_PROJECTS as ProjectEntry[];
 export const PROJECTS = cv.PROJECTS as ProjectEntry[];
 export const AX_PROJECTS = cv.AX_PROJECTS as ProjectEntry[];
 export const CASES = cv.CASES as CaseEntry[];

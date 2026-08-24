@@ -2,7 +2,7 @@
 title: "Nova — AI Agent Ops 품질 게이트"
 theme: agentops
 kind: work
-order: 4
+order: 5
 featured: true
 positioning: "AI가 짠 코드를, 그 코드를 짠 AI가 아닌 독립 평가자가 커밋 전에 검증하게 만드는 Claude Code 플러그인입니다."
 shows:

@@ -1,8 +1,91 @@
 ---
 branch: main
 status: active
-updated: 2026-08-13T00:00:00Z
+updated: 2026-08-24T10:50:00Z
 ---
+## 2026-08-24 — SoT 2026-08-24 반영 + 이력서 전면 평문화 + 퇴사일 정정
+
+### Restore in 30s — what you were doing / where you got to / what you just finished
+my-wiki(SoT)에 2026-08-24 커밋 2건(수집·정제 + **본인 확인 반영**)이 올라와 있었는데 사이트는 "이직 준비 중"에서 멈춰 있었다. 그 격차를 메우고, 근식 지시로 **퇴사일을 고용보험 기준 2026.08.01로 정정**했고, 추가 요청으로 **이력서 전 표면을 평문화**했다.
+
+**끝난 상태**: 19개 파일 수정 완료, 게이트 포함 빌드 통과, Orca 브라우저로 렌더까지 육안 확인. **커밋·푸시 미실행.**
+
+SoT에서 가져온 사실(전부 본인 확인 2026-08-24)과 공개 경계:
+
+| 항목 | 경계 | 사이트 반영 |
+|---|---|---|
+| **놀곳** 영유아 부모용 지도, 2026-08-15 App Store 배포(무료) | ✅ 공개 승인. **가입자 수·미완 데이터 비율은 투영 금지** | Work 카드 + CV `SOLO_PROJECTS` |
+| **탑과 용병단** 유료 게임 ₩3,300, 2026-08-18 출시 | ✅ 공개 승인 · **"호기심 케이스 — 정체성 축과 분리"** | Lab만 (CV 미기재) |
+| **도시정비이음**(urbanrenew) | 🔒 고객사 자산·public 금지. 「도시정비이음」은 **발주 업체명** | CAREER 한 줄만, 고객사명 없이 |
+| Coxwave 사전 과제 | 🔒 채용 과제 | 미기재 |
+| 정체성 한 줄 | 변경 없음 | 손대지 않음 |
+
+배치는 근식 선택: **놀곳=Work 대표작+CV / 탑=Lab만 / 외주=CAREER 한 줄 / 히어로 상태 배지 현행 유지**.
+
+### Next steps — concrete next actions / blockers / parked
+**다음 액션**
+1. **커밋·푸시** (요청 시에만). `git add` 는 아래 Touch points의 명시 경로만 — `git add .` 금지.
+2. **`/cv/print` PDF 밀도 육안 확인 (unverified)** — 핵심 역량 요약을 7줄→8줄로 늘려야 놀곳 출시 줄이 PDF에 들어갔다(`src/pages/cv/print.astro:68`). 페이지가 밀리면 상한을 되돌리거나 다른 줄을 뺀다. **인쇄 미리보기로는 확인하지 않았다.**
+3. **`portfolio/print` 육안 확인 (unverified)** — 텍스트 grep 으로만 검증했고 레이아웃은 안 봤다.
+
+**블로커 / 이미 시도한 것**
+- **`pnpm` 이 이 세션 셸 PATH에 없다.** `corepack`·글로벌 설치·`~/.nvm` 모두 없음을 확인했다. `package.json` 의 `build` 3단계를 `node scripts/check-disclosure.mjs --source && ./node_modules/.bin/astro build && node scripts/check-disclosure.mjs --dist` 로 직접 실행해 대체했다(동일 명령). 근식 셸에선 `pnpm build` 그대로 쓰면 된다.
+- **`/cv` 는 JS 스크롤(`window.scrollTo`/`scrollTop`)이 먹지 않는다** — 스크롤스파이가 되돌리는 것으로 보인다(원인 미확정, unverified). 앵커(`/cv/#projects`)와 `orca scroll`(실제 휠 입력)로 우회해 확인했다. **페이지 동작 문제는 아니다.**
+- **홈은 `.reveal` 이 IntersectionObserver 기반**이라 즉시 점프하면 빈 화면이 찍힌다. `document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'))` 로 강제 노출 후 캡쳐했다.
+
+**파킹 (의도적으로 안 함)**
+- `PROJECTS[1].period`(PlanNext `2025.03 – 2026.07`) — 재직 기간이 아니라 프로젝트 기간이고 마지막 출근이 07-24라 그대로 뒀다. 근식에게 알렸고 바꾸라는 지시는 없었다.
+- Work 카드·`/roadmap` 의 기술 용어(`서킷브레이커`·`human-in-the-loop`) — 기술 독자용이라 CLAUDE.md 규칙상 허용. 평문화는 이력서 층에 한정.
+- `PROJECTS[*].stack` 의 `LLM Serving` 등 — 스택 목록은 평문화 대상 아님.
+- SoT 미반영분: `/interview` 봉인본 ↔ 위키 `writing/interviews/` 원본 이중관리 정리(harvest §E-6), 브런치 소속 표기가 아직 "Spacewalk"(4회 연속 미조치).
+- **dev 서버가 백그라운드로 떠 있다** — `http://localhost:4324` (4321~4323 사용 중). 내리려면 `lsof -ti:4324 | xargs kill`.
+
+### Touch points — path:line, verification command → expected result
+
+**데이터 (수정)**
+- `src/data/cv.json` — 퇴사일·프리랜서 CAREER·`SOLO_PROJECTS` 신설·HIGHLIGHTS 8개·CASES 8건 전면 평문화·SKILLS 앞 2그룹+그룹명 4개·PROFILE·VISION
+  - `node -e "const d=require('./src/data/cv.json');console.log(d.CAREER.length,d.HIGHLIGHTS.length,d.SOLO_PROJECTS.length)"` → `7 8 1`
+  - `node -e "const d=require('./src/data/cv.json');console.log(d.CAREER[1].period,d.CAREER[1].duration)"` → `2023.01 – 2026.08 3년 7개월`
+- `src/data/cv.ts:41` — `SOLO_PROJECTS` export 추가
+- `src/data/lab.ts:5` — `LabStatus` 에 `released` 추가 / `:13` 탑과 용병단 항목(order 1)
+
+**페이지 (수정)**
+- `src/pages/index.astro` — LAB_STATUS 에 `released: { label: "출시", cls: "tool" }` · 인포박스 `2023.01–2026.08` · 도메인 `부동산(프롭테크) × AI`
+- `src/pages/cv/index.astro:3` — `SOLO_PROJECTS` import(**빠뜨려서 빌드가 한 번 깨졌다**) · `:13` projectGroups 에 개인 제품 그룹 · `:17-20` AXES 한글화
+- `src/pages/cv/print.astro:3` import · `:10-15` SKILL_GROUPS 평문화 · `:20-23` AXES 한글화 · `:68` `HIGHLIGHTS.slice(0, 8)` · 개인 제품 섹션 추가
+- `src/pages/portfolio/print.astro:163` — `g.group.includes("Backend")` → `"백엔드"`(**SKILLS 그룹명 한글화로 깨진 조회**) · `:161` 평문화 · `:252` `(confidence 55%·conditional-go)` 제거
+
+**콘텐츠**
+- `src/content/projects/ko/nolgot.md` — **신규**(theme `reliability`, order 3, visibility public, App Store 링크, riskChecked 2026-08-24)
+- order만 +1: `ground-control(4)` `nova(5)` `landbook-msa(6)` `realty-data-pipeline(7)` `zippit(8)` `garo-landbook(9)` `miriva(10)` `markwand(11)` `markbrief(12)` — `medincurl(90)` 은 그대로
+  - `grep -H "^order:" src/content/projects/ko/*.md` → 중복 없음, nolgot=3
+
+**문서**
+- `AGENTS.md:5` (=`CLAUDE.md` 심볼릭 링크) — 퇴사 기준을 `2026-08`, 고용보험 2026.08.01 명시
+
+**검증 명령 → 기대 결과**
+```
+node scripts/check-disclosure.mjs --source          → PASS
+./node_modules/.bin/astro build                     → exit 0, error/warn 0
+node scripts/check-disclosure.mjs --dist            → PASS
+grep -ril "eumgrid\|도시정비이음\|urbanrenew\|coxwave\|가입자\|Cloudflare\|Lightsail" dist/ | wc -l   → 0
+node -e "const d=require('./src/data/cv.json');const w=(o,p='')=>{if(typeof o==='string'){if(/→/.test(o))console.log(p)}else if(Array.isArray(o))o.forEach((v,i)=>w(v,p+'['+i+']'));else if(o&&typeof o==='object')Object.keys(o).forEach(k=>w(o[k],p+'.'+k))};w(d)"   → 출력 없음(화살표 체인 0)
+```
+전부 실행해 통과 확인함. **`.astro` 캐시가 stale하면 `Duplicate id` 경고가 뜬다 — `rm -rf .astro dist` 후 재빌드하면 사라진다(파일 중복 아님, 실측 확인).**
+
+**브라우저 육안 확인 (Orca, `orca tab create --url` → `orca screenshot`)**
+홈 히어로(직전 2023.01–2026.08 · 도메인 평문) · Work `log.003` 놀곳 카드 · Lab 01번 탑과 용병단 "출시" 배지 · `/cv` 경력(프리랜서 + 3년 7개월 + 한글 축) · `/cv` 개인 제품 그룹의 놀곳 — **전부 정상 확인.**
+
+### Decisions — one line each
+- 재직 기간 표기는 **고용보험 기준**(2023.01 – 2026.08)으로 통일하되, 프로젝트 기간(`PROJECTS[1]`)은 실제 작업 종료 시점이라 2026.07 유지.
+- 놀곳은 **Work 대표작 + CV 신규 그룹**, 탑과 용병단은 **Lab만** — SoT의 "게임은 정체성 근거로 쓰지 않는다"를 데이터 배치로 강제.
+- 외주는 **CAREER 한 줄, 고객사명·도메인·조직명·커밋 수 전부 제외** — 고객사 자산 경계 + CLAUDE.md 고객명 금지.
+- 히어로 상태 배지는 **현행 유지**(근식 선택) — 외주·출시는 본문에서만 드러냄.
+- CV에 개인 제품을 넣으려고 `SOLO_PROJECTS` 를 **새 배열로 분리** — 기존 `AX_PROJECTS`(AI 에이전트 운영)에 섞으면 그룹 의미가 깨진다.
+- Lab 상태값에 `released` **신설** — 기존 5개(active/prototype/experiment/paused/side)에 출시된 상용 제품을 담을 자리가 없었다.
+- 평문화 범위는 **이력서 층(cv.json + /cv + /cv/print + portfolio/print 문장)** 으로 한정, Work 카드·roadmap의 기술 용어는 유지.
+- SKILLS 그룹명을 한글화할 땐 `portfolio/print.astro` 의 `group.includes(...)` 조회를 **반드시 같이 고쳐야 한다**(이번에 깨뜨렸다가 고침).
+
 ## 2026-08-13 — /interview 비공개 면접 준비 페이지 (내용 암호화)
 
 ### Restore in 30s

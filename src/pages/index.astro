@@ -16,6 +16,7 @@ const lab = [...LAB].sort((a, b) => a.order - b.order);
 
 // lab status → 한글 라벨 + 색상 클래스
 const LAB_STATUS: Record<string, { label: string; cls: string }> = {
+  released: { label: "출시", cls: "tool" },
   active: { label: "진행중", cls: "run" },
   prototype: { label: "프로토타입", cls: "tool" },
   experiment: { label: "실험", cls: "exp" },
@@ -114,9 +115,9 @@ const heroLinks = [
           <dt>현재</dt>
           <dd>이직 준비 중 · Open to work</dd>
           <dt>직전</dt>
-          <dd>스페이스워크 (주) · 2023.01–2026.07</dd>
+          <dd>스페이스워크 (주) · 2023.01–2026.08</dd>
           <dt>도메인</dt>
-          <dd>PropTech × AI</dd>
+          <dd>부동산(프롭테크) × AI</dd>
           <dt>위치</dt>
           <dd>{PROFILE.location}</dd>
           <dt>핸들</dt>

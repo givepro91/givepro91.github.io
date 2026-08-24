@@ -2,7 +2,7 @@
 title: "Markbrief — 양식 보고서 컴파일러"
 theme: devtools
 kind: work
-order: 11
+order: 12
 positioning: "Markdown 한 장을 등록된 양식 템플릿에 맞춰 DOCX·HWPX·PDF 보고서로 자동 컴파일하는 SaaS·API입니다."
 shows:
   - "도메인 무지 변환 엔진"

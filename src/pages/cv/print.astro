@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { PROFILE, CAREER, EDUCATION, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
+import { PROFILE, CAREER, EDUCATION, SOLO_PROJECTS, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
 
 // 제출 PDF는 대표 경력(featured)만 풀 디테일, 나머지는 한 줄(mini)로 — 밀도 관리.
 const detailed = CAREER.filter((c) => c.featured);
@@ -8,18 +8,18 @@ const mini = CAREER.filter((c) => !c.featured);
 
 // CORE SKILLS — 한 덩어리 텍스트 대신 카테고리형 인라인 목록(스캔성↑·ATS 친화). 뱃지 미사용.
 const SKILL_GROUPS = [
-  { cat: "AI / Agent Ops", items: "LLM API · AI Agent Workflow · Human-in-the-loop · 품질 게이트 · 생성/검증 분리 · 커밋 전 독립 검증 게이트 · 운영 자동화" },
-  { cat: "Backend", items: "Kotlin · Java · Ruby · PHP · Spring Boot · Spring Cloud · WebFlux · Coroutine · JPA · QueryDSL · R2DBC · MSA · Flyway" },
-  { cat: "Infra / Data", items: "AWS · AWS EKS · Spot Ocean · Argo CD · Argo Workflows · Docker · Kubernetes · Linux · Kafka · Redis · PostgreSQL · PostGIS · MariaDB · MySQL · DynamoDB" },
-  { cat: "Reliability / Ops", items: "데이터 파이프라인 신뢰성 · silent fail 방지 · 상태 ≠ 결과 · 대시보드 관측성 · loading / fallback / failure 분리 · 인덱스 설계 · 쿼리 최적화 · 성능 튜닝" },
-  { cat: "Search / Tools", items: "ElasticSearch · OpenSearch · Meilisearch · Git · GitHub · Notion · Jira · Confluence · Slack · Google Workspace" },
-  { cat: "Leadership / Collab", items: "Agile/Scrum · 코드 리뷰 · 기술 의사결정 · 문서화 · 플레이북화" },
+  { cat: "AI · 에이전트 운영", items: "AI 모델 API 연동 · AI가 일을 처리하는 흐름 설계 · 사람이 승인하는 지점 설계 · 결과를 검사해 통과시키는 절차 · 만드는 역할과 검사하는 역할 분리 · 운영 자동화" },
+  { cat: "백엔드", items: "Kotlin · Java · Ruby · PHP · Spring Boot · Spring Cloud · WebFlux · Coroutine · JPA · QueryDSL · R2DBC · MSA · Flyway" },
+  { cat: "인프라 · 데이터", items: "AWS · AWS EKS · Spot Ocean · Argo CD · Argo Workflows · Docker · Kubernetes · Linux · Kafka · Redis · PostgreSQL · PostGIS · MariaDB · MySQL · DynamoDB" },
+  { cat: "신뢰성 · 운영", items: "데이터 수집·적재의 신뢰성 · 아무 표시 없이 지나가는 실패 방지 · 작업 성공과 데이터 성공을 따로 확인 · 대시보드에서 불러오는 중 / 대체 표시 / 실패 구분 · 인덱스 설계 · 쿼리 최적화 · 성능 튜닝" },
+  { cat: "검색 · 도구", items: "ElasticSearch · OpenSearch · Meilisearch · Git · GitHub · Notion · Jira · Confluence · Slack · Google Workspace" },
+  { cat: "리딩 · 협업", items: "Agile/Scrum · 코드 리뷰 · 기술 의사결정 · 문서화 · 절차 문서로 정리" },
 ];
 
 // Career highlights 중 ①/② 접두 항목을 두 축 헤더로 그룹핑 (PDF도 ①/②가 자기설명되게 — 웹과 동일)
 const AXES: Record<string, string> = {
-  "①": "AI Full-Stack Product Engineering",
-  "②": "AI Operations & Agent Infrastructure",
+  "①": "제품을 처음부터 끝까지 만드는 일",
+  "②": "조직이 AI와 안전하게 일하게 만드는 일",
 };
 function groupHighlights(highlights: string[]) {
   const out: { axis: string | null; items: string[] }[] = [];
@@ -65,7 +65,7 @@ function groupHighlights(highlights: string[]) {
 
     <section class="r-block">
       <h2>핵심 역량 · Highlights</h2>
-      <ul class="r-highlights">{HIGHLIGHTS.slice(0, 7).map((h) => <li>{h}</li>)}</ul>
+      <ul class="r-highlights">{HIGHLIGHTS.slice(0, 8).map((h) => <li>{h}</li>)}</ul>
     </section>
 
     <section class="r-block r-keep">
@@ -130,7 +130,24 @@ function groupHighlights(highlights: string[]) {
     </section>
 
     <section class="r-block">
-      <h2>스페이스워크 · 제품 백엔드 (PropTech × LLM)</h2>
+      <h2>개인 제품 · 직접 출시</h2>
+      <p class="r-blocknote">회사 밖에서 혼자 기획·개발해 실제 사용자에게 내놓은 제품</p>
+      {SOLO_PROJECTS.map((p) => (
+        <div class="r-proj">
+          <div class="r-proj-head">
+            <span class="r-pname">{p.name}</span>
+            <span class="r-ptag">{p.tagline}</span>
+            <span class="r-period">{p.metrics ? `${p.metrics} · ` : ""}{p.period}</span>
+          </div>
+          <p class="r-job-sum">{p.overview}</p>
+          <ul>{p.achievements.slice(0, 3).map((a) => <li>{a}</li>)}</ul>
+          <p class="r-pstack">{p.stack.join(" · ")}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="r-block">
+      <h2>스페이스워크 · 제품 백엔드 (부동산 × AI)</h2>
       {PROJECTS.map((p) => (
         <div class="r-proj">
           <div class="r-proj-head">

@@ -2,7 +2,7 @@
 // 예전엔 src/content/lab/ko/*.md 였으나, 본문이 없어 한 파일에서 일괄 관리하도록 통합.
 // 추가/수정/상태변경은 이 배열에서만. (index.astro가 order로 정렬해 렌더)
 
-export type LabStatus = "active" | "prototype" | "experiment" | "paused" | "side";
+export type LabStatus = "released" | "active" | "prototype" | "experiment" | "paused" | "side";
 export type LabTheme = "backend" | "agentops" | "reliability" | "proptech" | "devtools";
 
 export interface LabEntry {
@@ -15,6 +15,15 @@ export interface LabEntry {
 }
 
 export const LAB: LabEntry[] = [
+  {
+    // 커리어 축이 아니라 호기심으로 해본 케이스 — 출시 사실만 남기고 정체성 서술과는 분리한다.
+    title: "탑과 용병단",
+    status: "released",
+    order: 1,
+    oneLiner:
+      "용병단을 꾸려 탑을 오르는 자동 전투 관전 시뮬레이션. 2026년 8월 App Store에 유료로 출시했고, 개발자 등록·심사·가격 책정·출시 후 알리기까지 혼자 했습니다.",
+    link: "https://apps.apple.com/kr/app/id6801980968",
+  },
   {
     title: "Crewdeck",
     status: "active",

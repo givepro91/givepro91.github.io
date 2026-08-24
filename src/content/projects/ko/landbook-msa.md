@@ -2,7 +2,7 @@
 title: "Landbook MSA 백엔드"
 theme: backend
 kind: work
-order: 5
+order: 6
 featured: true
 positioning: "이미 마이크로서비스로 구성된 토지·부동산 플랫폼 백엔드에 합류해, 인증·결제·구독·필지정보·게이트웨이 서비스를 개발·운영했습니다."
 shows:

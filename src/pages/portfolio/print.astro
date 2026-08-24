@@ -157,10 +157,10 @@ const GUIDE = "https://ax-field-guide.vercel.app";
           <div class="prof-sec">
             <h3 class="prof-h">EXPERTISE — 영역별 대표 성과</h3>
             <div class="exp">
-              <div class="exp-row"><span class="exp-k">AI Product</span><p><b>PlanNext Retail·PlanReview</b>로 LLM 결합 제품을 기획부터 LLM Serving까지 풀스택. <b>Landbook</b> 상용 백엔드 토대(lead committer · ~1,800 커밋)</p></div>
-              <div class="exp-row"><span class="exp-k">AI Operations</span><p>접근·시크릿 권한 체계·지식 기준·인프라 비용을 <b>회사 차원으로 표준화</b>. <b>Nova·Ground Control</b>로 원리를 OSS 증명</p></div>
+              <div class="exp-row"><span class="exp-k">AI Product</span><p><b>PlanNext Retail·PlanReview</b>로 AI 결합 제품을 기획부터 모델을 서비스에 붙이는 일까지 전 구간. <b>Landbook</b> 상용 백엔드 토대(최다 기여자 · 약 1,800 커밋)</p></div>
+              <div class="exp-row"><span class="exp-k">AI Operations</span><p>접근·시크릿 권한 체계·지식 기준·인프라 비용을 <b>회사 차원으로 표준화</b>. <b>Nova·Ground Control</b>로 같은 원리를 오픈소스로 공개해 증명</p></div>
               <div class="exp-row"><span class="exp-k">Data Reliability</span><p><b>Realty Pipeline</b>(전국 부동산 월간 무중단 갱신)에 크롤러 안정화·중단 지점 재개를 기여</p></div>
-              <div class="exp-row"><span class="exp-k">Stack</span><p>{SKILLS.find((g:any)=>g.group.includes("Backend"))?.items.slice(0,4).join(" · ")} · Kafka · Redis · AWS EKS · ArgoCD</p></div>
+              <div class="exp-row"><span class="exp-k">Stack</span><p>{SKILLS.find((g:any)=>g.group.includes("백엔드"))?.items.slice(0,4).join(" · ")} · Kafka · Redis · AWS EKS · ArgoCD</p></div>
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@ const GUIDE = "https://ax-field-guide.vercel.app";
                 <td class="ow-name">{d.title.split(/\s*[—–]\s*/)[0]}{disc && <span class="ow-tag">DISCOVERY</span>}</td>
                 <td class="ow-pos" set:html={d.positioning} />
                 <td class="ow-role">{d.metrics ?? d.period}</td>
-                <td class="ow-key">{d.theme === "proptech" ? "PropTech 도메인" : AXIS[d.theme] ?? d.theme}{disc ? " · 가설 검증(confidence 55%·conditional-go)" : ""}</td>
+                <td class="ow-key">{d.theme === "proptech" ? "PropTech 도메인" : AXIS[d.theme] ?? d.theme}{disc ? " · 성공 확률 55%로 보고 조건부 진행 판단" : ""}</td>
               </tr>
             );
           })}

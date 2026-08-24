@@ -2,7 +2,7 @@
 title: "가로주택정비 사업성 분석 백엔드"
 theme: proptech
 kind: work
-order: 8
+order: 9
 positioning: "필지(PNU) 하나로 규제·시세·건축 가능 규모·수익성까지 자동 산출하는 도시정비사업 분석 백엔드입니다."
 shows:
   - "PostGIS 공간 연산"
