@@ -1,14 +1,14 @@
 ---
 branch: main
-status: active
-updated: 2026-08-24T10:50:00Z
+status: done
+updated: 2026-08-24T11:20:00Z
 ---
 ## 2026-08-24 — SoT 2026-08-24 반영 + 이력서 전면 평문화 + 퇴사일 정정
 
 ### Restore in 30s — what you were doing / where you got to / what you just finished
 my-wiki(SoT)에 2026-08-24 커밋 2건(수집·정제 + **본인 확인 반영**)이 올라와 있었는데 사이트는 "이직 준비 중"에서 멈춰 있었다. 그 격차를 메우고, 근식 지시로 **퇴사일을 고용보험 기준 2026.08.01로 정정**했고, 추가 요청으로 **이력서 전 표면을 평문화**했다.
 
-**끝난 상태**: 19개 파일 수정 완료, 게이트 포함 빌드 통과, Orca 브라우저로 렌더까지 육안 확인. **커밋·푸시 미실행.**
+**끝난 상태 — 배포까지 완료.** 커밋 `44ea8a1`(19파일, +308/−128) → `origin/main` 푸시 → GitHub Actions "Deploy to GitHub Pages" **success**. 라이브(givepro91.github.io) 5개 페이지 공개 경계 스캔 누출 0건, 사이트맵 `/interview` 0건 유지. **이 세션에서 남은 작업 없음.**
 
 SoT에서 가져온 사실(전부 본인 확인 2026-08-24)과 공개 경계:
 
@@ -23,10 +23,10 @@ SoT에서 가져온 사실(전부 본인 확인 2026-08-24)과 공개 경계:
 배치는 근식 선택: **놀곳=Work 대표작+CV / 탑=Lab만 / 외주=CAREER 한 줄 / 히어로 상태 배지 현행 유지**.
 
 ### Next steps — concrete next actions / blockers / parked
-**다음 액션**
-1. **커밋·푸시** (요청 시에만). `git add` 는 아래 Touch points의 명시 경로만 — `git add .` 금지.
-2. **`/cv/print` PDF 밀도 육안 확인 (unverified)** — 핵심 역량 요약을 7줄→8줄로 늘려야 놀곳 출시 줄이 PDF에 들어갔다(`src/pages/cv/print.astro:68`). 페이지가 밀리면 상한을 되돌리거나 다른 줄을 뺀다. **인쇄 미리보기로는 확인하지 않았다.**
-3. **`portfolio/print` 육안 확인 (unverified)** — 텍스트 grep 으로만 검증했고 레이아웃은 안 봤다.
+**다음 액션 — 없음.** 커밋·푸시·배포·라이브 검증까지 끝났다. 아래는 완료 기록.
+1. ~~커밋·푸시~~ → `44ea8a1`, 명시 경로 19개만 스테이징(`git add .` 미사용), pre-commit 공개 게이트 PASS.
+2. ~~`/cv/print` PDF 밀도 확인~~ → **근식이 직접 확인, 문제 없음**(2026-08-24). 핵심 역량 요약 7줄→8줄(`src/pages/cv/print.astro:68`) 유지 확정.
+3. **`portfolio/print` 레이아웃은 여전히 unverified** — 텍스트 grep 으로만 검증했고 인쇄 화면은 아무도 안 봤다. 다음에 이 페이지를 건드리면 그때 같이 볼 것.
 
 **블로커 / 이미 시도한 것**
 - **`pnpm` 이 이 세션 셸 PATH에 없다.** `corepack`·글로벌 설치·`~/.nvm` 모두 없음을 확인했다. `package.json` 의 `build` 3단계를 `node scripts/check-disclosure.mjs --source && ./node_modules/.bin/astro build && node scripts/check-disclosure.mjs --dist` 로 직접 실행해 대체했다(동일 명령). 근식 셸에선 `pnpm build` 그대로 쓰면 된다.
@@ -38,7 +38,7 @@ SoT에서 가져온 사실(전부 본인 확인 2026-08-24)과 공개 경계:
 - Work 카드·`/roadmap` 의 기술 용어(`서킷브레이커`·`human-in-the-loop`) — 기술 독자용이라 CLAUDE.md 규칙상 허용. 평문화는 이력서 층에 한정.
 - `PROJECTS[*].stack` 의 `LLM Serving` 등 — 스택 목록은 평문화 대상 아님.
 - SoT 미반영분: `/interview` 봉인본 ↔ 위키 `writing/interviews/` 원본 이중관리 정리(harvest §E-6), 브런치 소속 표기가 아직 "Spacewalk"(4회 연속 미조치).
-- **dev 서버가 백그라운드로 떠 있다** — `http://localhost:4324` (4321~4323 사용 중). 내리려면 `lsof -ti:4324 | xargs kill`.
+- dev 서버(4324)는 세션 종료 시 내렸다. 다시 띄울 땐 `pnpm dev`(근식 셸) 또는 `./node_modules/.bin/astro dev`.
 
 ### Touch points — path:line, verification command → expected result
 
@@ -85,6 +85,7 @@ node -e "const d=require('./src/data/cv.json');const w=(o,p='')=>{if(typeof o===
 - Lab 상태값에 `released` **신설** — 기존 5개(active/prototype/experiment/paused/side)에 출시된 상용 제품을 담을 자리가 없었다.
 - 평문화 범위는 **이력서 층(cv.json + /cv + /cv/print + portfolio/print 문장)** 으로 한정, Work 카드·roadmap의 기술 용어는 유지.
 - SKILLS 그룹명을 한글화할 땐 `portfolio/print.astro` 의 `group.includes(...)` 조회를 **반드시 같이 고쳐야 한다**(이번에 깨뜨렸다가 고침).
+- 한 커밋으로 묶었다 — `cv.json` 안에서 SoT 반영분과 평문화가 같은 문자열들에 얽혀 있어 분리 커밋이 인위적이었다.
 
 ## 2026-08-13 — /interview 비공개 면접 준비 페이지 (내용 암호화)
 
