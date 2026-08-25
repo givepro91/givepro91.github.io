@@ -118,9 +118,20 @@ pnpm 10+ 가 postinstall 을 기본 차단하는데, **pnpm 11 은 `pnpm dev` �
 
 **최종 PDF 색 12종 전부 CSS 와 일치**(종이 #ffffff · 잉크 #16181c/#3d4249/#7b818b · 액센트 #2563eb · 칩 #f2f3f5/#e2e5e9 · 콜아웃 #f6f8fc/#dde5f3 · 구분선 #d3d7dd/#e7e9ed). ⌘P 의 "배경 그래픽" 체크박스를 꺼도 동일함을 확인(`print-color-adjust: exact` 가 이김).
 
+### 배포 완료 (2026-08-25)
+커밋 `dfee2f6` — 12파일 +978/−12, 명시 경로만 스테이징(`git add .` 미사용), pre-commit 게이트 PASS.
+`origin/main` 푸시 → GitHub Actions **build·deploy 모두 success**.
+
+**라이브 검증**(givepro91.github.io):
+- `/cv/resume/` `/cv/print/` `/cv/` `/` 전부 200 · 사이트맵에 `/cv/resume/` 등재 · `/cv` 에 새 링크 2곳
+- 라이브 HTML 에 `rz-sheet` **6개** · 스킬 칩 정확히 32개(뺀 항목 미노출 확인. "Google Workspace" 1건은 칩이 아니라 경력 본문 `Tailscale SSH·Google Workspace` — 정상)
+- **라이브 페이지를 직접 PDF 로 출력**: **6쪽**, 색 12종 전부 CSS 와 일치, `#2563eb` 있고 `#1a3f9c` 없음
+- 공개 경계 스캔(`spacewalk.tech|spacewalk.dev|gc.spacewalk|재직 중`) 3개 페이지 **0건**
+- CI 는 pnpm 10 인데 `pnpm-workspace.yaml` 의 `allowBuilds` 를 정상 인식(사전 시뮬 결과와 일치)
+
 ### Next steps
 1. **근식 확인 대기**: 6쪽 분량이 괜찮은지(밀도를 더 조이면 5쪽 가능), 스킬에서 뺀 항목 중 되살릴 게 있는지, `/cv/print` 와 `/cv/resume` 중 정본. — `pnpm dev` 후 <http://localhost:4321/cv/resume/>.
-2. 커밋·푸시 미실행. 스테이징할 경로 9개: `src/styles/resume.css` · `src/components/resume/` · `scripts/check-resume-pages.mjs` · `package.json` + `src/data/skillGroups.ts` · `src/pages/cv/resume.astro` · `src/pages/cv/print.astro` · `src/pages/cv/index.astro` · **`pnpm-workspace.yaml`**(pnpm 복구, 위 참조).
+2. ~~커밋·푸시~~ → `dfee2f6`, 배포까지 완료(위 참조).
 3. 파킹: `/cv/resume` 가 정본이 되면 `/cv/print` 정리 + `/cv` 버튼 라벨 정돈이 남는다.
 
 ---
