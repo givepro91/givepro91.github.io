@@ -12,7 +12,8 @@
     "interview:seal": "node scripts/seal-interview.mjs",
     "test:interview": "node --test scripts/interview.test.mjs",
     "check:disclosure": "node scripts/check-disclosure.mjs --source",
-    "check:disclosure:dist": "node scripts/check-disclosure.mjs --dist"
+    "check:disclosure:dist": "node scripts/check-disclosure.mjs --dist",
+    "check:resume": "node scripts/check-resume-pages.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.0",

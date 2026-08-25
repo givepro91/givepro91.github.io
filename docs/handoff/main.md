@@ -1,8 +1,130 @@
 ---
 branch: main
 status: done
-updated: 2026-08-24T11:45:00Z
+updated: 2026-08-25T10:20:00Z
 ---
+## 2026-08-25 — 이력서 새 레이아웃 `/cv/resume` 추가 (기존 `/cv/print` 유지)
+
+### Restore in 30s — what you were doing / where you got to / what you just finished
+근식이 레퍼런스 이력서 이미지 3장을 주며 **"기존 내용은 살리되 디자인만 바꾼 다른 버전"**을 요청했다.
+`/cv/print` 는 그대로 두고 **`/cv/resume` 를 신규 추가**했다. 데이터(`cv.json`)는 한 글자도 안 건드렸다.
+
+**끝난 상태 — 구현·검증 완료, 커밋 안 함**(레포 규칙: 사용자 요청 시에만).
+
+근식이 고른 3가지 (AskUserQuestion):
+| 질문 | 선택 |
+|---|---|
+| 경로 | **`/cv/resume` 신규 추가** — `/cv/print` 병행 유지, 비교 후 정본 결정 |
+| 스킬 표현 | **알약(pill) 뱃지 채택** — 가독성 우선. ATS용 평문은 `/cv/print` 가 계속 커버 |
+| 사진·PII | **프로필 사진 + 생년월일까지 레퍼런스대로** (`/cv` 인포박스가 이미 공개 중이라 신규 노출 범주 아님) |
+
+### 레이아웃
+왼쪽 라벨 레일(118px, 인쇄 96px) + 오른쪽 콘텐츠 2단 그리드. 섹션마다 상단 구분선.
+헤더(이름·정체성 한 줄·부제·이메일 + 원형 사진) → 연락처 레일/소개 → 핵심 역량 → 스킬(pill) → 경력 → 프로젝트 → 학습·활동 → 학력 → 일하는 방식.
+
+- **기존 항목 전부 살림.** `/cv/print` 의 "함께 보면 좋은 자료" 콜아웃도 소개 블록 안에 유지.
+- **레퍼런스에서 뺀 것**: 외국어(데이터 없음), 회사 로고 원형 아이콘(자산 없음 — 이니셜 대체는 조잡해서 미채택).
+- **"N년차" 안 씀**: 계산 근거가 갈려서(재직 합산 8년 8개월 vs 첫 입사~현재 10년 6개월) `CAREER` 에서 그대로 세지는 `2016 – 2026 · 6개사` 만 표기.
+- 소개 첫 문단이 헤더의 정체성 한 줄과 같은 말이면 자동으로 뺀다(문구가 바뀌면 다시 살아남).
+- 학력에 `EDUCATION[].notes` 를 새로 노출 — `/cv/print` 는 생략하던 항목.
+
+### 건드린 파일
+- **신규** `src/data/skillGroups.ts` — `print.astro` 상단에 하드코딩돼 있던 `SKILL_GROUPS` 를 `items: string[]` 로 추출. `/cv/resume` 는 pill, `/cv/print` 는 `join(" · ")`.
+- **신규** `src/pages/cv/resume.astro`
+- **수정** `src/pages/cv/print.astro` — 위 정의 삭제 + import, 렌더부 `{g.items}` → `{g.items.join(" · ")}`. **그 외 변경 없음.**
+- **수정** `src/pages/cv/index.astro` — PDF 버튼 옆 `이력서 PDF · 새 레이아웃 ↓` 링크 2곳.
+
+### Verify (전부 실측)
+- `check-disclosure`(source·dist) **PASS**, `astro build` 20페이지 성공.
+- **`/cv/print` 회귀 0**: HEAD(`00bf7f0`)를 임시 worktree 에 빌드해 비교 → `dist/cv/print/index.html` **바이트 동일**, PDF 도 양쪽 5p.
+  - ⚠️ **핸드오프의 종전 기록 "cv/print 4p" 는 낡았다** — HEAD 시점에 이미 5p 다. 이번 변경 탓 아님.
+- `/cv/resume` A4 **5p**. 처음엔 6p(마지막 장 20%만 참)였는데, `.rz-job` 전체에 걸린 `break-inside: avoid` 가 400px+ 덩어리를 통째로 다음 장으로 밀고 있었다. 블록은 흐르게 두고 머리(`.rz-top`·`.rz-byline`·`.rz-summary`)에만 `break-after: avoid` 를 걸어 5p 로 수렴.
+- **가로 넘침 0**: CDP `Emulation.setDeviceMetricsOverride` 로 320/390/480/640/768/1024/1280 전부 `scrollWidth == clientWidth`.
+  - ⚠️ **함정**: headless `--window-size=390` 은 실제로 485px 레이아웃을 잡고 390px 만 캡처한다 — 잘린 스크린샷이 나와도 페이지 문제가 아니다. 모바일 검증은 반드시 CDP 에뮬레이션으로 할 것.
+- 시각 확인: A4 5p 전부 + 데스크톱 1280 + 모바일 390 스크린샷(스크래치패드, 레포 밖).
+
+### 부수 이슈 — `pnpm` 이 아예 없었다 → 복구 (같은 세션)
+근식 셸에서 `pnpm dev` 가 `zsh: correct 'pnpm' to 'npm'` 로 떨어졌다. **Homebrew node 26 에는 corepack 이 없다**(Node 25부터 기본 배포 제외) — 그래서 pnpm 이 딸려오지 않았다. `brew install pnpm`(11.23.0) 설치 후엔 다음 에러:
+
+```
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.25.12, esbuild@0.27.7, sharp@0.34.5
+```
+
+pnpm 10+ 가 postinstall 을 기본 차단하는데, **pnpm 11 은 `pnpm dev` 앞에서 자동으로 `install` 을 돌리며 그 차단을 경고가 아니라 에러로 올린다**. pnpm 이 `pnpm-workspace.yaml` 스텁(`allowBuilds: esbuild: set this to true or false`)을 만들어 두고 채우라고 요구한다.
+
+- 해결: `pnpm approve-builds --all` → `pnpm-workspace.yaml` 에 `allowBuilds: {esbuild: true, sharp: true}`. 둘 다 astro/vite 가 실제로 쓰는 정상 패키지다.
+- **`pnpm-workspace.yaml` 은 신규 추적 파일**이다(모노레포 아님에도 pnpm 11 이 이 위치를 쓴다).
+- ⚠️ **CI 는 `pnpm/action-setup@v4 version: 10`** 이라 "pnpm 11 전용 키가 배포를 깨뜨리나"가 실제 위험이었다. → **격리 시뮬로 검증 완료**: `git archive HEAD` 한 트리에 변경 파일만 얹고 `pnpm@10 install --frozen-lockfile` → **exit 0, 빌드 스크립트도 정상 실행**(pnpm 10.34.5 도 `allowBuilds` 를 인식한다). 이어서 `pnpm@10 run build` → 게이트 PASS, `dist/cv/{resume,print}/index.html` 이 로컬 빌드와 **바이트 동일**.
+- 참고: `npm run dev` / `npm run build` 도 그대로 동작한다(스크립트가 `astro` 를 직접 호출, `packageManager` 필드 없음).
+
+### 후속 — PDF 페이지 경계 정리 + 섹션 순서 변경 (같은 세션)
+근식 피드백: *"PDF로 뽑을때 역시 하나씩 자른다던지 하는게 중요할듯"* — 스킬 묶음이 두 장에 걸치고, 경력(피플리)이 "회사명 + 불릿 1개"만 남기고 잘리고 있었다.
+
+**한 항목 = 한 페이지 원칙으로 되돌리고**(`.rz-job` · `.rz-minis` · `.rz-skills` · `.rz-lectures` 를 `break-inside: avoid`), 그 대가로 늘어나는 페이지를 **인쇄 밀도로 흡수**했다(본문 12px→11.5px, 칩 10.5px, rail 96→88px, padding 11/14mm→10/13mm, 각종 간격 축소).
+
+**세 안을 실제로 렌더해 하단 빈 공간을 계량 비교**(A4 PNG 래스터라이즈 후 흰 픽셀 행 측정):
+
+| 안 | p1 | p2 | p3 | p4 | 본문장 낭비 합 | 스킬 갈림 |
+|---|---|---|---|---|---|---|
+| A 스킬 통째 · 기존 순서 | **30.2%** | 12.7% | 6.3% | 4.2% | 53% | 없음 |
+| B 스킬 묶음별 · 기존 순서 | 4.2% | 3.1% | 22.8% | 13.2% | 43% | **있음** |
+| **C 스킬 통째 · 스킬을 위로** | **2.1%** | 9.1% | 19.4% | 13.2% | **44%** | **없음** |
+
+→ **C 채택.** 전부 5페이지지만 C만 "안 갈림 + p1 꽉 참"을 동시에 만족한다.
+
+- ⚠️ **섹션 순서를 바꿨다**: `스킬` 을 `핵심 역량` 위로 올렸다(레퍼런스 순서와도 일치). 이게 C 를 가능하게 한 핵심이다 — 되돌리면 A 가 되어 p1 에 30% 구멍이 난다. **근식 판단 대기 항목.**
+- `핵심 역량` 은 여전히 p1→p2 로 흐른다. 불릿 리스트라 항목 단위로만 갈리므로 허용했다.
+
+**함정 하나 기록** — `.rz-label` 에 `break-inside: avoid` 를 걸었더니 **6페이지 + p2 가 73% 빈** 결과가 나왔다. **그리드 행의 아이템 하나라도 `break-inside: avoid` 면 Chrome 이 행 전체를 통짜로 잡는다.** 라벨은 2~4글자라 어차피 안 갈리니 규칙에서 빼야 한다(CSS 주석에 남겨둠).
+
+**Verify**: `pnpm build` 게이트 PASS, A4 **5p** 전 페이지 육안 확인(잘린 블록 0), 반응형 넘침 320/390/768/1280 전부 0.
+
+### 재설계 — 화면=PDF 시트 방식으로 전환 (같은 세션, 3차)
+근식 피드백 4건: ①핵심역량을 위로 ②웹과 PDF 폰트·크기가 다름 ③스킬이 쓸데없이 많음 ④**"애초에 웹에서 PDF와 같이 출력되는 걸 기준으로, 이어 붙이지 말고 페이지처럼 만들면 오차 작업이 줄어들 것"** ⑤밀도를 억지로 맞추지 말 것(여백이 오히려 읽기 좋음).
+
+→ **구조를 갈아엎었다.** 연속 흐름 + 인쇄 오버라이드 방식을 버리고 **A4 시트 방식**으로:
+
+- **화면에도 210×297mm 종이를 그린다.** `@media print` 는 종이 밖의 것(그림자·배경·액션바)만 걷어내고 시트마다 페이지를 끊는다. **인쇄 전용 폰트·간격 오버라이드가 하나도 없다** → 웹과 PDF가 원리적으로 같다.
+- **페이지 나눔을 직접 배치.** 브라우저 break 추론 대신 `<Sheet>` 로 어느 항목이 몇 쪽에 갈지 정한다. `break-inside: avoid` 튜닝이 통째로 사라졌다.
+- 밀도는 중간값으로(본문 12px). 시트 점유율 89/97/78/83/82/82% — 아래 여백은 남겨 뒀다.
+
+**새 파일**: `src/styles/resume.css`(전체 스타일, 단일 소스) · `src/components/resume/{Sheet,Row,Entry}.astro` · `scripts/check-resume-pages.mjs`(+ `pnpm check:resume`).
+
+**스킬 정리**: `SKILL_CHIPS` 신설 — 56개 → **32개, 3그룹**. 문장형 역량("대시보드에서 불러오는 중 / 대체 표시 / 실패 구분" 등)과 협업 도구(Git·GitHub·Notion·Jira·Slack)를 뺐다. **기존 `SKILL_GROUPS` 의 부분집합이라 새 주장 0** (스크립트로 검증). `/cv/print` 는 `SKILL_GROUPS` 를 그대로 써서 **영향 없음**.
+
+**핵심 역량을 다시 맨 위로** — 2차에서 페이지 채우려고 스킬 아래로 내렸던 것을 되돌렸다. 시트 방식이라 더는 순서로 여백을 조정할 필요가 없다.
+
+**함정 두 개 (둘 다 실측으로 잡음)**
+1. ⚠️ **`@media (max-width: 900px)` 가 인쇄에도 걸린다** — 인쇄 뷰포트는 A4 폭(794px)이다. PDF 에서 레일이 무너지고 사진이 이름 위로 올라갔다. → **`@media screen and (max-width: 900px)`** 로 한정.
+2. ⚠️ **시트 높이는 A4 폭 뷰포트에서 재야 한다.** 1400px 로 재면 위 분기를 못 만나 실제 인쇄와 다른 값이 나온다. `check-resume-pages.mjs` 는 794px + `Emulation.setEmulatedMedia: print` 로 잰다.
+
+**Verify**
+- `pnpm check:resume` → 시트 6장 전부 A4 안에 들어감(최소 여유 37px). PDF 페이지 수 **6 = 시트 수 6** 일치.
+- **웹=PDF 검증**: 화면(1300px)과 인쇄(794px) 두 렌더에서 시트 기준 상대좌표·크기·font-size·line-height 를 요소 **122개** 비교 → **전부 동일**.
+- `pnpm build` 게이트 PASS · 가로 넘침 320/390/640/768/900/1024/1280 전부 0 · 모바일은 종이를 접고 흐르는 문서로 폴백.
+
+⚠️ **시트 배치는 수동이다.** `cv.json` 을 고치거나 항목을 옮기면 반드시 `pnpm check:resume` 를 돌릴 것. CI 러너엔 Chrome 이 없어 `pnpm build` 게이트에는 넣지 않았다.
+
+### 색 어긋남 수정 — 전역 인쇄 토큰이 새고 있었다 (같은 세션, 4차)
+근식: *"PDF로 볼때 색깔이 조금 다른느낌인데 내 착각이니?"* → **착각 아니었다.**
+
+`src/styles/global.css` 의 **사이트 전역 `@media print`** 블록이 `:root` 토큰을 인쇄용으로 갈아끼운다(`--accent: #2563eb → #1a3f9c` 등). `/cv/print` 를 위해 예전에 넣은 결정이다. `resume.css` 는 `--ink` 계열은 `.rz-page` 에 자체 정의했지만 **`--accent` 는 `:root` 것을 물려받고 있어서**, 인쇄할 때만 파랑이 어두워졌다 — 액센트를 쓰는 `.rz-axis`·`.rz-meta-link`·`.rz-callout-lead/u`·`.rz-quote` 8곳.
+
+- **확인 방법**: PDF 콘텐츠 스트림에서 `rg`(DeviceRGB 채움) 연산자를 뽑아 실제 색 목록을 비교했다. 13색 중 12색은 CSS와 정확히 같고 `#2563eb` 만 없고 `#1a3f9c` 가 있었다. (안티앨리어싱·색 프로파일 문제가 아니라 진짜 다른 값)
+- **수정**: `.rz-page` 에 `--accent: #2563eb` 를 다시 못박았다. `:root` 보다 가까워서 인쇄에서도 이긴다. **`global.css` 와 `/cv/print` 는 손대지 않았다** — 그쪽 인쇄 파랑 결정은 그대로 유지.
+- ⚠️ **3차의 "웹=PDF 122개 요소 일치" 검증은 좌표·크기·폰트만 봤기 때문에 이걸 못 잡았다.** 색을 안 봤다.
+
+**`pnpm check:resume` 를 확장**: 이제 (1) 시트 넘침 + (2) **화면 vs 인쇄 렌더의 위치·크기·폰트·색** 155개 요소 대조. 실패 시 원인(전역 print 토큰 누수)까지 안내한다. **고침을 일시 되돌려 검사기가 실제로 8건을 잡는지 확인했다** — 안 짖는 개가 아님을 검증.
+
+**최종 PDF 색 12종 전부 CSS 와 일치**(종이 #ffffff · 잉크 #16181c/#3d4249/#7b818b · 액센트 #2563eb · 칩 #f2f3f5/#e2e5e9 · 콜아웃 #f6f8fc/#dde5f3 · 구분선 #d3d7dd/#e7e9ed). ⌘P 의 "배경 그래픽" 체크박스를 꺼도 동일함을 확인(`print-color-adjust: exact` 가 이김).
+
+### Next steps
+1. **근식 확인 대기**: 6쪽 분량이 괜찮은지(밀도를 더 조이면 5쪽 가능), 스킬에서 뺀 항목 중 되살릴 게 있는지, `/cv/print` 와 `/cv/resume` 중 정본. — `pnpm dev` 후 <http://localhost:4321/cv/resume/>.
+2. 커밋·푸시 미실행. 스테이징할 경로 9개: `src/styles/resume.css` · `src/components/resume/` · `scripts/check-resume-pages.mjs` · `package.json` + `src/data/skillGroups.ts` · `src/pages/cv/resume.astro` · `src/pages/cv/print.astro` · `src/pages/cv/index.astro` · **`pnpm-workspace.yaml`**(pnpm 복구, 위 참조).
+3. 파킹: `/cv/resume` 가 정본이 되면 `/cv/print` 정리 + `/cv` 버튼 라벨 정돈이 남는다.
+
+---
+
 ## 2026-08-24 — SoT 2026-08-24 반영 + 이력서 전면 평문화 + 퇴사일 정정
 
 ### Restore in 30s — what you were doing / where you got to / what you just finished

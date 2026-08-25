@@ -1,0 +1,24 @@
+---
+// 왼쪽 라벨 레일 + 오른쪽 본문 한 줄.
+// label 없이 rail 슬롯만 쓰면 연락처처럼 임의 내용을 레일에 넣을 수 있다.
+interface Props {
+  label?: string;
+  /** 앞 시트에서 이어지는 섹션 — 라벨 아래 "계속" 표시 */
+  cont?: boolean;
+  /** 시트 첫 줄 — 위 구분선 없이 */
+  first?: boolean;
+  /** 구분선 없이 바로 앞 줄에 이어 붙임 */
+  plain?: boolean;
+}
+const { label, cont = false, first = false, plain = false } = Astro.props;
+---
+<div class:list={["rz-row", first && "rz-row--first", plain && "rz-row--plain"]}>
+  <div class="rz-rail">
+    {label ? (
+      <h2 class="rz-label">{label}{cont && <span class="rz-cont">계속</span>}</h2>
+    ) : (
+      <slot name="rail" />
+    )}
+  </div>
+  <div class="rz-main"><slot /></div>
+</div>

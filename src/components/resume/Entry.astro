@@ -1,0 +1,24 @@
+---
+// 경력 한 곳 / 프로젝트 하나 / 학력 하나 — 제목·기간·역할·개요·불릿·스택.
+// ①/② 축 헤더처럼 불릿 구조가 특수한 경우는 기본 슬롯으로 직접 넣는다.
+interface Props {
+  name: string;
+  meta?: string;
+  byline?: string;
+  summary?: string;
+  bullets?: string[];
+  stack?: string[];
+}
+const { name, meta, byline, summary, bullets = [], stack = [] } = Astro.props;
+---
+<div class="rz-entry">
+  <div class="rz-top">
+    <h3 class="rz-title">{name}</h3>
+    {meta && <span class="rz-period">{meta}</span>}
+  </div>
+  {byline && <p class="rz-byline">{byline}</p>}
+  {summary && <p class="rz-summary">{summary}</p>}
+  <slot />
+  {bullets.length > 0 && <ul class="rz-bullets">{bullets.map((b) => <li>{b}</li>)}</ul>}
+  {stack.length > 0 && <p class="rz-stack">{stack.join(" · ")}</p>}
+</div>

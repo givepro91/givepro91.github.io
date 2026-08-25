@@ -1,0 +1,247 @@
+---
+// /cv/resume — 이력서 "레일 + A4 시트" 버전. /cv/print 는 그대로 두고 병행 운영.
+//
+// 설계 원칙 두 가지:
+//  1) **화면 = PDF.** 화면에도 210×297mm 종이를 그린다. 인쇄 전용 폰트·간격 오버라이드가
+//     없으므로(styles/resume.css) 브라우저에서 본 것이 그대로 인쇄된다.
+//  2) **페이지 나눔은 직접 배치.** 브라우저의 break 추론에 맡기지 않고 아래 <Sheet> 로
+//     어느 항목이 몇 쪽에 갈지 정한다. 항목이 잘리면 그 항목을 다음 Sheet 로 옮기면 된다.
+//     밀도를 억지로 채우지 않는다 — 아래쪽 여백은 그대로 두는 편이 읽기 좋다.
+//
+// 데이터는 전부 src/data/cv.json (SoT). 이 파일은 배치만 한다.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sheet from "../../components/resume/Sheet.astro";
+import Row from "../../components/resume/Row.astro";
+import Entry from "../../components/resume/Entry.astro";
+import { PROFILE, CAREER, EDUCATION, SOLO_PROJECTS, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
+import { SKILL_CHIPS } from "../../data/skillGroups";
+import "../../styles/resume.css";
+
+// 대표 경력(featured)만 풀 디테일, 나머지는 한 줄 — /cv/print 와 동일한 밀도 규칙.
+const [careerMain, careerSecond] = CAREER.filter((c) => c.featured);
+const careerMini = CAREER.filter((c) => !c.featured);
+
+// 경력 요약 한 줄. "N년차"는 계산 근거가 갈려(재직 합산 vs 첫 입사~현재) 쓰지 않고,
+// 데이터에서 그대로 세지는 사실만 — 연도 범위와 회사 수.
+const careerYears = CAREER.flatMap((c) => (c.period.match(/\d{4}/g) ?? []).map(Number));
+const careerSpan = `${Math.min(...careerYears)} – ${Math.max(...careerYears)} · ${CAREER.length}개사`;
+
+// 헤더가 정체성 한 줄을 이미 크게 싣기 때문에, 같은 말을 반복하는 첫 문단은 본문에서 뺀다.
+// (문구가 바뀌어 더는 같은 말이 아니면 자동으로 다시 살아난다)
+const summaryParas = PROFILE.summary.split("\n\n").map((s) => s.trim()).filter(Boolean);
+const introParas =
+  summaryParas[0]?.replace(/입니다\.$/, "") === PROFILE.title ? summaryParas.slice(1) : summaryParas;
+
+// "① 제품을 처음부터 끝까지 만드는 일 — 본문…" 형태를 앞머리(굵게) + 본문으로 쪼갠다.
+function splitAxisPara(p: string) {
+  const m = p.match(/^([①②]\s*[^—]+?)\s*—\s*([\s\S]+)$/);
+  return m ? { head: m[1], rest: m[2] } : null;
+}
+
+// 경력 highlights 의 ①/② 접두를 두 축 헤더로 그룹핑
+const AXES: Record<string, string> = {
+  "①": "제품을 처음부터 끝까지 만드는 일",
+  "②": "조직이 AI와 안전하게 일하게 만드는 일",
+};
+function groupHighlights(highlights: string[]) {
+  const out: { axis: string | null; items: string[] }[] = [];
+  for (const h of highlights) {
+    const m = h.match(/^([①②])\s+([\s\S]*)$/);
+    const axis = m ? m[1] : null;
+    const text = m ? m[2] : h;
+    const last = out[out.length - 1];
+    if (last && last.axis === axis) last.items.push(text);
+    else out.push({ axis, items: [text] });
+  }
+  return out;
+}
+function periodOf(p: { metrics?: string; period: string }) {
+  return `${p.metrics ? `${p.metrics} · ` : ""}${p.period}`;
+}
+
+// 프로젝트 그룹 — 시트 배치를 위해 항목을 나눠 꺼내 쓴다.
+const AX_CAP = "AI 에이전트 운영 · 자동화 · 데이터 신뢰성 — 직접 설계·구현";
+const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Ground Control), 운영에서 놓치기 쉬운 일의 감지(MIRIVA), 끊기지 않는 데이터 수집(Realty)까지 직접 설계·구현(일부 오픈소스 공개)";
+---
+
+<BaseLayout title="이력서" description="장근식 이력서">
+  <div class="rz-page">
+    <div class="rz-actions">
+      <span class="rz-actions-l">
+        <a href="/cv/">← 상세 위키</a>
+        <a href="/cv/print/">기본 버전</a>
+      </span>
+      <button id="rzPrint" class="rz-print" type="button">PDF로 저장 / 인쇄 ⌘P</button>
+    </div>
+
+    {/* ── 1쪽 — 표지: 이름·소개·핵심 역량 ─────────────────────── */}
+    <Sheet>
+      <header class="rz-head">
+        <div class="rz-head-id">
+          <h1 class="rz-name">{PROFILE.name}<span class="rz-name-en">{PROFILE.nameEn}</span></h1>
+          <p class="rz-role">{PROFILE.title}</p>
+          <p class="rz-sub">{PROFILE.subtitle}</p>
+          <p class="rz-mail"><a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></p>
+        </div>
+        <img class="rz-photo" src={PROFILE.photo} alt={`${PROFILE.name} 프로필 사진`} width="108" height="108" />
+      </header>
+
+      <Row first>
+        <ul class="rz-meta" slot="rail">
+          <li>{PROFILE.phone}</li>
+          <li>{PROFILE.birth}</li>
+          <li><a class="rz-meta-link" href="https://givepro91.github.io">Portfolio</a></li>
+          <li><a class="rz-meta-link" href="https://github.com/givepro91">GitHub</a></li>
+        </ul>
+        {introParas.map((p, i) => {
+          const ax = splitAxisPara(p);
+          if (ax) return <p class="rz-para rz-para--axis"><b>{ax.head}</b> — {ax.rest}</p>;
+          return <p class={i === 0 ? "rz-lede" : "rz-para"}>{p}</p>;
+        })}
+        <div class="rz-callout">
+          <span class="rz-callout-lead">이력서와 함께 보면 좋은 자료 두 개를 같이 두었습니다 →</span>
+          <span class="rz-callout-item"><b>인터랙티브 포트폴리오</b> · 프로젝트 10개를 왜 그렇게 판단했는지 중심으로 기록 — <a class="rz-callout-u" href="https://givepro91.github.io">givepro91.github.io</a></span>
+          <span class="rz-callout-item"><b>Fieldwork</b> · 해본 것과 조사한 것을 글마다 구분해 밝히는 실행 필드가이드 — <a class="rz-callout-u" href="https://ax-field-guide.vercel.app">ax-field-guide.vercel.app</a></span>
+        </div>
+      </Row>
+
+      <Row label="핵심 역량">
+        <ul class="rz-bullets rz-bullets--lead">{HIGHLIGHTS.slice(0, 8).map((h) => <li>{h}</li>)}</ul>
+      </Row>
+    </Sheet>
+
+    {/* ── 2쪽 — 스킬 + 대표 경력 ──────────────────────────────── */}
+    <Sheet>
+      <Row label="스킬" first>
+        {SKILL_CHIPS.map((g) => (
+          <div class="rz-skill">
+            <p class="rz-skill-cat">{g.cat}</p>
+            <ul class="rz-chips">{g.items.map((it) => <li class="rz-chip">{it}</li>)}</ul>
+          </div>
+        ))}
+      </Row>
+
+      <Row label="경력">
+        <p class="rz-span">{careerSpan}</p>
+        <Entry
+          name={careerMain.company}
+          meta={`${careerMain.period}${careerMain.duration ? ` · ${careerMain.duration}` : ""}`}
+          byline={careerMain.role}
+          summary={careerMain.summary}
+          stack={careerMain.stack}
+        >
+          {groupHighlights(careerMain.highlights).map((g) => (
+            <Fragment>
+              {g.axis && <p class="rz-axis">{g.axis} {AXES[g.axis]}</p>}
+              <ul class="rz-bullets">{g.items.map((t) => <li>{t}</li>)}</ul>
+            </Fragment>
+          ))}
+        </Entry>
+      </Row>
+    </Sheet>
+
+    {/* ── 3쪽 — 나머지 경력 + 프로젝트 시작 ───────────────────
+        시트 경계는 실측(scripts/check-resume-pages.mjs)으로 정한 것이다.
+        항목을 옮기면 반드시 다시 측정할 것. */}
+    <Sheet>
+      <Row label="경력" cont first>
+        <Entry
+          name={careerSecond.company}
+          meta={`${careerSecond.period}${careerSecond.duration ? ` · ${careerSecond.duration}` : ""}`}
+          byline={careerSecond.role}
+          summary={careerSecond.summary}
+          bullets={careerSecond.highlights}
+          stack={careerSecond.stack}
+        />
+        <ul class="rz-minis">
+          {careerMini.map((c) => (
+            <li class="rz-mini">
+              <span class="rz-mini-co">{c.company}</span>
+              <span class="rz-mini-role">{c.role}</span>
+              <span class="rz-period">{c.period}{c.duration ? ` · ${c.duration}` : ""}</span>
+            </li>
+          ))}
+        </ul>
+      </Row>
+
+      <Row label="프로젝트">
+        <div class="rz-pgroup">
+          <p class="rz-pcap">{AX_CAP}</p>
+          <p class="rz-note">{AX_NOTE}</p>
+          {AX_PROJECTS.slice(0, 1).map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 3)} stack={p.stack} />
+          ))}
+        </div>
+      </Row>
+    </Sheet>
+
+    {/* ── 4쪽 — 나머지 AX 프로젝트 ────────────────────────────── */}
+    <Sheet>
+      <Row label="프로젝트" cont first>
+        <div class="rz-pgroup">
+          {AX_PROJECTS.slice(1).map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 3)} stack={p.stack} />
+          ))}
+        </div>
+      </Row>
+    </Sheet>
+
+    {/* ── 5쪽 — 개인 제품 + 회사 제품 백엔드 ──────────────────── */}
+    <Sheet>
+      <Row label="프로젝트" cont first>
+        <div class="rz-pgroup">
+          <p class="rz-pcap">개인 제품 · 직접 출시</p>
+          <p class="rz-note">회사 밖에서 혼자 기획·개발해 실제 사용자에게 내놓은 제품</p>
+          {SOLO_PROJECTS.map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 3)} stack={p.stack} />
+          ))}
+        </div>
+        <div class="rz-pgroup">
+          <p class="rz-pcap">스페이스워크 · 제품 백엔드 (부동산 × AI)</p>
+          {PROJECTS.slice(0, 2).map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 2)} stack={p.stack} />
+          ))}
+        </div>
+      </Row>
+    </Sheet>
+
+    {/* ── 6쪽 — 마지막 제품 + 학습 · 학력 · 일하는 방식 ────────── */}
+    <Sheet>
+      <Row label="프로젝트" cont first>
+        <div class="rz-pgroup">
+          {PROJECTS.slice(2).map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 2)} stack={p.stack} />
+          ))}
+        </div>
+      </Row>
+
+      <Row label="학습 · 활동">
+        <p class="rz-note">온라인 강의로 익히고, 기술 블로그·Fieldwork로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
+        <ul class="rz-lectures">{AWARDS.map((a) => <li>{a}</li>)}</ul>
+      </Row>
+
+      <Row label="학력">
+        {EDUCATION.map((e) => (
+          <Entry name={e.school} meta={e.period} byline={e.degree} bullets={e.notes ?? []} />
+        ))}
+      </Row>
+
+      <Row label="일하는 방식">
+        <blockquote class="rz-quote">{VISION.headline}</blockquote>
+        {VISION.principles.map((pr) => (
+          <p class="rz-principle"><b>{pr.title}</b> — {pr.text}</p>
+        ))}
+      </Row>
+    </Sheet>
+  </div>
+
+  <script is:inline>
+    var b = document.getElementById("rzPrint");
+    if (b) b.addEventListener("click", function () { window.print(); });
+  </script>
+</BaseLayout>

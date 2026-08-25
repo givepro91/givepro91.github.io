@@ -1,0 +1,207 @@
+/* ============================================================
+   /cv/resume — A4 시트 레이아웃
+   화면에도 210×297mm 종이를 그대로 그린다. 그래서 **인쇄 전용 폰트·간격
+   오버라이드가 하나도 없다** — 화면에서 보는 것이 PDF 다.
+   @media print 가 하는 일은 종이 밖의 것(그림자·배경·액션바)을 걷어내고
+   시트마다 페이지를 끊는 것뿐.
+
+   페이지 나눔은 브라우저 추론에 맡기지 않고 `<Sheet>` 로 직접 배치한다
+   (src/pages/cv/resume.astro). 항목이 잘리면 그 항목을 다음 시트로 옮긴다.
+   ============================================================ */
+
+.rz-page {
+  /* ⚠️ --accent 를 여기서 다시 못박는다. global.css 의 사이트 전역 @media print 블록이
+     :root 의 --accent 를 #1a3f9c 로 바꾸기 때문(/cv/print 용 결정). 그대로 두면 이 페이지도
+     인쇄할 때만 파랑이 어두워져 "화면 = PDF" 가 깨진다. 여기 값이 :root 보다 가까워 이긴다. */
+  --accent: #2563eb;
+
+  --ink: #16181c;
+  --ink-2: #3d4249;
+  --ink-3: #7b818b;
+  --rule: #d3d7dd;
+  --hair: #e7e9ed;
+  --chip: #f2f3f5;
+  --chip-line: #e2e5e9;
+
+  background: var(--bg);
+  padding: 22px 0 64px;
+}
+
+/* ── 종이 한 장 ───────────────────────────────────────────── */
+.rz-sheet {
+  --rail: 104px;
+  --gap: 24px;
+
+  width: 210mm;
+  min-height: 297mm;
+  padding: 15mm 14mm;
+  margin: 0 auto 22px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 8px 26px rgba(16, 24, 40, 0.09);
+
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ── 화면 전용 액션 바 ────────────────────────────────────── */
+.rz-actions {
+  width: 210mm; margin: 0 auto 18px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  font-family: var(--mono); font-size: 13px;
+}
+.rz-actions-l { display: flex; gap: 18px; }
+.rz-actions-l a { color: var(--ink-mute); }
+.rz-actions-l a:hover { color: var(--accent); }
+.rz-print {
+  font-family: var(--mono); font-size: 13px; cursor: pointer;
+  background: var(--accent); color: #fff; border: none;
+  padding: 9px 18px; border-radius: 999px;
+}
+.rz-print:hover { opacity: 0.9; }
+
+/* ── 헤더 ─────────────────────────────────────────────────── */
+.rz-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 28px; }
+.rz-name { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; color: var(--ink); }
+.rz-name-en { margin-left: 12px; font-size: 15px; font-weight: 400; color: var(--ink-3); letter-spacing: 0; }
+.rz-role { margin-top: 9px; font-size: 15px; font-weight: 500; color: var(--ink-2); letter-spacing: -0.02em; }
+.rz-sub { margin-top: 3px; font-size: 12.5px; color: var(--ink-3); }
+.rz-mail { margin-top: 11px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+.rz-mail a:hover { color: var(--accent); }
+.rz-photo {
+  width: 96px; height: 96px; flex: none;
+  border-radius: 50%; object-fit: cover; object-position: center top; background: var(--chip);
+}
+
+/* ── 라벨 레일 + 본문 ─────────────────────────────────────── */
+.rz-row {
+  display: grid; grid-template-columns: var(--rail) 1fr; gap: var(--gap);
+  margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--rule);
+}
+.rz-row--first { margin-top: 24px; padding-top: 0; border-top: none; }
+.rz-row--plain { border-top: none; padding-top: 0; margin-top: 22px; }
+.rz-label { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.5; }
+.rz-cont { display: block; margin-top: 2px; font-size: 10.5px; font-weight: 400; color: var(--ink-3); }
+.rz-main { min-width: 0; }
+
+.rz-meta { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.rz-meta li { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.rz-meta-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── 소개 ─────────────────────────────────────────────────── */
+.rz-lede { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.56; letter-spacing: -0.02em; }
+.rz-para { margin-top: 8px; font-size: 12px; line-height: 1.64; }
+.rz-para--axis b { color: var(--ink); font-weight: 700; }
+
+.rz-callout {
+  margin-top: 14px; padding: 11px 13px; border-radius: 8px;
+  background: #f6f8fc; border: 1px solid #dde5f3;
+  display: flex; flex-direction: column; gap: 4px;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+.rz-callout-lead { font-family: var(--mono); font-size: 10.5px; color: var(--accent); letter-spacing: 0.02em; }
+.rz-callout-item { font-size: 12px; line-height: 1.55; }
+.rz-callout-item b { color: var(--ink); }
+.rz-callout-u { font-family: var(--mono); font-size: 11.5px; color: var(--accent); font-weight: 600; }
+.rz-callout-u:hover { text-decoration: underline; }
+
+/* ── 불릿 ─────────────────────────────────────────────────── */
+.rz-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+.rz-bullets li { position: relative; padding-left: 12px; font-size: 12px; line-height: 1.55; }
+.rz-bullets li::before {
+  content: ""; position: absolute; left: 1px; top: 0.7em;
+  width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+.rz-bullets--lead { margin-top: 0; gap: 6px; }
+.rz-bullets--lead li { font-size: 12.5px; }
+
+/* ── 스킬 알약 ────────────────────────────────────────────── */
+.rz-skill + .rz-skill { margin-top: 10px; }
+.rz-skill-cat { font-size: 11.5px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.01em; }
+.rz-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.rz-chip {
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--chip); border: 1px solid var(--chip-line);
+  font-size: 11.5px; line-height: 1.5; color: var(--ink-2); white-space: nowrap;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+
+/* ── 경력 · 프로젝트 · 학력 공용 항목 ─────────────────────── */
+.rz-span { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin-bottom: 13px; }
+.rz-entry + .rz-entry { margin-top: 16px; }
+.rz-top { display: flex; align-items: baseline; gap: 12px; }
+.rz-title { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.rz-period { margin-left: auto; flex: none; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.rz-byline { margin-top: 3px; font-size: 12px; color: var(--ink-3); }
+.rz-summary { margin-top: 7px; font-size: 12px; line-height: 1.58; }
+.rz-axis { margin-top: 11px; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; }
+.rz-stack { margin-top: 6px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); line-height: 1.55; }
+
+.rz-minis { list-style: none; margin-top: 16px; border-top: 1px solid var(--hair); }
+.rz-mini { display: flex; align-items: baseline; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--hair); }
+.rz-mini-co { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.rz-mini-role { font-size: 11.5px; color: var(--ink-3); }
+
+/* ── 프로젝트 그룹 ────────────────────────────────────────── */
+.rz-pgroup + .rz-pgroup { margin-top: 20px; }
+.rz-pcap { font-size: 12.5px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.rz-note { margin-top: 4px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
+.rz-pcap + .rz-entry, .rz-note + .rz-entry { margin-top: 11px; }
+
+/* ── 학습 · 일하는 방식 ───────────────────────────────────── */
+.rz-lectures { list-style: none; columns: 2; column-gap: 28px; margin-top: 9px; }
+.rz-lectures li {
+  position: relative; padding-left: 12px; font-size: 11.5px; line-height: 1.5;
+  margin-bottom: 4px; break-inside: avoid;
+}
+.rz-lectures li::before {
+  content: ""; position: absolute; left: 1px; top: 0.66em;
+  width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+.rz-quote {
+  font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.6;
+  padding-left: 14px; border-left: 3px solid var(--accent);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+.rz-principle { margin-top: 9px; font-size: 12px; line-height: 1.6; }
+.rz-principle b { color: var(--ink); font-weight: 700; }
+
+/* ── 모바일 — 종이를 버리고 흐르는 문서로 ────────────────────
+   210mm 는 휴대폰에 들어가지 않는다. 인쇄물이 아니라 읽을거리로 바꾼다.
+   ⚠️ 반드시 `screen and` 로 한정할 것 — 인쇄 뷰포트는 A4 폭(794px)이라
+   그냥 max-width 로 쓰면 PDF 에서도 이 모바일 레이아웃이 먹는다. */
+@media screen and (max-width: 900px) {
+  .rz-page { padding: 0 0 40px; }
+  .rz-actions { width: auto; padding: 16px 18px 0; }
+  .rz-sheet {
+    width: auto; min-height: 0; padding: 26px 18px; margin: 0;
+    box-shadow: none;
+  }
+  .rz-sheet + .rz-sheet { padding-top: 0; }
+  .rz-row { grid-template-columns: 1fr; gap: 12px; }
+  .rz-head { flex-direction: column-reverse; align-items: flex-start; gap: 18px; }
+  .rz-name { font-size: 30px; }
+  .rz-meta { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; }
+  .rz-top { flex-wrap: wrap; gap: 4px 10px; }
+  .rz-period { margin-left: 0; }
+  .rz-mini { flex-wrap: wrap; }
+  .rz-mini-co { white-space: nowrap; }
+  .rz-chip { white-space: normal; }
+  .rz-lectures { columns: 1; }
+}
+
+/* ── 인쇄 — 종이 밖의 것만 걷어낸다 ──────────────────────────
+   폰트·간격 오버라이드는 의도적으로 없음(화면 = PDF).
+   min-height 는 0 으로 — 297mm 를 그대로 두면 반올림 한 픽셀에 빈 장이 생긴다. */
+@media print {
+  @page { size: A4; margin: 0; }
+  .rz-actions { display: none !important; }
+  .rz-page { background: none; padding: 0; }
+  .rz-sheet {
+    min-height: 0; margin: 0; box-shadow: none;
+    break-after: page;
+  }
+  .rz-sheet:last-child { break-after: auto; }
+}

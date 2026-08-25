@@ -1,20 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { PROFILE, CAREER, EDUCATION, SOLO_PROJECTS, PROJECTS, AX_PROJECTS, HIGHLIGHTS, AWARDS, VISION } from "../../data/cv";
+// CORE SKILLS — 카테고리형 인라인 목록(스캔성↑·ATS 친화). 뱃지 미사용 — /cv/resume 는 같은 목록을 알약 뱃지로 렌더한다.
+import { SKILL_GROUPS } from "../../data/skillGroups";
 
 // 제출 PDF는 대표 경력(featured)만 풀 디테일, 나머지는 한 줄(mini)로 — 밀도 관리.
 const detailed = CAREER.filter((c) => c.featured);
 const mini = CAREER.filter((c) => !c.featured);
 
-// CORE SKILLS — 한 덩어리 텍스트 대신 카테고리형 인라인 목록(스캔성↑·ATS 친화). 뱃지 미사용.
-const SKILL_GROUPS = [
-  { cat: "AI · 에이전트 운영", items: "AI 모델 API 연동 · AI가 일을 처리하는 흐름 설계 · 사람이 승인하는 지점 설계 · 결과를 검사해 통과시키는 절차 · 만드는 역할과 검사하는 역할 분리 · 운영 자동화" },
-  { cat: "백엔드", items: "Kotlin · Java · Ruby · PHP · Spring Boot · Spring Cloud · WebFlux · Coroutine · JPA · QueryDSL · R2DBC · MSA · Flyway" },
-  { cat: "인프라 · 데이터", items: "AWS · AWS EKS · Spot Ocean · Argo CD · Argo Workflows · Docker · Kubernetes · Linux · Kafka · Redis · PostgreSQL · PostGIS · MariaDB · MySQL · DynamoDB" },
-  { cat: "신뢰성 · 운영", items: "데이터 수집·적재의 신뢰성 · 아무 표시 없이 지나가는 실패 방지 · 작업 성공과 데이터 성공을 따로 확인 · 대시보드에서 불러오는 중 / 대체 표시 / 실패 구분 · 인덱스 설계 · 쿼리 최적화 · 성능 튜닝" },
-  { cat: "검색 · 도구", items: "ElasticSearch · OpenSearch · Meilisearch · Git · GitHub · Notion · Jira · Confluence · Slack · Google Workspace" },
-  { cat: "리딩 · 협업", items: "Agile/Scrum · 코드 리뷰 · 기술 의사결정 · 문서화 · 절차 문서로 정리" },
-];
 
 // Career highlights 중 ①/② 접두 항목을 두 축 헤더로 그룹핑 (PDF도 ①/②가 자기설명되게 — 웹과 동일)
 const AXES: Record<string, string> = {
@@ -74,7 +67,7 @@ function groupHighlights(highlights: string[]) {
         {SKILL_GROUPS.map((g) => (
           <div class="r-skillrow">
             <span class="r-skillcat">{g.cat}</span>
-            <span class="r-skillitems">{g.items}</span>
+            <span class="r-skillitems">{g.items.join(" · ")}</span>
           </div>
         ))}
       </div>
