@@ -49,7 +49,7 @@ const projects = defineCollection({
       stack: z.array(z.string()).optional(), // 보조 (태그/접이식)
       // 공개 제품 화면(이미지/갤러리)은 src/data/galleries.json 으로 분리 (로컬 admin이 R/W)
       period: z.string().optional(),
-      metrics: z.string().optional(), // 커밋·규모 등 활동 신호 (자랑 아님)
+      metrics: z.string().optional(), // 규모·역할 등 활동 신호 (자랑 아님)
       visibility,
       link: z.string().url().optional(),
       // Risk Check (rev.7: 시크릿/고객정보/비공개수치 부재 사람 검토)

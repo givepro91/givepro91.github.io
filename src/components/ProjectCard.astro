@@ -87,8 +87,8 @@ const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
     {!(d.visibility === "public" && d.link) && (
       <span class="wc-nolink"><span class="lock">●</span> {noLinkText}</span>
     )}
-    <a class="wc-link" href={`/work/${slug}/`}>
-      자세히 보기 <span class="arr">→</span>
+    <a class="wc-link" href={slug === "tower-mercenaries" ? "/portfolio/tower-mercenaries/" : `/work/${slug}/`}>
+      {slug === "tower-mercenaries" ? "포트폴리오 보기" : "자세히 보기"} <span class="arr">→</span>
     </a>
   </div>
 </article>

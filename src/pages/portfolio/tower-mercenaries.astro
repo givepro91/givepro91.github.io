@@ -1,0 +1,251 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import galleries from "../../data/galleries.json";
+
+const appStore = "https://apps.apple.com/kr/app/id6801980968";
+const shots = (galleries.work as Record<string, string[]>)["tower-mercenaries"] ?? [];
+const captions = [
+  "자동 전투를 관전하는 화면",
+  "위험 신호를 보고 원정대를 편성하는 화면",
+  "용병을 영입하고 성장시키는 화면",
+  "층의 변이와 심연 계약을 고르는 화면",
+];
+const timeline = [
+  { date: "06.11", title: "만들기 시작", text: "탑을 오르고 전투를 관전하는 게임의 첫 장면을 만들었습니다." },
+  { date: "08.18", title: "App Store 출시", text: "개발자 등록·심사·가격 책정까지 혼자 진행해 ₩3,300 유료 앱으로 출시했습니다." },
+  { date: "08.28", title: "성과를 다시 읽기", text: "유료 게임 전체 3위·롤플레잉 1위를 기록했지만, 하루 다운로드 115회라는 실제 규모도 함께 확인했습니다." },
+];
+---
+
+<BaseLayout
+  title="탑과 용병단 — 포트폴리오"
+  description="탑과 용병단을 기획·개발·출시하며 결정한 것과 App Store 성과를 기록한 별도 포트폴리오."
+>
+  <div class="tower-portfolio">
+    <section class="tower-hero">
+      <div class="tower-wrap tower-hero-grid">
+        <div class="tower-hero-copy">
+          <a class="tower-back" href="/">← Keunsik Works</a>
+          <p class="tower-kicker">PERSONAL PRODUCT · iOS GAME · 별도 포트폴리오</p>
+          <h1>탑과 <span>용병단</span></h1>
+          <p class="tower-lead">
+            용병단을 꾸려 탑을 오르는 자동 전투 관전 게임입니다. 전투가 시작되기 전에 사람을 고르고,
+            키우고, 편성하는 판단을 끝내야 합니다.
+          </p>
+          <div class="tower-actions">
+            <a class="tower-button" href={appStore} target="_blank" rel="noopener">App Store에서 보기 ↗</a>
+            <a class="tower-text-link" href="/work/tower-mercenaries/">결정 로그 전체 보기 →</a>
+          </div>
+          <div class="tower-stats" aria-label="출시 및 성과 정보">
+            <div><span>출시</span><strong>2026.08.18</strong></div>
+            <div><span>가격</span><strong>₩3,300</strong></div>
+            <div><span>08.28 순위</span><strong>전체 3위 · RPG 1위</strong></div>
+            <div><span>실제 규모</span><strong>하루 다운로드 115회</strong></div>
+          </div>
+        </div>
+        <figure class="tower-hero-art">
+          <img src={shots[0]} alt="탑과 용병단 App Store 대표 화면" loading="eager" />
+          <figcaption>App Store 대표 스크린샷</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="tower-section tower-gallery-section">
+      <div class="tower-wrap">
+        <div class="tower-section-head">
+          <p class="tower-label">01 · PRODUCT</p>
+          <h2>게임을 화면으로 보기</h2>
+          <p>전투를 직접 조작하는 대신, 어떤 용병을 데려와 어떻게 준비할지 결정하는 게임입니다.</p>
+        </div>
+        <div class="tower-gallery">
+          {shots.slice(1).map((src, i) => (
+            <figure
+              class="tower-frame"
+              data-zoom
+              data-zoom-src={src}
+              data-zoom-index={String(i + 1)}
+              data-gallery={JSON.stringify(shots)}
+              data-zoom-cap={`탑과 용병단 · ${captions[i]}`}
+              tabindex="0"
+              role="button"
+              aria-label={`${captions[i]} 크게 보기`}
+            >
+              <img src={src} alt={`탑과 용병단 ${captions[i]}`} loading="lazy" />
+              <figcaption><span>{String(i + 1).padStart(2, "0")}</span>{captions[i]}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="tower-section tower-points-section">
+      <div class="tower-wrap">
+        <div class="tower-section-head">
+          <p class="tower-label">02 · WHAT I BUILT</p>
+          <h2>이 게임에서 만든 것</h2>
+        </div>
+        <div class="tower-points">
+          <article>
+            <span class="tower-point-no">01</span>
+            <h3>전투는 자동으로, 전략은 시작 전에</h3>
+            <p>전투 중 조작을 늘리는 대신, 전열·조합·장비·층의 위험에 대한 대응을 출발 전에 결정하도록 만들었습니다.</p>
+          </article>
+          <article>
+            <span class="tower-point-no">02</span>
+            <h3>용병은 숫자가 아니라 관계로</h3>
+            <p>영입·성장·피로·부상·성격이 이어지게 해, 다음 전투의 선택이 용병단의 이야기로 남도록 구성했습니다.</p>
+          </article>
+          <article>
+            <span class="tower-point-no">03</span>
+            <h3>밸런스는 다시 확인할 수 있게</h3>
+            <p>전투 난수에 기준값을 두고 같은 조건의 결과를 다시 볼 수 있게 해, 감이 아니라 비교로 난이도를 조정했습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tower-section tower-timeline-section">
+      <div class="tower-wrap tower-timeline-grid">
+        <div class="tower-section-head">
+          <p class="tower-label">03 · FROM IDEA TO STORE</p>
+          <h2>만드는 일에서<br />내놓는 일까지</h2>
+          <p>기능을 만드는 데서 멈추지 않고, 심사·가격·출시 후 도달까지 제품의 범위로 봤습니다.</p>
+        </div>
+        <div class="tower-timeline">
+          {timeline.map((item, i) => (
+            <div class="tower-timeline-item">
+              <span class="tower-date">{item.date}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </div>
+              {i < timeline.length - 1 && <span class="tower-timeline-line" aria-hidden="true"></span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="tower-section tower-decisions-section">
+      <div class="tower-wrap">
+        <div class="tower-section-head">
+          <p class="tower-label">04 · DECISION LOG</p>
+          <h2>출시 과정에서 한 결정</h2>
+        </div>
+        <div class="tower-decisions">
+          <article>
+            <span>01 · 전투</span>
+            <h3>재미보다 먼저, 다시 확인할 수 있는 조건을 만들었습니다.</h3>
+            <p>매번 결과가 달라지면 밸런스를 고칠 수 없습니다. 난수에 기준값을 두고 같은 조건의 전투를 비교할 수 있게 했습니다.</p>
+          </article>
+          <article>
+            <span>02 · 유통</span>
+            <h3>앱 본체는 유료로 두고, 발견 경로는 무료로 열었습니다.</h3>
+            <p>판매량을 바로 키우기보다 먼저 존재를 알리는 것을 목표로 삼아, 광고비 없이 1~10층 웹 데모와 랜딩 페이지를 공개했습니다.</p>
+          </article>
+          <article>
+            <span>03 · 측정</span>
+            <h3>순위만으로 흥행을 단정하지 않았습니다.</h3>
+            <p>08.28 순위는 유료 게임 전체 3위·롤플레잉 1위였지만, 하루 다운로드 115회·평가 2개라는 실제 규모를 함께 기록했습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tower-close">
+      <div class="tower-wrap tower-close-inner">
+        <p class="tower-label">NEXT</p>
+        <h2>직접 플레이해 보거나,<br /><span>판단의 기록</span>을 더 읽어보세요.</h2>
+        <div class="tower-actions">
+          <a class="tower-button" href={appStore} target="_blank" rel="noopener">App Store에서 보기 ↗</a>
+          <a class="tower-text-link" href="/work/tower-mercenaries/">Work 결정 로그 →</a>
+          <a class="tower-text-link" href="/cv/#projects">이력서의 개인 제품 이력 →</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .tower-portfolio {
+    --tower-bg: #0c111b;
+    --tower-bg-2: #121b2a;
+    --tower-card: #151f2f;
+    --tower-line: rgba(230, 205, 125, 0.22);
+    --tower-gold: #e9c967;
+    --tower-cream: #f8f0d7;
+    --tower-muted: #aeb7c6;
+    background: var(--tower-bg);
+    color: var(--tower-cream);
+    overflow: hidden;
+  }
+  .tower-wrap { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+  .tower-hero { background: radial-gradient(circle at 78% 12%, #33253a 0, transparent 32%), linear-gradient(135deg, #101a2b, #0c111b 62%); }
+  .tower-hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr); gap: 70px; align-items: center; min-height: 720px; padding-top: 76px; padding-bottom: 76px; }
+  .tower-back, .tower-text-link { color: var(--tower-muted); font-size: 13px; }
+  .tower-back:hover, .tower-text-link:hover { color: var(--tower-gold); }
+  .tower-kicker, .tower-label { color: var(--tower-gold); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; }
+  .tower-kicker { margin-top: 42px; }
+  .tower-hero h1 { margin-top: 18px; font-size: clamp(54px, 8vw, 96px); line-height: 0.98; letter-spacing: -0.08em; font-weight: 800; }
+  .tower-hero h1 span, .tower-close h2 span { color: var(--tower-gold); }
+  .tower-lead { max-width: 550px; margin-top: 28px; color: #d5d9e0; font-size: 18px; line-height: 1.75; }
+  .tower-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 30px; }
+  .tower-button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 17px; border: 1px solid var(--tower-gold); border-radius: 999px; background: var(--tower-gold); color: #121720; font-size: 13px; font-weight: 700; transition: transform 0.2s, background 0.2s; }
+  .tower-button:hover { transform: translateY(-2px); background: #f3d985; }
+  .tower-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; max-width: 570px; margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--tower-line); }
+  .tower-stats div { display: grid; gap: 4px; }
+  .tower-stats span { color: var(--tower-muted); font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; }
+  .tower-stats strong { color: var(--tower-cream); font-size: 14px; font-weight: 600; }
+  .tower-hero-art { margin: 0; justify-self: end; width: min(100%, 380px); }
+  .tower-hero-art img { display: block; width: 100%; max-height: 680px; object-fit: cover; border: 1px solid var(--tower-line); border-radius: 16px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36); }
+  .tower-hero-art figcaption { margin-top: 10px; color: var(--tower-muted); font-family: var(--mono); font-size: 10px; }
+  .tower-section { padding: 110px 0; border-top: 1px solid var(--tower-line); }
+  .tower-section-head { max-width: 650px; }
+  .tower-section-head h2 { margin-top: 15px; color: var(--tower-cream); font-size: clamp(30px, 4vw, 48px); line-height: 1.15; letter-spacing: -0.05em; }
+  .tower-section-head > p:last-child { margin-top: 18px; color: var(--tower-muted); font-size: 16px; line-height: 1.75; }
+  .tower-gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+  .tower-frame { margin: 0; cursor: zoom-in; }
+  .tower-frame img { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border: 1px solid var(--tower-line); border-radius: 10px; background: var(--tower-bg-2); transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s; }
+  .tower-frame:hover img, .tower-frame:focus-visible img { border-color: var(--tower-gold); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); transform: translateY(-4px); }
+  .tower-frame:focus-visible { outline: none; }
+  .tower-frame figcaption { display: flex; gap: 9px; margin-top: 11px; color: var(--tower-muted); font-size: 12px; line-height: 1.4; }
+  .tower-frame figcaption span { color: var(--tower-gold); font-family: var(--mono); font-size: 10px; }
+  .tower-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+  .tower-points article, .tower-decisions article { padding: 28px; border: 1px solid var(--tower-line); border-radius: 12px; background: var(--tower-card); }
+  .tower-point-no { color: var(--tower-gold); font-family: var(--mono); font-size: 11px; }
+  .tower-points h3 { margin-top: 32px; color: var(--tower-cream); font-size: 20px; line-height: 1.35; letter-spacing: -0.04em; }
+  .tower-points p, .tower-decisions p { margin-top: 14px; color: var(--tower-muted); font-size: 14px; line-height: 1.75; }
+  .tower-timeline-section { background: var(--tower-bg-2); }
+  .tower-timeline-grid { display: grid; grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr); gap: 90px; }
+  .tower-timeline { position: relative; display: flex; flex-direction: column; gap: 38px; padding-top: 5px; }
+  .tower-timeline-item { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 22px; }
+  .tower-date { color: var(--tower-gold); font-family: var(--mono); font-size: 12px; padding-top: 3px; }
+  .tower-timeline-item h3 { color: var(--tower-cream); font-size: 20px; }
+  .tower-timeline-item p { max-width: 560px; margin-top: 6px; color: var(--tower-muted); font-size: 14px; line-height: 1.7; }
+  .tower-timeline-line { position: absolute; top: 28px; left: 29px; width: 1px; height: 58px; background: var(--tower-line); }
+  .tower-decisions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+  .tower-decisions article > span { color: var(--tower-gold); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; }
+  .tower-decisions h3 { margin-top: 26px; color: var(--tower-cream); font-size: 18px; line-height: 1.45; letter-spacing: -0.035em; }
+  .tower-close { padding: 112px 0 128px; background: radial-gradient(circle at 24% 15%, #2a283b 0, transparent 33%), var(--tower-bg); }
+  .tower-close-inner { text-align: center; }
+  .tower-close h2 { margin-top: 16px; color: var(--tower-cream); font-size: clamp(32px, 5vw, 58px); line-height: 1.2; letter-spacing: -0.06em; }
+  .tower-close .tower-actions { justify-content: center; }
+  @media (max-width: 820px) {
+    .tower-hero-grid, .tower-timeline-grid { grid-template-columns: 1fr; gap: 46px; }
+    .tower-hero-grid { min-height: 0; padding-top: 54px; padding-bottom: 64px; }
+    .tower-hero-art { justify-self: start; width: min(100%, 360px); }
+    .tower-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tower-points, .tower-decisions { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .tower-wrap { width: min(100% - 32px, 1160px); }
+    .tower-section { padding: 76px 0; }
+    .tower-hero h1 { font-size: 58px; }
+    .tower-lead { font-size: 16px; }
+    .tower-stats { gap: 14px 16px; margin-top: 38px; }
+    .tower-stats strong { font-size: 12px; }
+    .tower-gallery { gap: 12px; margin-top: 32px; }
+    .tower-points { margin-top: 32px; }
+    .tower-points article, .tower-decisions article { padding: 22px; }
+  }
+</style>

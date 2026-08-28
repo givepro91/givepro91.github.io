@@ -20,7 +20,7 @@ decisionLog:
   - why: "로컬 우선·무텔레메트리를 기본으로, 네트워크 I/O는 예외로만 열었습니다."
 stack: ["Electron", "React", "TypeScript", "Zustand"]
 period: "2026"
-metrics: "공개 OSS · 225 커밋"
+metrics: "공개 OSS · 데스크톱 앱"
 visibility: public
 link: "https://github.com/givepro91/markwand"
 riskChecked: true

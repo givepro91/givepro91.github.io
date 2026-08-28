@@ -32,6 +32,9 @@ const zoomCap = `${d.title}${linkHost ? ` · ${linkHost}` : ""}`;
       <a class="back" href="/#work">← Work</a>
       <h1>{d.title}</h1>
       <p class="lede" set:html={d.positioning} />
+      {slug === "tower-mercenaries" && (
+        <p class="detail-feature-link"><a href="/portfolio/tower-mercenaries/">사진과 출시 과정을 한 페이지에서 보기 →</a></p>
+      )}
 
       {shots.length > 0 && (
         <figure

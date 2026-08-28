@@ -172,6 +172,7 @@ const toc = [
                   <div class="cv-proj-links">
                     {p.link && <a class="cv-extlink" href={p.link} target="_blank" rel="noopener">{p.linkLabel ?? p.link} ↗</a>}
                     {p.workSlug && <a class="cv-worklink" href={`/work/${p.workSlug}/`}>결정 로그 보기 →</a>}
+                    {p.portfolioSlug && <a class="cv-worklink" href={`/portfolio/${p.portfolioSlug}/`}>포트폴리오 보기 →</a>}
                   </div>
                 </div>
                 {shots.length > 0 && (

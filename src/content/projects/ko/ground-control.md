@@ -22,7 +22,7 @@ decisionLog:
   - why: "알림 기본값을 담당자 DM으로 두고, 공개 채널로 잘못 나가지 않게 잠금을 여러 겹 걸었습니다."
 stack: ["Python", "Claude Code CLI", "FastAPI", "Slack Bolt", "SQLite", "AWS"]
 period: "2026"
-metrics: "단독 · 730+ 커밋"
+metrics: "단독 · 인프라 관제"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"
