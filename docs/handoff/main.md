@@ -1,8 +1,29 @@
 ---
-branch: main
-status: done
-updated: 2026-08-28T17:10:02+09:00
+branch: givepro91/tower-portfolio-page
+status: in_progress
+updated: 2026-08-28T18:40:00+09:00
 ---
+
+## 2026-08-28 — English CV `/cv/en/` 추가
+
+### Restore in 30s
+영문 CV가 필요한 상황에 맞춰 한국어 CV의 공개 사실을 기준으로 별도 영문 표현 레이어와 페이지를 추가했다. 헤드라인은 **“Engineer building AI products from a backend foundation”**으로 번역했고, 스페이스워크 경력은 `Jan 2023 – Aug 2026` 과거형으로 유지했다. 영문 지원용으로 생년월일·전화번호는 새 페이지에 옮기지 않고 이메일·지역·공개 링크만 노출한다.
+
+### 반영 내용
+- `src/data/cv.en.ts` — 최신 `cv.json` 사실을 기준으로 Profile, Experience, Personal Products, Selected Projects, Skills, Education을 영문으로 정리. 탑과 용병단·놀곳은 `Personal Products`, 회사·개인 작업은 `Selected Projects`로 분리했다.
+- `src/pages/cv/en/index.astro` — `/cv/en/` 영문 CV 페이지, Print / Save PDF 버튼, 반응형 화면과 인쇄 스타일 추가. 탑과 용병단 App Store·별도 케이스 스터디 링크 포함.
+- `src/layouts/BaseLayout.astro` — 페이지별 `lang`, OG locale, CV 진입점, 푸터 문구와 영문 JSON-LD 지원.
+- `src/pages/cv/index.astro`, `src/pages/cv/print.astro`, `src/pages/cv/resume.astro` — 기존 CV 화면에서 영문 CV 진입 링크 추가.
+
+### Verify
+- `pnpm build` → 공개 경계 source/dist PASS, Astro **23페이지** 생성, `/cv/en/index.html` 포함.
+- `pnpm check:resume` → 기존 한국어 새 레이아웃 회귀 PASS.
+- 영문 페이지 출력 확인 → A4 **4쪽**, 데스크톱 화면 및 영문 `lang="en"`·`og:locale="en_US"` 확인.
+- `git diff --check` PASS.
+
+### Next steps
+1. 영문 CV 변경을 명시 경로만 커밋하고 PR 생성.
+2. PR 병합 후 GitHub Pages 배포와 `/cv/en/` 라이브 검증.
 
 ## 2026-08-28 — 탑과 용병단 별도 포트폴리오 + 커밋 수 지표 정리
 

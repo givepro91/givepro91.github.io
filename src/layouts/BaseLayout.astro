@@ -7,26 +7,42 @@ interface Props {
   description?: string;
   /** 페이지별 OG 이미지(절대/루트 경로). 미지정 시 브랜드 기본 카드. */
   image?: string;
+  /** 번역 페이지의 문서 언어. 기본은 사이트 기본 언어(한국어). */
+  locale?: "ko" | "en";
+  /** 페이지별 CV 진입점 — 영문 CV처럼 별도 경로가 필요한 경우 사용. */
+  cvHref?: string;
+  cvLabel?: string;
+  /** 푸터의 짧은 채널 문구. */
+  footerGive?: string;
 }
-const { title, description, image } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  locale = SITE.locale,
+  cvHref = "/cv/",
+  cvLabel = "이력서 CV",
+  footerGive = "@givepro91 · 내어주는 작업들",
+} = Astro.props;
 const pageTitle = title ? `${title} — ${SITE.brand}` : `${SITE.brand} — ${SITE.title}`;
 const pageDesc = description ?? SITE.description;
 const canonical = new URL(Astro.url.pathname, SITE_URL).href;
 const ogImage = new URL(image ?? "/og/og-default.png", SITE_URL).href;
+const ogLocale = locale === "en" ? "en_US" : "ko_KR";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: SITE.name,
-  alternateName: SITE.nameEn,
-  jobTitle: SITE.title,
+  name: locale === "en" ? SITE.nameEn : SITE.name,
+  alternateName: locale === "en" ? SITE.name : SITE.nameEn,
+  jobTitle: locale === "en" ? "Engineer building AI products from a backend foundation" : SITE.title,
   url: SITE_URL,
-  description: SITE.description,
+  description: pageDesc,
 };
 ---
 
 <!doctype html>
-<html lang={SITE.locale}>
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +51,7 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.brand} />
-    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:url" content={canonical} />
@@ -91,7 +107,7 @@ const jsonLd = {
           <a href="/#lab">Lab</a>
           <a href="/roadmap/">Roadmap</a>
           <a href="/#about">About</a>
-          <a class="btn-cv" href="/cv/">이력서 CV</a>
+          <a class="btn-cv" href={cvHref}>{cvLabel}</a>
         </nav>
       </div>
     </header>
@@ -103,7 +119,7 @@ const jsonLd = {
     <footer class="foot">
       <div class="foot-inner">
         <span>© 2026 {SITE.name} · {SITE.brand}</span>
-        <span class="give">@givepro91 · 내어주는 작업들</span>
+        <span class="give">{footerGive}</span>
         <span>built static · deployed to github.io</span>
       </div>
     </footer>
