@@ -22,10 +22,11 @@ export interface ProjectEntry {
   overview: string;
   stack: string[];
   achievements: string[];
-  metrics?: string; // 규모/역할 한 줄 (예: "단독 · 441 커밋 · 공개 OSS")
+  metrics?: string; // 규모/역할 한 줄 (예: "단독 · 공개 OSS")
   link?: string;
   linkLabel?: string;
   workSlug?: string; // Keunsik Works /work/{slug} 상호링크
+  portfolioSlug?: string; // 별도 포트폴리오 페이지 /portfolio/{slug}
   // 공개 제품 화면(이미지/갤러리)은 src/data/galleries.json 으로 분리 (로컬 admin이 R/W, key = name)
 }
 

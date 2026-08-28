@@ -25,7 +25,7 @@ decisionLog:
     tradeoff: "높은 순위만으로 흥행을 단정하지 않고, 순위가 보여주는 상대적 위치와 실제 사용 규모를 분리해 보게 했습니다."
 stack: ["TypeScript", "Vite", "React", "Zustand", "Tauri · iOS"]
 period: "2026.06 – 2026.08"
-metrics: "단독 · 671 커밋 · 유료 출시 · 전체 3위"
+metrics: "단독 · 유료 출시 · 전체 3위"
 visibility: public
 link: "https://apps.apple.com/kr/app/id6801980968"
 riskChecked: true

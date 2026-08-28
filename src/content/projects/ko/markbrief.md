@@ -20,7 +20,7 @@ decisionLog:
     tradeoff: "파이프라인이 하나 늘었지만, 본 엔진은 깨끗하게 유지됐습니다."
 stack: ["Python", "FastAPI", "python-docx", "python-hwpx", "Next.js"]
 period: "2026"
-metrics: "단독 · 116 커밋"
+metrics: "단독 · 문서 컴파일러"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"

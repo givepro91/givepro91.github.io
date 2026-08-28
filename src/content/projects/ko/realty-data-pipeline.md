@@ -21,7 +21,7 @@ decisionLog:
     tradeoff: "수집 속도를 일부 늦추더라도 차단·재수집 비용을 줄였습니다."
 stack: ["Python", "PostgreSQL", "requests", "Slack"]
 period: "2026"
-metrics: "기여 · 크롤러 안정성·재개 (13 커밋)"
+metrics: "기여 · 크롤러 안정성·재개"
 visibility: anon
 riskChecked: true
 riskCheckedBy: "장근식"
