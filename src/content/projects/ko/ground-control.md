@@ -2,7 +2,7 @@
 title: "Ground Control — 자율 인프라 관제"
 theme: agentops
 kind: work
-order: 4
+order: 5
 featured: true
 positioning: "장애를 감지하는 것을 넘어, 원인을 추론해 담당자에게 조용히 묻고 피드백으로 학습하는 자율 인프라 관제 에이전트입니다."
 shows:

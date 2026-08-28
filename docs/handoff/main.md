@@ -1,8 +1,37 @@
 ---
 branch: main
 status: done
-updated: 2026-08-25T10:20:00Z
+updated: 2026-08-28T16:35:00+09:00
 ---
+
+## 2026-08-28 — 탑과 용병단 성과를 CV·Work에 반영
+
+### Restore in 30s
+근식 요청: **my-wiki 최신을 기준으로 탑과 용병단 관련 이력과 포트폴리오를 추가**. 최신 `my-wiki/main` 커밋 `ec48b78`(2026-08-28)은 2026-08-18 출시 후 08-26 유료 게임 5위, 08-28 **롤플레잉 1위·유료 전체 3위**로 이어진 순위를 확인했고, 같은 시점의 실제 규모(하루 다운로드 115회·평가 2개·광고비 0)와 671개 커밋 중 AI 협업 흔적 410개(61%)도 함께 기록했다.
+
+기존 08-24 판단인 “게임은 커리어 축과 분리”는 유지하되, **성과가 발생한 개인 제품 이력으로는 공개**하기로 이번 요청으로 재검토했다. 정체성 헤드라인에는 넣지 않았고, 고용 경력(`CAREER`)에도 섞지 않았다.
+
+### 반영 내용
+- `src/data/cv.json` — `SOLO_PROJECTS`에 탑과 용병단 추가(2026.06–2026.08, 단독·671 커밋·유료 출시·전체 3위), 출시·순위·실제 규모·결정론적 전투·무료 데모·AI 협업 검증 기록 추가. `HIGHLIGHTS` 마지막 항목은 놀곳과 게임 두 제품의 App Store 출시 및 게임 성과를 함께 요약. `PROFILE.current`의 “개인 앱”은 “개인 제품”으로 완화.
+- `src/content/projects/ko/tower-mercenaries.md` — 신규 public Work 카드. 문제·역할·판단·결과·배움과 결정 로그를 평문으로 작성하고 App Store 링크 연결. `theme: reliability`, `kind: work`, `featured: false`라 포트폴리오 PDF에서는 Other Works 표에 들어간다(커리어 대표 케이스로 과대 배치하지 않음).
+- `src/data/lab.ts` — 출시 성과를 Lab 한 줄에도 반영.
+- Work 정렬 — 새 카드가 놀곳 다음 `log.004`가 되도록 기존 order 4–12를 5–13으로 이동.
+- `src/pages/cv/index.astro` — 개인 제품이 두 개가 된 상태와 실제 고용 경력 범위(`2016–2026`) 반영. CV/포트폴리오의 낡은 “프로젝트 10개·결정 로그 10선” 문구 제거.
+- `src/pages/cv/print.astro`, `src/pages/cv/resume.astro` — 새 `SOLO_PROJECTS`가 자동 렌더되도록 확인. `/cv/resume`는 개인 제품 추가로 5쪽이 넘쳐 회사 제품 1건과 학습 섹션의 시트 배치를 조정.
+- 정체성 문구(`PROFILE.title`, `src/config.ts`)는 변경하지 않음. “게임은 정체성 축과 분리” 원칙 유지.
+
+### Verify
+- `pnpm build` → 공개 경계 source/dist PASS, Astro **21페이지** 생성, `/work/tower-mercenaries/` 포함.
+- `pnpm check:resume` → A4 6쪽 모두 통과(최소 여유 35px), 화면·인쇄 위치/크기/폰트/색 **162개 요소 일치**.
+- 생성 HTML 확인 → 홈 Work·Lab, `/cv`, `/cv/print`, `/cv/resume`, `/portfolio/print`, 신규 Work 상세, sitemap에 탑과 용병단 및 순위 노출.
+- Work order 중복 없음, `git diff --check` 통과.
+
+### Next steps
+1. ~~근식 확인 대기~~ → 이번 요청으로 현재 배치(포트폴리오 PDF의 Other Works)까지 반영.
+2. 커밋·푸시는 이번 요청으로 진행(명시 경로만 스테이징, pre-commit 공개 게이트 통과).
+
+---
+
 ## 2026-08-25 — 이력서 새 레이아웃 `/cv/resume` 추가 (기존 `/cv/print` 유지)
 
 ### Restore in 30s — what you were doing / where you got to / what you just finished

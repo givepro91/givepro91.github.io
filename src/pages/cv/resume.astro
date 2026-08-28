@@ -100,7 +100,7 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
         })}
         <div class="rz-callout">
           <span class="rz-callout-lead">이력서와 함께 보면 좋은 자료 두 개를 같이 두었습니다 →</span>
-          <span class="rz-callout-item"><b>인터랙티브 포트폴리오</b> · 프로젝트 10개를 왜 그렇게 판단했는지 중심으로 기록 — <a class="rz-callout-u" href="https://givepro91.github.io">givepro91.github.io</a></span>
+          <span class="rz-callout-item"><b>인터랙티브 포트폴리오</b> · 프로젝트를 왜 그렇게 판단했는지 중심으로 기록 — <a class="rz-callout-u" href="https://givepro91.github.io">givepro91.github.io</a></span>
           <span class="rz-callout-item"><b>Fieldwork</b> · 해본 것과 조사한 것을 글마다 구분해 밝히는 실행 필드가이드 — <a class="rz-callout-u" href="https://ax-field-guide.vercel.app">ax-field-guide.vercel.app</a></span>
         </div>
       </Row>
@@ -201,28 +201,28 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
         </div>
         <div class="rz-pgroup">
           <p class="rz-pcap">스페이스워크 · 제품 백엔드 (부동산 × AI)</p>
-          {PROJECTS.slice(0, 2).map((p) => (
+          {PROJECTS.slice(0, 1).map((p) => (
             <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
                    bullets={p.achievements.slice(0, 2)} stack={p.stack} />
           ))}
         </div>
-      </Row>
-    </Sheet>
 
-    {/* ── 6쪽 — 마지막 제품 + 학습 · 학력 · 일하는 방식 ────────── */}
-    <Sheet>
-      <Row label="프로젝트" cont first>
-        <div class="rz-pgroup">
-          {PROJECTS.slice(2).map((p) => (
-            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
-                   bullets={p.achievements.slice(0, 2)} stack={p.stack} />
-          ))}
-        </div>
       </Row>
-
       <Row label="학습 · 활동">
         <p class="rz-note">온라인 강의로 익히고, 기술 블로그·Fieldwork로 정리·공유합니다 — 학습을 자산으로 바꾸는 루프.</p>
         <ul class="rz-lectures">{AWARDS.map((a) => <li>{a}</li>)}</ul>
+      </Row>
+    </Sheet>
+
+    {/* ── 6쪽 — 나머지 제품 + 학습 · 학력 · 일하는 방식 ────────── */}
+    <Sheet>
+      <Row label="프로젝트" cont first>
+        <div class="rz-pgroup">
+          {PROJECTS.slice(1).map((p) => (
+            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
+                   bullets={p.achievements.slice(0, 2)} stack={p.stack} />
+          ))}
+        </div>
       </Row>
 
       <Row label="학력">

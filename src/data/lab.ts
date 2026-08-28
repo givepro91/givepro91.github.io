@@ -21,7 +21,7 @@ export const LAB: LabEntry[] = [
     status: "released",
     order: 1,
     oneLiner:
-      "용병단을 꾸려 탑을 오르는 자동 전투 관전 시뮬레이션. 2026년 8월 App Store에 유료로 출시했고, 개발자 등록·심사·가격 책정·출시 후 알리기까지 혼자 했습니다.",
+      "용병단을 꾸려 탑을 오르는 자동 전투 관전 시뮬레이션. 2026년 8월 App Store에 유료로 출시했고, 열흘 뒤 유료 게임 전체 3위·롤플레잉 1위를 기록했습니다.",
     link: "https://apps.apple.com/kr/app/id6801980968",
   },
   {
