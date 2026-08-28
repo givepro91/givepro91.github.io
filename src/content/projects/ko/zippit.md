@@ -2,7 +2,7 @@
 title: "Zippit — 통장에서 시작하는 집 찾기"
 theme: proptech
 kind: work
-order: 8
+order: 9
 featured: true
 positioning: "매물이 아니라 내 소득·현금에서 출발해, DSR/LTV 규제를 시뮬레이션해 전국 단지의 매수 가능성을 등급으로 보여주는 플랫폼입니다."
 shows:
