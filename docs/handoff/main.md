@@ -1,7 +1,7 @@
 ---
-branch: givepro91/tower-portfolio-page
-status: in_progress
-updated: 2026-08-28T18:40:00+09:00
+branch: main
+status: done
+updated: 2026-08-28T18:31:25+09:00
 ---
 
 ## 2026-08-28 — English CV `/cv/en/` 추가
@@ -19,11 +19,13 @@ updated: 2026-08-28T18:40:00+09:00
 - `pnpm build` → 공개 경계 source/dist PASS, Astro **23페이지** 생성, `/cv/en/index.html` 포함.
 - `pnpm check:resume` → 기존 한국어 새 레이아웃 회귀 PASS.
 - 영문 페이지 출력 확인 → A4 **4쪽**, 데스크톱 화면 및 영문 `lang="en"`·`og:locale="en_US"` 확인.
+- PR #4 병합 커밋 `a1d0e05`, Actions `33159652954` build/deploy 성공.
+- 라이브 `https://givepro91.github.io/cv/en/` HTTP 200 및 제목·canonical·영문 핵심 섹션 확인.
 - `git diff --check` PASS.
 
 ### Next steps
-1. 영문 CV 변경을 명시 경로만 커밋하고 PR 생성.
-2. PR 병합 후 GitHub Pages 배포와 `/cv/en/` 라이브 검증.
+1. ~~영문 CV 변경을 명시 경로만 커밋하고 PR 생성~~ → 커밋 `60f4ec8`, PR #4 병합.
+2. ~~PR 병합 후 GitHub Pages 배포와 `/cv/en/` 라이브 검증~~ → Actions `33159652954` 성공, 라이브 확인 완료.
 
 ## 2026-08-28 — 탑과 용병단 별도 포트폴리오 + 커밋 수 지표 정리
 
