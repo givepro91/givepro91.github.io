@@ -1,7 +1,7 @@
 ---
 branch: main
-status: active
-updated: 2026-09-07T02:37:46Z
+status: done
+updated: 2026-09-07T02:56:19Z
 ---
 ## 2026-09-07 — Windows 한글 뭉개짐 수정: `--mono` 스택에 한글 폴백 없음
 
@@ -37,7 +37,7 @@ mono 스택에서는 **공백까지 JetBrains Mono 폭**이라 한글 어절 사
 ### Next steps — concrete next actions / blockers / parked items
 - ⚠️ **`src/data/cv.json` 은 이번 세션이 건드리지 않았다.** 세션 시작 시점부터 이미 `M` 이었다 — 내용은 **앞선그룹 재직기간 정정**(`2018.11 – 2019.12` / `1년 1개월` → `2018.11 – 2020.01` / `1년 3개월`). **이번 커밋에서 제외했다.** 사실 확인 후 별도 커밋할 것.
 - ⚠️ **`src/data/cv.json` 은 이번 세션이 건드리지 않았다.** 세션 시작 시점부터 이미 `M` 상태였다 — 별건이므로 같이 커밋하지 말 것.
-- **unverified — 실제 Windows 기기 확인 안 됨.** 검증은 macOS Chrome 에서 폰트 대체 결과를 실측한 것이고, "Windows 에서 굴림체로 떨어진다"는 폰트 스택 + Chrome/Windows 폴백 규칙에서 추론한 것이다. Pretendard 는 웹폰트로 전 페이지에 이미 로드되므로 Windows 에서도 적용되지만, 근식이 윈도우에서 한 번 눈으로 확인해주면 확정.
+- ✅ **Windows 실기 확인 완료** (2026-09-07, 근식: *"확인했어 잘보여"*). 남아 있던 유일한 unverified 항목이었다 — macOS 에서는 원래 재현되지 않는 버그라 코드 쪽 검증만으로는 닫을 수 없었고, 원인 추론(Courier New → 폰트링크 굴림체)이 실기에서 확인됐다.
 
 ### Touch points — path:line, verification command → expected result
 - `src/styles/global.css:31-37` — `--mono` 토큰(주석 포함)
