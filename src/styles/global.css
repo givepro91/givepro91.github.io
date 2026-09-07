@@ -28,7 +28,12 @@
 
   --sans: "Pretendard Variable", Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* JetBrains Mono 에는 한글 글리프가 없다 — Consolas(Win 라틴 대비) 뒤에
+     한글 폰트를 명시해 두지 않으면 Windows 에서 generic monospace(Courier New)
+     → 폰트링크 굴림체로 떨어져 작은 글자가 뭉개진다. */
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
+    monospace;
 
   /* --- 하위호환 alias (cv/print scoped style·잔여 클래스가 참조) --- */
   --paper: var(--bg);

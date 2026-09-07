@@ -1,8 +1,84 @@
 ---
 branch: main
-status: done
-updated: 2026-08-28T18:31:25+09:00
+status: active
+updated: 2026-09-07T02:37:46Z
 ---
+## 2026-09-07 — Windows 한글 뭉개짐 수정: `--mono` 스택에 한글 폴백 없음
+
+### Restore in 30s — what you were doing / where you got to / what you just finished
+근식 리포트: *"윈도우로 볼때 '이력서와 함께 보면 좋은 ~' 여기 폰트가 좀 뭉개진다"*.
+
+**원인 확정**: `.rz-callout-lead`(`src/styles/resume.css:102`)가 한글 문장인데 `font-family: var(--mono)`. JetBrains Mono 에 **한글 글리프가 없고**(Google Fonts `unicode-range` 를 curl 로 실측 — Latin/Latin-ext/Cyrillic/Greek 뿐, U+AC00–D7A3 없음), 종전 `--mono` 스택엔 한글 폰트가 하나도 없었다.
+
+```
+"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace
+  ↑한글 없음     ↑Win 미지원   ↑mac 전용     ↑mac 전용  ↑Win = Courier New
+```
+- macOS: Menlo 에서 시스템이 Apple SD Gothic Neo 로 이어받아 멀쩡 → **맥에서는 절대 안 보이는 버그**
+- Windows: generic `monospace` = Courier New → 한글 없음 → 윈도우 폰트링크가 **굴림체**(비트맵 계열)를 물림 → 10.5px 에서 뭉개짐
+
+`--sans` 에는 `"Apple SD Gothic Neo", "Segoe UI"` 같은 OS별 한글 대비책이 있는데 `--mono` 에만 빠져 있던 게 차이다.
+
+**전수 조사**: mono 를 쓰는 클래스 104개를 추출해 그 클래스가 붙은 엘리먼트의 한글 포함 여부를 대조 → **8개 파일 45곳**이 같은 증상. (`cv/index` 15 · `portfolio/print` 9 · `roadmap` 8 · `work/[slug]` 6 · `cv/print` 3 · `index` 2 · `cv/resume` 2 · `ProjectCard` 1). `log.cv — 상세 이력`, `왜/무엇/증명` 라벨, `PDF로 저장 / 인쇄 ⌘P` 버튼, 로드맵 kicker 등.
+
+**끝난 상태 — 수정·검증 완료, 커밋 안 함**(레포 규칙: 사용자 요청 시에만).
+
+### 고친 것 (4파일)
+1. **`src/styles/global.css`** — `--mono` 에 `Consolas`(Win 라틴 대비) + `"Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic"` 추가. 폰트 대체는 **글자 단위**라 라틴·숫자는 그대로 JetBrains Mono, 한글만 Pretendard 로 간다. 한글 폰트를 mono 폴백들 **뒤**에 둔 이유: JBM 로드 실패 시엔 라틴이 여전히 Menlo/Consolas 로 가야 하기 때문.
+2. **`src/pages/portfolio/print.astro`** — `.deck` 이 `--mono`/`--sans` 를 더 짧게 재정의하며(`"JetBrains Mono", ui-monospace, monospace`) 한글 대비책을 잃고 있었다 → 재정의 삭제, 전역 `:root` 토큰 사용. 하드코딩 `font-family: "JetBrains Mono", monospace` 2곳(`.print-actions`·`.pa-print`, 문구가 한글)도 `var(--mono)` 로.
+3. **`src/layouts/BaseLayout.astro` · `src/pages/interview.astro`** — Google Fonts JetBrains Mono `wght@400;500;600` → **`;700` 추가**. `font-weight: 700/800` 을 mono 에 주는 규칙이 6곳이라 **가짜 볼드 합성**이 걸리고 있었다(Windows 굴림체 합성 볼드는 특히 번짐).
+
+### 후속 — 콜아웃 리드 문장을 sans 로 (근식: *"적용하고 배포까지 해줄것"*)
+mono 스택에서는 **공백까지 JetBrains Mono 폭**이라 한글 어절 사이가 벌어졌다. 리드 문장만 sans 로 전환:
+- `src/styles/resume.css:102` · `src/pages/cv/print.astro:229` — `var(--mono)` → `var(--sans)`, `10.5px` → `11.5px`(모노는 같은 px에서 x-height가 커 보여 광학 크기 보정), `letter-spacing: 0.02em` → `0`.
+- **URL(`.rz-callout-u`·`.r-callout-u`)은 mono 유지** — 라틴이라 원래 문제 없고 모노 악센트가 의도된 디자인.
+- 확인: `.rz-callout-lead` 실제 `font-family` = Pretendard, `.rz-callout-u` = JetBrains Mono. 어절 벌어짐 해소(zoom 캡처).
+
+### Next steps — concrete next actions / blockers / parked items
+- ⚠️ **`src/data/cv.json` 은 이번 세션이 건드리지 않았다.** 세션 시작 시점부터 이미 `M` 이었다 — 내용은 **앞선그룹 재직기간 정정**(`2018.11 – 2019.12` / `1년 1개월` → `2018.11 – 2020.01` / `1년 3개월`). **이번 커밋에서 제외했다.** 사실 확인 후 별도 커밋할 것.
+- ⚠️ **`src/data/cv.json` 은 이번 세션이 건드리지 않았다.** 세션 시작 시점부터 이미 `M` 상태였다 — 별건이므로 같이 커밋하지 말 것.
+- **unverified — 실제 Windows 기기 확인 안 됨.** 검증은 macOS Chrome 에서 폰트 대체 결과를 실측한 것이고, "Windows 에서 굴림체로 떨어진다"는 폰트 스택 + Chrome/Windows 폴백 규칙에서 추론한 것이다. Pretendard 는 웹폰트로 전 페이지에 이미 로드되므로 Windows 에서도 적용되지만, 근식이 윈도우에서 한 번 눈으로 확인해주면 확정.
+
+### Touch points — path:line, verification command → expected result
+- `src/styles/global.css:31-37` — `--mono` 토큰(주석 포함)
+- `src/pages/portfolio/print.astro:284` — `.deck` 의 토큰 재정의 삭제 자리 / `:287,289` — `var(--mono)` 로 교체
+- `src/layouts/BaseLayout.astro:58` · `src/pages/interview.astro:23` — `wght@400;500;600;700`
+- `src/styles/resume.css:102` · `src/pages/cv/print.astro:229` — 문제의 `.rz-callout-lead`/`.r-callout-lead` (mono 유지 중, 위 "판단 대기" 항목)
+- `pnpm build` → `check-disclosure`(source·dist) **PASS**, 20페이지 빌드 성공 (실측)
+- `pnpm preview --port 4331` 후 `/cv/resume`·`/cv/print` 에서 브라우저 콘솔:
+  ```js
+  // 세로 위치에 둔감한 글리프 지문(컬럼별 alpha 합) + advance width 로 실제 렌더 폰트 판별
+  // 수정 전 스택 → 47ade7eb w=276.80 (= Menlo/시스템 폴백)
+  // 수정 후 --mono → b1066240 w=276.56 (= Pretendard, --sans 와 동일)
+  ```
+  전문은 아래 Verify 표. 스크립트는 스크래치패드에만 두고 레포엔 안 남겼다.
+
+### Verify (전부 실측)
+`'이력서와함께보면'`(공백 제외 — 공백은 JBM 폭이라 섞이면 판별을 흐린다) 40px 렌더 지문:
+
+| 스택 | 지문 / advance | 판정 |
+|---|---|---|
+| 수정 전 `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace` | `47ade7eb` w=276.80 | 시스템 폴백 (= `Menlo` · `monospace` 기준과 동일) |
+| **수정 후 `--mono`** | `b1066240` w=276.56 | **Pretendard** ✅ |
+| `"Pretendard Variable"` 기준 | `b1066240` w=276.56 | — |
+| `--sans` 기준 | `b1066240` w=276.56 | — |
+| 라틴 `log.cv 2026` 수정 후 `--mono` | `164f455d` w=264.00 | **= JetBrains Mono 단독과 동일 → 모노 느낌 유지** ✅ |
+
+- `/cv/print` 에서도 동일(`ed052a40` w=276.56 = Pretendard), 그리고 `document.fonts.check('700 11.5px "JetBrains Mono"')` → **true**, 700 페이스 `loaded` (수정 전에는 페이스 자체가 없었음).
+- 시각 확인: `/cv/resume` 콜아웃 zoom 캡처 — 라틴 URL 은 JetBrains Mono 유지, 한글은 Pretendard.
+- **인쇄 페이지 수 회귀 0** — headless Chrome print-to-PDF 로 변경 후/HEAD 기준 각각 측정: `/cv/resume` **6p → 6p**, `/cv/print` **5p → 5p**.
+  - ⚠️ **핸드오프 2026-08-25 절의 "`/cv/resume` A4 5p" 는 낡았다** — HEAD(`8060a71`)를 임시 worktree 에 빌드해 재보니 **이미 6p** 다. 이번 변경 탓이 아니다. (같은 종류의 드리프트가 그 절의 "cv/print 4p" 에서도 한 번 있었다.)
+
+### 함정 기록 — 폰트 판별에 픽셀 해시를 쓸 때
+처음엔 캔버스 alpha 채널 FNV 해시로 비교했는데 `Menlo, "Pretendard Variable"` 이 Pretendard 단독과 **같은 폭인데 다른 해시**로 나와 "폴백 실패"로 오독했다. 원인: **글리프는 Pretendard 인데 baseline/세로 메트릭은 앞선 primary 폰트(Menlo)를 따라가서 1px 세로 시프트가 생긴다.** → 세로에 둔감한 지문(컬럼별 alpha 합)으로 바꾸니 즉시 일치. 그리고 문자열에 **공백을 넣으면 안 된다** — 공백은 JBM 이 커버하므로 폭 비교가 오염된다(초기 측정 131.375 vs 116.711 이 전부 이 탓).
+
+### Decisions — one line each
+- 개별 45곳을 고치지 않고 **`--mono` 토큰 한 곳**에서 고쳤다 — 원인이 토큰이고, 글자 단위 폰트 대체라 라틴 모노 느낌은 그대로 유지되기 때문.
+- 한글 폴백을 mono 폴백들 **뒤에** 배치 — JBM 미로드 시 라틴이 Pretendard(비례폭)로 무너지지 않게.
+- `Consolas` 를 추가 — Windows 에는 스택에 mono 가 하나도 없어 JBM 실패 시 라틴까지 Courier New 로 떨어지던 문제를 같이 해소.
+- `.deck` 의 토큰 재정의는 되살리지 않고 삭제 — 전역 토큰과의 드리프트가 이 버그의 재발원이라서.
+- `.rz-callout-lead` 의 mono 유지 여부는 디자인 판단이라 임의로 바꾸지 않고 근식에게 물었고, *"적용하고 배포까지 해줄것"* 회신을 받아 sans 로 전환했다.
+
 
 ## 2026-08-28 — English CV `/cv/en/` 추가
 
