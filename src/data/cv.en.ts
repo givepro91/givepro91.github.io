@@ -96,12 +96,13 @@ export const EN_EXPERIENCE: EnglishExperience[] = [
 export const EN_PERSONAL_PRODUCTS: EnglishProject[] = [
   {
     name: "Tower & Mercenaries",
-    period: "Jun 2026 – Aug 2026",
+    period: "Jun 2026 – Present",
     role: "Solo Product Builder · Paid iOS Game",
     summary: "A party-management game where players recruit mercenaries and climb a tower while watching automated battles.",
     bullets: [
       "Planned, built, released, and promoted the product alone; handled Apple Developer registration, review, pricing, and release operations.",
-      "Released at ₩3,300 on Aug 18, 2026. Ten days later it reached #3 among all paid games and #1 in RPG on the Korean App Store; the same snapshot showed 115 daily downloads and two ratings. Added deterministic combat conditions for reproducible balancing and published a free web demo without ad spend.",
+      "Released at ₩3,300 on Aug 18, 2026. Two weeks later it reached #2 among all paid games and #1 in RPG on the Korean App Store, with a 4.0 rating across 24 reviews and no ad spend. Added deterministic combat conditions for reproducible balancing and published a free web demo.",
+      "Kept shipping after launch: version 1.15.0 by Oct 2026, operated in Korean, English, Japanese, and Traditional Chinese. Patched an iOS 27 launch crash and reported the underlying scene-lifecycle fix upstream.",
     ],
     stack: ["TypeScript", "Vite", "React", "Zustand", "Tauri · iOS"],
     links: [
@@ -119,6 +120,20 @@ export const EN_PERSONAL_PRODUCTS: EnglishProject[] = [
     ],
     stack: ["Next.js", "TypeScript", "Supabase", "Capacitor · iOS", "Vercel"],
     links: [{ label: "App Store", href: "https://apps.apple.com/kr/app/id6801715002" }],
+  },
+  {
+    name: "Climb Crew: Survivors · Belkar: Black Hunter",
+    period: "Sep 2026 – Present",
+    role: "Solo Product Builder · Two Mobile Releases",
+    summary: "Two mobile products taken from first commit through App Store review in nine and six days respectively, released on Sep 23 and Sep 28, 2026.",
+    bullets: [
+      "Put automated checks and on-device measurement in place before moving fast: roughly 320 regression assertions across three suites, so a build could ship without a manual pass.",
+      "Measured instead of assuming. Built the pre-change build in a separate worktree and ran it under identical conditions, which showed an apparent improvement was pre-existing difficulty rather than the fix.",
+      "Turned a vague user report (\"enemies cleared but the stage will not advance\") into a number: 12–13% of spawn points were pushed outside the playable area, which led to replacing pathfinding.",
+      "Reused an earlier product's setting while writing the IP boundary document before any code, separating what carries over from what must not, in both directions.",
+    ],
+    stack: ["Godot", "Unity", "C#", "Firebase", "iOS", "Android"],
+    links: [{ label: "App Store", href: "https://apps.apple.com/kr/app/id6815152175" }],
   },
 ];
 
