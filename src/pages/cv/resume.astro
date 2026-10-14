@@ -19,7 +19,9 @@ import "../../styles/resume.css";
 
 // 대표 경력(featured)만 풀 디테일, 나머지는 한 줄 — /cv/print 와 동일한 밀도 규칙.
 const [careerMain, careerSecond] = CAREER.filter((c) => c.featured);
-const careerMini = CAREER.filter((c) => !c.featured);
+// 지금 하는 일(current)은 대표 경력 위에 한 줄씩. 나머지 경력 목록에서는 뺀다.
+const careerNow = CAREER.filter((c) => c.current);
+const careerMini = CAREER.filter((c) => !c.featured && !c.current);
 
 // 경력 요약 한 줄. "N년차"는 계산 근거가 갈려(재직 합산 vs 첫 입사~현재) 쓰지 않고,
 // 데이터에서 그대로 세지는 사실만 — 연도 범위와 회사 수.
@@ -106,6 +108,18 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
         </div>
       </Row>
 
+      <Row label="지금 하는 일">
+        <ul class="rz-minis rz-minis--now">
+          {careerNow.map((c) => (
+            <li class="rz-mini">
+              <span class="rz-mini-co">{c.company}</span>
+              <span class="rz-mini-role">{c.role}</span>
+              <span class="rz-period">{c.period}</span>
+            </li>
+          ))}
+        </ul>
+      </Row>
+
       <Row label="핵심 역량">
         <ul class="rz-bullets rz-bullets--lead">{HIGHLIGHTS.slice(0, 8).map((h) => <li>{h}</li>)}</ul>
       </Row>
@@ -189,7 +203,7 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
       </Row>
     </Sheet>
 
-    {/* ── 5쪽 — 개인 제품 + 회사 제품 백엔드 ──────────────────── */}
+    {/* ── 5쪽 — 개인 제품 + 학습 · 활동 ───────────────────────── */}
     <Sheet>
       <Row label="프로젝트" cont first>
         <div class="rz-pgroup">
@@ -200,13 +214,6 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
                    bullets={p.achievements.slice(0, 3)} stack={p.stack} />
           ))}
         </div>
-        <div class="rz-pgroup">
-          <p class="rz-pcap">스페이스워크 · 제품 백엔드 (부동산 × AI)</p>
-          {PROJECTS.slice(0, 1).map((p) => (
-            <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
-                   bullets={p.achievements.slice(0, 2)} stack={p.stack} />
-          ))}
-        </div>
 
       </Row>
       <Row label="학습 · 활동">
@@ -215,11 +222,12 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
       </Row>
     </Sheet>
 
-    {/* ── 6쪽 — 나머지 제품 + 학습 · 학력 · 일하는 방식 ────────── */}
+    {/* ── 6쪽 — 회사 제품 백엔드 + 학력 ───────────────────────── */}
     <Sheet>
       <Row label="프로젝트" cont first>
         <div class="rz-pgroup">
-          {PROJECTS.slice(1).map((p) => (
+          <p class="rz-pcap">스페이스워크 · 제품 백엔드 (부동산 × AI)</p>
+          {PROJECTS.map((p) => (
             <Entry name={p.name} meta={periodOf(p)} byline={p.tagline} summary={p.overview}
                    bullets={p.achievements.slice(0, 2)} stack={p.stack} />
           ))}
@@ -232,7 +240,11 @@ const AX_NOTE = "AI에게 일을 맡길 때 필요한 검증과 통제(Nova·Gro
         ))}
       </Row>
 
-      <Row label="일하는 방식">
+    </Sheet>
+
+    {/* ── 7쪽 — 일하는 방식 ─────────────────────────────────── */}
+    <Sheet>
+      <Row label="일하는 방식" first>
         <blockquote class="rz-quote">{VISION.headline}</blockquote>
         {VISION.principles.map((pr) => (
           <p class="rz-principle"><b>{pr.title}</b> — {pr.text}</p>
