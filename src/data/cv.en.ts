@@ -42,10 +42,9 @@ export const EN_EXPERIENCE: EnglishExperience[] = [
     company: "AARO",
     role: "Part-time Consultant / Server, Infrastructure & Operations for an AI Architectural Design Platform",
     period: "Sep 2026 – Present",
-    summary: "Consulting on servers, infrastructure, and operating practices for a team building an AI architectural design platform.",
+    summary: "Consulting on servers and infrastructure for a team building an AI architectural design platform.",
     bullets: [
-      "Set up a single home for working practices, decision records, and operating documents, and am building the internal operations console that runs on them (TypeScript · Next.js).",
-      "Building a tool that replaces copying an app for every client: once a client's materials are organized into one configuration, that client's design portal is generated. People only handle exceptions such as checking materials and making the final call, and a deployment is deleted and halted if an address that must stay private becomes public.",
+      "Building an internal tool that generates a design portal for each client.",
     ],
     stack: ["TypeScript", "Next.js"],
   },
@@ -55,9 +54,7 @@ export const EN_EXPERIENCE: EnglishExperience[] = [
     period: "Aug 2026 – Present",
     summary: "Developing and operating a work platform used by redevelopment and reconstruction associations.",
     bullets: [
-      "Runs accounting ledgers, expense approvals, monthly documents and reports (PDF · Excel), and scheduling on one platform in production.",
-      "Enforced role-based permissions on the server and required two people to approve hard-to-reverse deletions.",
-      "Take client feedback as numbered tasks and ship it in short cycles (six deployments between Oct 16 and 28, 2026), updating the user manual in the same change whenever a screen changes.",
+      "A web service that handles accounting ledgers, expense approvals, monthly reports, and scheduling in one place.",
     ],
     stack: ["TypeScript", "Hono", "SQLite", "AWS"],
   },

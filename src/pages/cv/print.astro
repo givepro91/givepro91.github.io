@@ -12,7 +12,7 @@ const mini = CAREER.filter((c) => !c.featured);
 // Career highlights 중 ①/② 접두 항목을 두 축 헤더로 그룹핑 (PDF도 ①/②가 자기설명되게 — 웹과 동일)
 const AXES: Record<string, string> = {
   "①": "제품을 처음부터 끝까지 만드는 일",
-  "②": "조직이 AI와 안전하게 일하게 만드는 일",
+  "②": "팀의 운영 기준을 세우는 일",
 };
 function groupHighlights(highlights: string[]) {
   const out: { axis: string | null; items: string[] }[] = [];
