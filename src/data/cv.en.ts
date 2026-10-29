@@ -32,7 +32,7 @@ export const EN_PROFILE = {
     "Engineer who started in backend systems and now builds AI products. Over the past decade, I have worked across service architecture, asynchronous processing, data pipelines, infrastructure, and product delivery. I work from the question, “How far does this problem need me to go?”—from backend foundations to user-facing product, operations, and release.",
   links: [
     { label: "GitHub", href: "https://github.com/givepro91" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/%EA%B7%BC%EC%8B%9D-%EC%9E%A5-8620b0199/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/keunsik-jang/" },
     { label: "Portfolio", href: "https://givepro91.github.io" },
   ] satisfies EnglishLink[],
 };

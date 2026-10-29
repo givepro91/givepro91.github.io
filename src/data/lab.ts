@@ -16,15 +16,6 @@ export interface LabEntry {
 
 export const LAB: LabEntry[] = [
   {
-    // 커리어 축이 아니라 호기심으로 해본 케이스 — 출시 사실만 남기고 정체성 서술과는 분리한다.
-    title: "탑과 용병단",
-    status: "released",
-    order: 1,
-    oneLiner:
-      "용병단을 꾸려 탑을 오르는 자동 전투 관전 시뮬레이션. 2026년 8월 App Store에 유료로 출시했고, 열흘 뒤 유료 게임 전체 3위·롤플레잉 1위를 기록했습니다.",
-    link: "https://apps.apple.com/kr/app/id6801980968",
-  },
-  {
     title: "Crewdeck",
     status: "active",
     theme: "agentops",

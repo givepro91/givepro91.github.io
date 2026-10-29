@@ -33,7 +33,7 @@ export const SITE = {
 export const CHANNELS = [
   { label: "GitHub — givepro91", href: "https://github.com/givepro91" },
   { label: "GitHub — jay-swk", href: "https://github.com/jay-swk" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/근식-장-8620b0199/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/keunsik-jang/" },
   { label: "Brunch — 장근식 Jay", href: "https://brunch.co.kr/@eb877c69f69b451" },
 ] as const;
 
