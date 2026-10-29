@@ -39,6 +39,29 @@ export const EN_PROFILE = {
 
 export const EN_EXPERIENCE: EnglishExperience[] = [
   {
+    company: "AARO",
+    role: "Part-time Consultant / Server, Infrastructure & Operations for an AI Architectural Design Platform",
+    period: "Sep 2026 – Present",
+    summary: "Consulting on servers, infrastructure, and operating practices for a team building an AI architectural design platform.",
+    bullets: [
+      "Set up a single home for working practices, decision records, and operating documents, and am building the internal operations console that runs on them (TypeScript · Next.js).",
+      "Building a tool that replaces copying an app for every client: once a client's materials are organized into one configuration, that client's design portal is generated. People only handle exceptions such as checking materials and making the final call, and a deployment is deleted and halted if an address that must stay private becomes public.",
+    ],
+    stack: ["TypeScript", "Next.js"],
+  },
+  {
+    company: "Dosi Jeongbi Ieum",
+    role: "Freelancer / Development & Operations of an Association Work Platform",
+    period: "Aug 2026 – Present",
+    summary: "Developing and operating a work platform used by redevelopment and reconstruction associations.",
+    bullets: [
+      "Runs accounting ledgers, expense approvals, monthly documents and reports (PDF · Excel), and scheduling on one platform in production.",
+      "Enforced role-based permissions on the server and required two people to approve hard-to-reverse deletions.",
+      "Take client feedback as numbered tasks and ship it in short cycles (six deployments between Oct 16 and 28, 2026), updating the user manual in the same change whenever a screen changes.",
+    ],
+    stack: ["TypeScript", "Hono", "SQLite", "AWS"],
+  },
+  {
     company: "Spacewalk, Inc.",
     role: "Technical Product Lead / Backend & Product Team",
     period: "Jan 2023 – Aug 2026",
@@ -101,10 +124,10 @@ export const EN_PERSONAL_PRODUCTS: EnglishProject[] = [
     summary: "A party-management game where players recruit mercenaries and climb a tower while watching automated battles.",
     bullets: [
       "Planned, built, released, and promoted the product alone; handled Apple Developer registration, review, pricing, and release operations.",
-      "Released at ₩3,300 on Aug 18, 2026. Two weeks later it reached #2 among all paid games and #1 in RPG on the Korean App Store, with a 4.0 rating across 24 reviews and no ad spend. Added deterministic combat conditions for reproducible balancing and published a free web demo.",
-      "Kept shipping after launch: version 1.15.0 by Oct 2026, operated in Korean, English, Japanese, and Traditional Chinese. Patched an iOS 27 launch crash and reported the underlying scene-lifecycle fix upstream.",
+      "Released at ₩3,300 on Aug 18, 2026. Two weeks later it reached #2 among all paid games and #1 in RPG on the Korean App Store, with a 4.0 rating across 24 reviews and no ad spend. After adding Traditional Chinese, it reached #1 among all paid games on the Taiwan App Store (Oct 7, 2026). Added deterministic combat conditions for reproducible balancing and published a free web demo.",
+      "Kept shipping after launch: moved the engine to Godot in 1.19.1 to cut device heat, then shipped through 1.24.1 by late Oct 2026, operated in Korean, English, Japanese, and Traditional Chinese. Patched an iOS 27 launch crash and reported the underlying scene-lifecycle fix upstream.",
     ],
-    stack: ["TypeScript", "Vite", "React", "Zustand", "Tauri · iOS"],
+    stack: ["TypeScript", "React", "Godot", "iOS"],
     links: [
       { label: "App Store", href: "https://apps.apple.com/kr/app/id6801980968" },
       { label: "Case study", href: "/portfolio/tower-mercenaries/" },
@@ -125,7 +148,7 @@ export const EN_PERSONAL_PRODUCTS: EnglishProject[] = [
     name: "Climb Crew: Survivors · Belkar: Black Hunter",
     period: "Sep 2026 – Present",
     role: "Solo Product Builder · Two Mobile Releases",
-    summary: "Two mobile products taken from first commit through App Store review in nine and six days respectively, released on Sep 23 and Sep 28, 2026.",
+    summary: "Two mobile products taken from first commit through App Store review in nine and six days respectively, released on Sep 23 and Sep 28, 2026, and both on Google Play in October.",
     bullets: [
       "Put automated checks and on-device measurement in place before moving fast: roughly 320 regression assertions across three suites, so a build could ship without a manual pass.",
       "Measured instead of assuming. Built the pre-change build in a separate worktree and ran it under identical conditions, which showed an apparent improvement was pre-existing difficulty rather than the fix.",
