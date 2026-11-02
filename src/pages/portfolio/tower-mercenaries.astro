@@ -6,9 +6,9 @@ const appStore = "https://apps.apple.com/kr/app/id6801980968";
 const shots = (galleries.work as Record<string, string[]>)["tower-mercenaries"] ?? [];
 const captions = [
   "자동 전투를 관전하는 화면",
-  "위험 신호를 보고 원정대를 편성하는 화면",
-  "용병을 영입하고 성장시키는 화면",
-  "층의 변이와 심연 계약을 고르는 화면",
+  "사기와 피로를 보고 원정대를 고르는 화면",
+  "대장간에서 장비를 정리하는 화면",
+  "동료마다 다른 사연을 보는 이야기 화면",
 ];
 const timeline = [
   { date: "06.11", title: "만들기 시작", text: "탑을 오르고 전투를 관전하는 게임의 첫 장면을 만들었습니다." },
@@ -16,7 +16,7 @@ const timeline = [
   { date: "08.28", title: "성과를 다시 읽기", text: "유료 게임 전체 3위·롤플레잉 1위를 기록했지만, 하루 다운로드 115회라는 실제 규모도 함께 확인했습니다." },
   { date: "09.01", title: "한국 유료 게임 전체 2위", text: "출시 2주 만에 한국 App Store 유료 게임 전체 2위·롤플레잉 1위에 올랐습니다. 같은 날 평점은 4.0·평가 24개였습니다." },
   { date: "10.07", title: "대만 유료 게임 전체 1위", text: "번체 중국어를 넣은 뒤 대만 App Store 유료 게임 전체 1위·롤플레잉 1위에 올랐습니다. 같은 날 대만 평점은 4.9·평가 44개였습니다." },
-  { date: "10.09", title: "엔진을 Godot으로", text: "기기 발열 리뷰가 이어져, 같은 전투를 두 엔진에서 돌려 CPU 사용량을 비교한 뒤(약 55% 감소) 전체를 Godot으로 옮겼습니다. 10월 말 1.24.1까지 냈습니다." },
+  { date: "10.09", title: "엔진을 Godot으로", text: "기기 발열 리뷰가 이어져, 같은 전투를 두 엔진에서 돌려 CPU 사용량을 비교한 뒤(약 55% 감소) 전체를 Godot으로 옮겼습니다. 11월 1일 1.25.2까지 냈습니다." },
   { date: "10.23", title: "한국 양대 마켓 유료 1위", text: "30% 할인 기간에 한국 App Store와 Google Play 유료 게임 1위에 같은 날 올랐습니다. 같은 날 App Store 평점은 4.7·평가 230여 개였습니다." },
 ];
 ---
@@ -46,12 +46,12 @@ const timeline = [
             <div><span>대만 · 10.07</span><strong>유료 게임 전체 1위</strong></div>
             <div><span>한국 · 10.23</span><strong>App Store · Play 유료 1위</strong></div>
             <div><span>평점 · 10.29</span><strong>한국 4.7 (318) · 대만 4.9 (183)</strong></div>
-            <div><span>운영</span><strong>1.24.1 · 4개 언어</strong></div>
+            <div><span>운영</span><strong>1.25.2 · 4개 언어</strong></div>
           </div>
         </div>
         <figure class="tower-hero-art">
-          <img src={shots[0]} alt="탑과 용병단 App Store 대표 화면" loading="eager" />
-          <figcaption>App Store 대표 스크린샷</figcaption>
+          <img src={shots[0]} alt="탑과 용병단 거점 화면" loading="eager" />
+          <figcaption>App Store 스크린샷 · 거점 화면</figcaption>
         </figure>
       </div>
     </section>
@@ -203,7 +203,7 @@ const timeline = [
   .tower-stats span { color: var(--tower-muted); font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; }
   .tower-stats strong { color: var(--tower-cream); font-size: 14px; font-weight: 600; }
   .tower-hero-art { margin: 0; justify-self: end; width: min(100%, 380px); }
-  .tower-hero-art img { display: block; width: 100%; max-height: 680px; object-fit: cover; border: 1px solid var(--tower-line); border-radius: 16px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36); }
+  .tower-hero-art img { display: block; width: 100%; height: auto; border: 1px solid var(--tower-line); border-radius: 16px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36); }
   .tower-hero-art figcaption { margin-top: 10px; color: var(--tower-muted); font-family: var(--mono); font-size: 10px; }
   .tower-section { padding: 110px 0; border-top: 1px solid var(--tower-line); }
   .tower-section-head { max-width: 650px; }
@@ -211,7 +211,7 @@ const timeline = [
   .tower-section-head > p:last-child { margin-top: 18px; color: var(--tower-muted); font-size: 16px; line-height: 1.75; }
   .tower-gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
   .tower-frame { margin: 0; cursor: zoom-in; }
-  .tower-frame img { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border: 1px solid var(--tower-line); border-radius: 10px; background: var(--tower-bg-2); transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s; }
+  .tower-frame img { display: block; width: 100%; aspect-ratio: 1290 / 2803; object-fit: cover; border: 1px solid var(--tower-line); border-radius: 10px; background: var(--tower-bg-2); transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s; }
   .tower-frame:hover img, .tower-frame:focus-visible img { border-color: var(--tower-gold); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); transform: translateY(-4px); }
   .tower-frame:focus-visible { outline: none; }
   .tower-frame figcaption { display: flex; gap: 9px; margin-top: 11px; color: var(--tower-muted); font-size: 12px; line-height: 1.4; }

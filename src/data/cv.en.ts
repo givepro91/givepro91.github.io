@@ -122,7 +122,7 @@ export const EN_PERSONAL_PRODUCTS: EnglishProject[] = [
     bullets: [
       "Planned, built, released, and promoted the product alone; handled Apple Developer registration, review, pricing, and release operations.",
       "Released at ₩3,300 on Aug 18, 2026. Two weeks later it reached #2 among all paid games and #1 in RPG on the Korean App Store, with a 4.0 rating across 24 reviews and no ad spend. After adding Traditional Chinese, it reached #1 among all paid games on the Taiwan App Store (Oct 7, 2026). On Oct 23, 2026, it reached #1 among paid games on both the Korean App Store and Google Play during a 30% discount, with a 4.7 rating across about 230 App Store reviews. Added deterministic combat conditions for reproducible balancing and published a free web demo.",
-      "Kept shipping after launch: moved the engine to Godot in 1.19.1 to cut device heat, then shipped through 1.24.1 by late Oct 2026, operated in Korean, English, Japanese, and Traditional Chinese. Patched an iOS 27 launch crash and reported the underlying scene-lifecycle fix upstream.",
+      "Kept shipping after launch: moved the engine to Godot in 1.19.1 to cut device heat, then shipped through 1.25.2 by Nov 1, 2026, operated in Korean, English, Japanese, and Traditional Chinese. Patched an iOS 27 launch crash and reported the underlying scene-lifecycle fix upstream.",
     ],
     stack: ["TypeScript", "React", "Godot", "iOS"],
     links: [

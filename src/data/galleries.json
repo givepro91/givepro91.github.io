@@ -27,11 +27,11 @@
       "/og/plannext-retail.png"
     ],
     "tower-mercenaries": [
-      "/og/tower-mercenaries-hero.jpg",
-      "/og/tower-mercenaries-battle.jpg",
-      "/og/tower-mercenaries-party.jpg",
-      "/og/tower-mercenaries-abyss.jpg",
-      "/og/tower-mercenaries-contract.jpg"
+      "/og/tower-mercenaries-store-07-home.jpg",
+      "/og/tower-mercenaries-store-02-battle.jpg",
+      "/og/tower-mercenaries-store-08-condition.jpg",
+      "/og/tower-mercenaries-store-09-forge.jpg",
+      "/og/tower-mercenaries-store-10-story.jpg"
     ],
     "nova": [
       "/og/scr-20260623-svyq.png"
@@ -76,8 +76,8 @@
       "/og/scr-20260623-swwz.png"
     ],
     "탑과 용병단": [
-      "/og/tower-mercenaries-hero.jpg",
-      "/og/tower-mercenaries-battle.jpg"
+      "/og/tower-mercenaries-store-07-home.jpg",
+      "/og/tower-mercenaries-store-02-battle.jpg"
     ]
   }
 }

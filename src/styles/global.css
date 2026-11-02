@@ -428,6 +428,8 @@ section { padding: 30px 0; }
 .work-card.has-thumb .decision { grid-area: decision; }
 .work-card.has-thumb .wc-foot { grid-area: foot; }
 .wc-thumb { aspect-ratio: 16 / 9; object-fit: cover; }
+/* 세로 스토어 스크린샷을 가로로 자를 때 거점이 보이게 한다 */
+.wc-thumb[src*="tower-mercenaries-store-07"], .detail-shot img[src*="tower-mercenaries-store-07"] { object-position: center 31%; }
 @media (max-width: 600px) {
   .work-card.has-thumb { grid-template-columns: 1fr; grid-template-areas: "thumb" "main" "decision" "foot"; row-gap: 14px; }
 }
