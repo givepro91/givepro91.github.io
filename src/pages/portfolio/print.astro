@@ -56,7 +56,7 @@ const PROBLEM: Record<string, string> = {
   "ground-control": "모니터링 도구는 이상을 알려줬지만, 원인 지목·담당자 확인·재발 학습은 사람이 매번 수동으로 처리했습니다.",
 };
 const EVID: Record<string, string[]> = {
-  "tower-mercenaries": ["대만 App Store 유료 게임 전체 1위 · 롤플레잉 1위(2026-10-07)", "한국 유료 게임 전체 2위 · 롤플레잉 1위(2026-09-01)", "발열 리뷰 뒤 Godot 이전 — 같은 전투 CPU 약 55% 감소"],
+  "tower-mercenaries": ["대만 App Store 유료 게임 전체 1위 · 롤플레잉 1위(2026-10-07)", "한국 App Store · Google Play 유료 게임 1위(2026-10-23, 30% 할인 기간)", "발열 리뷰 뒤 Godot 이전 — 같은 전투 CPU 약 55% 감소"],
   "ground-control": ["신뢰도를 퍼센트 대신 세 단계 말(확실·추정·가설)로만 표시", "알림 기본값은 공개 채널이 아니라 담당자 DM", "담당자가 아니라고 답하면 그걸 학습해 다음 오탐을 줄임"],
   "nova": ["생성과 검증을 구조로 분리 — 자기검토 차단", "맥락은 외부 임베딩 없이 텍스트로 — 이식성·투명성", "공개 OSS · Claude Code 플러그인"],
   "landbook-msa": ["이미 나뉜 MSA에 합류해 개발·운영", "동기 호출을 WebFlux·Coroutine 비동기로 전환", "가로주택정비 분석 백엔드 최다 기여"],
@@ -67,7 +67,7 @@ const EVID: Record<string, string[]> = {
 };
 // 케이스별 실제 화면 메타 — URL · 라벨 · 콜아웃 2개
 const SHOT: Record<string, { url: string; label: string; pins: string[] }> = {
-  "tower-mercenaries": { url: "apps.apple.com · 탑과 용병단", label: "탑과 용병단 App Store 화면", pins: ["대만 유료 1위 · 한국 유료 2위", "평점 한국 4.7 · 대만 4.9"] },
+  "tower-mercenaries": { url: "apps.apple.com · 탑과 용병단", label: "탑과 용병단 App Store 화면", pins: ["한국 양대 마켓 유료 1위 · 대만 유료 1위", "평점 한국 4.7 · 대만 4.9"] },
   "ground-control": { url: "ground-control · 내부", label: "Ground Control 운영 대시보드", pins: ["실시간 관측 16/16", "신뢰도 3단계 언어 · 담당자 DM"] },
   "nova": { url: "github.com/givepro91/nova", label: "Nova · 공개 OSS (Claude Code 플러그인)", pins: ["Generator–Evaluator 분리", "커밋 전 독립 평가자"] },
   "landbook-msa": { url: "landbook.net", label: "Landbook 서비스 화면", pins: ["인증·결제·구독·필지 분리", "장애 격리 · 독립 배포"] },
